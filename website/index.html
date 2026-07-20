@@ -1,0 +1,620 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Nox — Blue light eyewear</title>
+<meta name="description" content="Nox — premium blue light blocking eyewear, crafted for calmer evenings and easier screen time. Launching in Tashkent." />
+<meta name="theme-color" content="#F1ECDF" />
+
+<!-- Social preview -->
+<meta property="og:title" content="Nox — Blue light eyewear" />
+<meta property="og:description" content="Designed for better sleep. Blue light eyewear made for the way you live with screens." />
+<meta property="og:image" content="images/diamond-editorial.jpg" />
+<meta property="og:type" content="website" />
+
+<!-- Inline SVG favicon (a small moon — Nox = night) -->
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%23232320'/><path d='M21.5 20.5a7.2 7.2 0 1 1-5.4-11.8 6 6 0 1 0 5.4 11.8z' fill='%23F1ECDF'/></svg>" />
+
+<!-- Fonts: Fraunces (soft editorial serif) + Jost (geometric sans) -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
+
+<style>
+/* ============================================================
+   NOX — single-file landing page
+   Palette: muted sage + cream/off-white + warm near-black
+   Type:    Fraunces (serif headlines) · Jost (geometric labels)
+   ============================================================ */
+
+:root{
+  --cream:      #F1ECDF;   /* page background (warm off-white) */
+  --paper:      #FAF7EF;   /* lighter cream — arcs, cards, button text bg */
+  --cream-2:    #E7E0CF;   /* deeper cream color block */
+  --sage:       #939D84;   /* medium sage — accent block */
+  --sage-soft:  #D8DCCB;   /* light sage — section background */
+  --ink:        #232320;   /* warm near-black — text, dark band */
+  --ink-soft:   #5C5C54;   /* muted text */
+  --line:       rgba(35,35,32,.14);
+
+  --serif: 'Fraunces', Georgia, 'Times New Roman', serif;
+  --sans:  'Jost', 'Helvetica Neue', Arial, sans-serif;
+
+  --container: 1180px;
+  --pad-x: clamp(1.25rem, 5vw, 3rem);
+  --section-y: clamp(4.5rem, 12vw, 9rem);
+}
+
+*,*::before,*::after{ box-sizing:border-box; }
+
+html{ scroll-behavior:smooth; -webkit-text-size-adjust:100%; }
+
+body{
+  margin:0;
+  background:var(--cream);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-weight:300;
+  font-size:clamp(1rem,.96rem + .25vw,1.075rem);
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+  overflow-x:hidden;
+}
+
+img{ max-width:100%; display:block; height:auto; }
+a{ color:inherit; text-decoration:none; }
+
+/* ---------- Layout helpers ---------- */
+.container{ width:100%; max-width:var(--container); margin-inline:auto; padding-inline:var(--pad-x); }
+.section{ padding-block:var(--section-y); }
+
+/* White-background product cutouts blend onto any light color block:
+   white -> disappears, black frame + red lens stay vivid. No transparent PNG needed. */
+.blend{ mix-blend-mode:multiply; }
+
+/* ---------- Shared type ---------- */
+.wordmark{
+  font-family:var(--sans);
+  font-weight:500;
+  letter-spacing:.04em;
+  font-size:1.05rem;
+}
+.eyebrow{
+  font-family:var(--sans);
+  font-weight:400;
+  letter-spacing:.28em;
+  text-transform:uppercase;
+  font-size:.72rem;
+  color:var(--ink-soft);
+  margin:0 0 1.4rem;
+}
+.display{
+  font-family:var(--serif);
+  font-weight:400;
+  font-optical-sizing:auto;
+  line-height:1.03;
+  letter-spacing:-.012em;
+  margin:0;
+}
+.lede{
+  color:var(--ink-soft);
+  font-weight:300;
+  max-width:34ch;
+  margin:1.4rem 0 0;
+}
+
+/* ---------- Buttons ---------- */
+.btn{
+  display:inline-flex; align-items:center; gap:.7em;
+  font-family:var(--sans); font-weight:500;
+  font-size:.76rem; letter-spacing:.18em; text-transform:uppercase;
+  padding:1.05em 2.1em; border-radius:999px;
+  border:1px solid transparent; cursor:pointer;
+  transition:transform .3s ease, box-shadow .3s ease, background-color .3s ease, color .3s ease, border-color .3s ease;
+}
+.btn svg{ width:1.05em; height:1.05em; }
+.btn--primary{ background:var(--ink); color:var(--cream); }
+.btn--primary:hover{ transform:translateY(-2px); box-shadow:0 12px 30px rgba(35,35,32,.22); }
+.btn--ghost{ background:transparent; color:var(--ink); border-color:var(--line); }
+.btn--ghost:hover{ border-color:var(--ink); transform:translateY(-2px); }
+.btn--light{ background:var(--paper); color:var(--ink); }
+.btn--light:hover{ transform:translateY(-2px); box-shadow:0 12px 34px rgba(0,0,0,.28); }
+
+:focus-visible{ outline:2px solid var(--ink); outline-offset:3px; border-radius:2px; }
+
+/* ---------- Sticky header ---------- */
+.site-header{
+  position:sticky; top:0; z-index:50;
+  transition:background-color .35s ease, border-color .35s ease, backdrop-filter .35s ease;
+  border-bottom:1px solid transparent;
+}
+.site-header.scrolled{
+  background:rgba(241,236,223,.82);
+  backdrop-filter:saturate(140%) blur(10px);
+  border-bottom-color:var(--line);
+}
+.site-header .bar{
+  display:flex; align-items:center; justify-content:space-between;
+  padding-block:1.15rem;
+}
+.header-link{
+  font-family:var(--sans); font-weight:400;
+  font-size:.72rem; letter-spacing:.18em; text-transform:uppercase;
+  color:var(--ink-soft); display:inline-flex; align-items:center; gap:.5em;
+  transition:color .25s ease;
+}
+.header-link:hover{ color:var(--ink); }
+.header-link svg{ width:.95em; height:.95em; }
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero{ position:relative; overflow:hidden; isolation:isolate; }
+.hero .container{ position:relative; }
+.hero-grid{
+  display:grid; gap:clamp(2.5rem,7vw,4rem);
+  align-items:center;
+  padding-block:clamp(3rem,8vw,5rem) clamp(4rem,10vw,6rem);
+}
+.hero h1{ font-size:clamp(3rem,12vw,6.4rem); }
+.hero .lede{ font-size:clamp(1.05rem,1rem + .5vw,1.3rem); max-width:30ch; }
+.hero-cta{ display:flex; flex-wrap:wrap; gap:.9rem; margin-top:2.4rem; }
+
+/* Soft cream arc behind the hero (subtle, no gradient) */
+.hero-arc{
+  position:absolute; z-index:-1; pointer-events:none;
+  width:135vw; aspect-ratio:1; border-radius:50%;
+  background:var(--paper);
+  top:-58vw; right:-42vw;
+  opacity:.9;
+}
+
+/* Product visual — floats on the page's own color, grounded by the photo's soft shadow */
+.visual{ position:relative; }
+.hero-visual img{ width:100%; height:auto; max-height:66vh; object-fit:contain; margin-inline:auto; }
+
+/* ============================================================
+   VALUE STRIP
+   ============================================================ */
+.values{ background:var(--paper); border-block:1px solid var(--line); }
+.value-grid{ display:grid; gap:clamp(2.25rem,5vw,3.5rem); }
+.value h3{
+  font-family:var(--sans); font-weight:500;
+  font-size:1.02rem; letter-spacing:.02em;
+  margin:1.1rem 0 .5rem;
+}
+.value p{ color:var(--ink-soft); font-weight:300; margin:0; max-width:32ch; }
+.value .ic{
+  width:32px; height:32px; stroke:var(--ink); stroke-width:1.4;
+  fill:none; stroke-linecap:round; stroke-linejoin:round;
+}
+
+/* ============================================================
+   LIFESTYLE BAND (full-bleed mood image)
+   ============================================================ */
+.lifestyle{ display:block; }
+.lifestyle img{ width:100%; height:clamp(320px,52vh,600px); object-fit:cover; }
+
+/* ============================================================
+   PRODUCT (single model — feature layout)
+   ============================================================ */
+.products .section-head{ max-width:38ch; margin-bottom:clamp(2.5rem,6vw,4rem); }
+.products h2{ font-size:clamp(2.2rem,7vw,3.6rem); }
+
+.product-feature{ display:grid; gap:clamp(2rem,6vw,4.5rem); align-items:center; }
+.feature-visual{
+  position:relative; aspect-ratio:1/1; border-radius:8px; overflow:hidden;
+  background:var(--sage-soft); display:grid; place-items:center; padding:16% 18%;
+}
+.feature-visual::after{ /* soft ground shadow */
+  content:""; position:absolute; z-index:1;
+  left:50%; bottom:15%; transform:translateX(-50%);
+  width:56%; height:20px; border-radius:50%;
+  background:radial-gradient(ellipse at center, rgba(30,29,24,.20), rgba(30,29,24,0) 72%);
+  filter:blur(6px);
+}
+.feature-visual img{ position:relative; z-index:2; }
+
+.card-tag{
+  font-family:var(--sans); font-size:.66rem; letter-spacing:.2em; text-transform:uppercase;
+  color:var(--ink-soft); margin:.7rem 0 0;
+}
+.feature-name{ font-family:var(--serif); font-weight:400; font-size:clamp(1.9rem,4.5vw,2.8rem); letter-spacing:-.01em; margin:0; }
+.feature-desc{ color:var(--ink-soft); font-weight:300; margin:1rem 0 1.4rem; max-width:36ch; }
+.card-price{ display:flex; align-items:baseline; gap:.6rem; }
+.card-price .amt{ font-family:var(--serif); font-size:1.7rem; }
+.card-price .uzs{ font-size:.85rem; color:var(--ink-soft); letter-spacing:.02em; }
+.feature-btn{ margin-top:1.8rem; }
+
+/* ============================================================
+   SPEC (the lenses)
+   ============================================================ */
+.spec{ background:var(--sage-soft); }
+.spec .container{ display:grid; gap:clamp(2.5rem,6vw,4rem); align-items:center; }
+.stat{ font-family:var(--serif); font-weight:300; line-height:.9; letter-spacing:-.02em;
+  font-size:clamp(5rem,22vw,12rem); }
+.stat-label{ font-family:var(--sans); font-weight:400; letter-spacing:.02em; margin:.4rem 0 0; font-size:1.05rem; }
+.spec-copy p{ color:var(--ink); font-weight:300; max-width:40ch; }
+.spec-list{ list-style:none; margin:2rem 0 0; padding:0; display:grid; gap:1px; background:var(--line); border-block:1px solid var(--line); }
+.spec-list li{ background:var(--sage-soft); padding:1.1rem 0; display:flex; align-items:center; gap:.9rem;
+  font-family:var(--sans); font-weight:400; font-size:.95rem; }
+.spec-list li::before{ content:""; width:6px; height:6px; border-radius:50%; background:var(--ink); flex:none; }
+
+/* ============================================================
+   CTA + FOOTER (dark night band, angled top edge)
+   ============================================================ */
+.closer{
+  position:relative; background:var(--ink); color:var(--cream);
+  clip-path:polygon(0 2.8vw, 100% 0, 100% 100%, 0 100%);
+  margin-top:clamp(2rem,6vw,4rem);
+  padding-top:2.8vw;
+}
+.cta{ text-align:center; padding-block:clamp(4.5rem,11vw,8rem) clamp(3rem,7vw,5rem); }
+.cta .eyebrow{ color:rgba(250,247,239,.55); }
+.cta h2{ font-size:clamp(2.4rem,8vw,4.4rem); color:var(--cream); }
+.cta p{ color:rgba(250,247,239,.72); font-weight:300; max-width:42ch; margin:1.3rem auto 2.4rem; }
+.cta-actions{ display:flex; flex-direction:column; align-items:center; gap:1.4rem; }
+.ig-link{
+  display:inline-flex; align-items:center; gap:.6em;
+  font-family:var(--sans); font-size:.85rem; letter-spacing:.06em;
+  color:rgba(250,247,239,.72); transition:color .25s ease;
+}
+.ig-link:hover{ color:var(--cream); }
+.ig-link svg{ width:1.1em; height:1.1em; }
+
+.site-footer{ border-top:1px solid rgba(250,247,239,.14); }
+.footer-row{
+  display:flex; flex-wrap:wrap; gap:1rem 2rem; align-items:center; justify-content:space-between;
+  padding-block:2.2rem;
+  font-family:var(--sans); font-size:.72rem; letter-spacing:.06em;
+  color:rgba(250,247,239,.55);
+}
+.footer-row .wordmark{ color:var(--cream); }
+.lang{ display:flex; gap:.4rem; align-items:center; }
+.lang button{
+  background:none; border:0; cursor:pointer; padding:.2rem .1rem;
+  font-family:var(--sans); font-size:.72rem; letter-spacing:.1em; color:rgba(250,247,239,.5);
+  transition:color .25s ease;
+}
+.lang button[aria-pressed="true"]{ color:var(--cream); }
+.lang button:hover{ color:var(--cream); }
+.lang span{ color:rgba(250,247,239,.3); }
+
+/* ============================================================
+   REVEAL ON SCROLL
+   ============================================================ */
+[data-reveal]{ opacity:0; transform:translateY(20px); transition:opacity .8s ease, transform .8s ease; }
+[data-reveal].in-view{ opacity:1; transform:none; }
+.value:nth-child(2){ transition-delay:.08s; }
+.value:nth-child(3){ transition-delay:.16s; }
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (min-width:640px){
+  .value-grid{ grid-template-columns:repeat(3,1fr); }
+}
+@media (min-width:768px){
+  .product-feature{ grid-template-columns:1fr 1.05fr; }
+  .spec .container{ grid-template-columns:1fr 1fr; }
+  .spec-list{ grid-template-columns:1fr 1fr; gap:1px; }
+}
+@media (min-width:900px){
+  .hero-grid{ grid-template-columns:1.05fr 1fr; min-height:86vh; padding-block:2rem; }
+  .hero-visual{ order:2; }
+  .hero-arc{ width:70vw; top:-18vw; right:-14vw; }
+}
+
+/* ============================================================
+   REDUCED MOTION
+   ============================================================ */
+@media (prefers-reduced-motion:reduce){
+  html{ scroll-behavior:auto; }
+  *{ transition:none !important; animation:none !important; }
+  [data-reveal]{ opacity:1; transform:none; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ======================= HEADER ======================= -->
+<header class="site-header" id="header">
+  <div class="container bar">
+    <a href="#top" class="wordmark" aria-label="Nox — home">Nox</a>
+    <!-- PLACEHOLDER LINK: replace with real Telegram channel -->
+    <a class="header-link" href="https://t.me/nox" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.8 4.3 2.9 11.6c-1.1.4-1.1 1.6-.1 1.9l4.7 1.5 1.8 5.6c.2.6.6.7 1.1.3l2.6-2.1 4.9 3.6c.7.4 1.3.2 1.5-.7l3.2-15c.2-1-.4-1.5-1.3-1.1z"/></svg>
+      Telegram
+    </a>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ======================= HERO ======================= -->
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero-arc" aria-hidden="true"></div>
+    <div class="container">
+      <div class="hero-grid">
+        <div class="hero-copy" data-reveal>
+          <p class="eyebrow" data-i18n="hero.eyebrow">Blue light eyewear · Tashkent</p>
+          <h1 class="display" id="hero-title" data-i18n="hero.title">Designed for better sleep.</h1>
+          <p class="lede" data-i18n="hero.lede">Blue light eyewear made for the way you live with screens — calmer evenings, easier days.</p>
+          <div class="hero-cta">
+            <!-- PLACEHOLDER LINK: replace with real Telegram channel -->
+            <a class="btn btn--primary" href="https://t.me/nox" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.8 4.3 2.9 11.6c-1.1.4-1.1 1.6-.1 1.9l4.7 1.5 1.8 5.6c.2.6.6.7 1.1.3l2.6-2.1 4.9 3.6c.7.4 1.3.2 1.5-.7l3.2-15c.2-1-.4-1.5-1.3-1.1z"/></svg>
+              <span data-i18n="btn.shop">Shop via Telegram</span>
+            </a>
+            <a class="btn btn--ghost" href="#product" data-i18n="btn.explore">See the frame</a>
+          </div>
+        </div>
+        <div class="hero-visual visual" data-reveal>
+          <img class="blend" src="images/diamond-angle.jpg" alt="Nox Diamond blue light glasses, three-quarter view" width="1691" height="930" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= VALUE STRIP ======================= -->
+  <section class="values section" aria-label="Why Nox">
+    <div class="container">
+      <div class="value-grid">
+        <div class="value" data-reveal>
+          <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a6.6 6.6 0 0 0 9.8 9.8z"/></svg>
+          <h3 data-i18n="val.a.t">Softer evenings</h3>
+          <p data-i18n="val.a.d">Ease off the screens and into your night.</p>
+        </div>
+        <div class="value" data-reveal>
+          <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M8 20h8M12 16v4"/></svg>
+          <h3 data-i18n="val.b.t">Screen comfort</h3>
+          <p data-i18n="val.b.d">Less glare through long hours of work and scrolling.</p>
+        </div>
+        <div class="value" data-reveal>
+          <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="6.5" cy="14" r="3.2"/><circle cx="17.5" cy="14" r="3.2"/><path d="M9.7 13.4c.9-.9 3.7-.9 4.6 0M2.6 11 4 9m17.4 2L20 9"/></svg>
+          <h3 data-i18n="val.c.t">Everyday style</h3>
+          <p data-i18n="val.c.d">A clean, minimal frame that goes with everything.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= LIFESTYLE BAND ======================= -->
+  <section class="lifestyle" aria-hidden="true">
+    <img src="images/diamond-dark.jpg" alt="" width="1122" height="1402" loading="lazy" />
+  </section>
+
+  <!-- ======================= PRODUCT (single model) ======================= -->
+  <section class="products section" id="product" aria-labelledby="product-title">
+    <div class="container">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow" data-i18n="prod.eyebrow">The frame</p>
+        <h2 class="display" id="product-title" data-i18n="prod.title">One frame for every kind of day.</h2>
+      </div>
+
+      <div class="product-feature" data-reveal>
+        <div class="feature-visual">
+          <img class="blend" src="images/diamond-front.jpg" alt="Nox Diamond blue light glasses, front view" width="1725" height="912" />
+        </div>
+        <div class="feature-body">
+          <h3 class="feature-name" data-i18n="prod.name">The Diamond</h3>
+          <p class="card-tag" data-i18n="prod.tag">Blue light 97.8%</p>
+          <p class="feature-desc" data-i18n="prod.desc">A clean, modern frame — light on your face, easy on your eyes. One shape, made to go with everything.</p>
+          <p class="card-price"><span class="amt">$25</span><span class="uzs" data-i18n="price.uzs">≈ 315 000 so'm</span></p>
+          <!-- PLACEHOLDER LINK: replace with real Telegram channel -->
+          <a class="btn btn--primary feature-btn" href="https://t.me/nox" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.8 4.3 2.9 11.6c-1.1.4-1.1 1.6-.1 1.9l4.7 1.5 1.8 5.6c.2.6.6.7 1.1.3l2.6-2.1 4.9 3.6c.7.4 1.3.2 1.5-.7l3.2-15c.2-1-.4-1.5-1.3-1.1z"/></svg>
+            <span data-i18n="btn.shop">Shop via Telegram</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= SPEC ======================= -->
+  <section class="spec section" aria-labelledby="spec-title">
+    <div class="container">
+      <div data-reveal>
+        <p class="eyebrow" data-i18n="spec.eyebrow">The lenses</p>
+        <p class="stat">97.8<span style="font-size:.4em;vertical-align:.35em">%</span></p>
+        <p class="stat-label" id="spec-title" data-i18n="spec.label">of blue light filtered</p>
+      </div>
+      <div class="spec-copy" data-reveal>
+        <p data-i18n="spec.copy">Tuned to cut the harsh stuff without dimming your world — light enough that you forget you're wearing them.</p>
+        <ul class="spec-list">
+          <li data-i18n="spec.l1">Lightweight TR90 frame</li>
+          <li data-i18n="spec.l2">Clear, true-to-life tint</li>
+          <li data-i18n="spec.l3">Built for all-day wear</li>
+          <li data-i18n="spec.l4">Slim, minimal profile</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ======================= CTA + FOOTER ======================= -->
+<div class="closer">
+  <section class="cta" aria-labelledby="cta-title">
+    <div class="container" data-reveal>
+      <p class="eyebrow" data-i18n="cta.eyebrow">Order now</p>
+      <h2 class="display" id="cta-title" data-i18n="cta.title">Order in a few taps.</h2>
+      <p data-i18n="cta.desc">Message us on Telegram to reserve your pair. The first drop is limited — arriving in Tashkent soon.</p>
+      <div class="cta-actions">
+        <!-- PLACEHOLDER LINK: replace with real Telegram channel -->
+        <a class="btn btn--light" href="https://t.me/nox" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.8 4.3 2.9 11.6c-1.1.4-1.1 1.6-.1 1.9l4.7 1.5 1.8 5.6c.2.6.6.7 1.1.3l2.6-2.1 4.9 3.6c.7.4 1.3.2 1.5-.7l3.2-15c.2-1-.4-1.5-1.3-1.1z"/></svg>
+          <span data-i18n="btn.order">Order via Telegram</span>
+        </a>
+        <!-- PLACEHOLDER LINK: replace with real Instagram handle -->
+        <a class="ig-link" href="https://instagram.com/nox" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1" fill="currentColor" stroke="none"/></svg>
+          @nox.uz
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="container footer-row">
+      <span class="wordmark">Nox</span>
+      <span data-i18n="foot.loc">Tashkent, Uzbekistan · © 2026 Nox</span>
+      <div class="lang" role="group" aria-label="Language">
+        <button type="button" data-lang="uz">UZ</button><span>/</span>
+        <button type="button" data-lang="ru">RU</button><span>/</span>
+        <button type="button" data-lang="en">EN</button>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<script>
+/* ---- Sticky header background on scroll ---- */
+(function(){
+  var header = document.getElementById('header');
+  var onScroll = function(){ header.classList.toggle('scrolled', window.scrollY > 24); };
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive:true });
+})();
+
+/* ---- Reveal on scroll (skips if reduced motion) ---- */
+(function(){
+  var items = document.querySelectorAll('[data-reveal]');
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(reduce || !('IntersectionObserver' in window)){
+    items.forEach(function(el){ el.classList.add('in-view'); });
+    return;
+  }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){ e.target.classList.add('in-view'); io.unobserve(e.target); }
+    });
+  }, { threshold:.14, rootMargin:'0px 0px -8% 0px' });
+  items.forEach(function(el){ io.observe(el); });
+})();
+
+/* ---- Language switcher (UZ / RU / EN) --------------------------------------
+   Copy lives in the I18N dictionary below. To change the default language a
+   first-time visitor sees, edit DEFAULT_LANG ('en' | 'ru' | 'uz').
+   NOTE: RU + UZ strings are a solid first pass — review/finalize the wording.
+--------------------------------------------------------------------------- */
+(function(){
+  var DEFAULT_LANG = 'en';
+
+  var I18N = {
+    en: {
+      'hero.eyebrow':"Blue light eyewear · Tashkent",
+      'hero.title':"Designed for better sleep.",
+      'hero.lede':"Blue light eyewear made for the way you live with screens — calmer evenings, easier days.",
+      'btn.shop':"Shop via Telegram",
+      'btn.explore':"See the frame",
+      'val.a.t':"Softer evenings",  'val.a.d':"Ease off the screens and into your night.",
+      'val.b.t':"Screen comfort",   'val.b.d':"Less glare through long hours of work and scrolling.",
+      'val.c.t':"Everyday style",   'val.c.d':"A clean, minimal frame that goes with everything.",
+      'prod.eyebrow':"The frame",
+      'prod.title':"One frame for every kind of day.",
+      'prod.name':"The Diamond",
+      'prod.tag':"Blue light 97.8%",
+      'prod.desc':"A clean, modern frame — light on your face, easy on your eyes. One shape, made to go with everything.",
+      'price.uzs':"≈ 315 000 so'm",
+      'spec.eyebrow':"The lenses",
+      'spec.label':"of blue light filtered",
+      'spec.copy':"Tuned to cut the harsh stuff without dimming your world — light enough that you forget you're wearing them.",
+      'spec.l1':"Lightweight TR90 frame",
+      'spec.l2':"Clear, true-to-life tint",
+      'spec.l3':"Built for all-day wear",
+      'spec.l4':"Slim, minimal profile",
+      'cta.eyebrow':"Order now",
+      'cta.title':"Order in a few taps.",
+      'cta.desc':"Message us on Telegram to reserve your pair. The first drop is limited — arriving in Tashkent soon.",
+      'btn.order':"Order via Telegram",
+      'foot.loc':"Tashkent, Uzbekistan · © 2026 Nox"
+    },
+    ru: {
+      'hero.eyebrow':"Очки от синего света · Ташкент",
+      'hero.title':"Создано для лучшего сна.",
+      'hero.lede':"Очки от синего света для жизни с экранами — спокойнее вечера, легче дни.",
+      'btn.shop':"Купить в Telegram",
+      'btn.explore':"Смотреть оправу",
+      'val.a.t':"Спокойные вечера", 'val.a.d':"Проще отложить экран и отдохнуть.",
+      'val.b.t':"Комфорт у экрана", 'val.b.d':"Меньше бликов в долгие часы работы и скроллинга.",
+      'val.c.t':"Стиль на каждый день", 'val.c.d':"Чистая минималистичная оправа, которая идёт ко всему.",
+      'prod.eyebrow':"Оправа",
+      'prod.title':"Одна оправа для любого дня.",
+      'prod.name':"The Diamond",
+      'prod.tag':"Синий свет 97.8%",
+      'prod.desc':"Чистая современная оправа — лёгкая и удобная. Одна форма, которая идёт ко всему.",
+      'price.uzs':"≈ 315 000 сум",
+      'spec.eyebrow':"Линзы",
+      'spec.label':"синего света отфильтровано",
+      'spec.copy':"Убирают резкий свет, не затемняя картину — и такие лёгкие, что о них забываешь.",
+      'spec.l1':"Лёгкая оправа TR90",
+      'spec.l2':"Чистый, естественный оттенок",
+      'spec.l3':"Комфортно весь день",
+      'spec.l4':"Тонкий минималистичный профиль",
+      'cta.eyebrow':"Заказать",
+      'cta.title':"Заказ в пару касаний.",
+      'cta.desc':"Напишите нам в Telegram, чтобы забронировать пару. Первая партия ограничена — скоро в Ташкенте.",
+      'btn.order':"Заказать в Telegram",
+      'foot.loc':"Ташкент, Узбекистан · © 2026 Nox"
+    },
+    uz: {
+      'hero.eyebrow':"Ko'k nur ko'zoynaklari · Toshkent",
+      'hero.title':"Yaxshiroq uyqu uchun.",
+      'hero.lede':"Ekran bilan hayot uchun ko'k nur ko'zoynaklari — tinch oqshomlar, yengil kunlar.",
+      'btn.shop':"Telegram orqali xarid",
+      'btn.explore':"Ramkani ko'rish",
+      'val.a.t':"Tinch oqshomlar", 'val.a.d':"Ekrandan uzoqlashib, oqshomga o'ting.",
+      'val.b.t':"Ekran qulayligi", 'val.b.d':"Uzoq soatlik ish va skrollda kamroq yaltirash.",
+      'val.c.t':"Har kunlik uslub", 'val.c.d':"Hammasiga mos keladigan sodda, minimal ramka.",
+      'prod.eyebrow':"Ramka",
+      'prod.title':"Har kun uchun bitta ramka.",
+      'prod.name':"The Diamond",
+      'prod.tag':"Ko'k nur 97.8%",
+      'prod.desc':"Toza, zamonaviy ramka — yengil va qulay. Bitta shakl, hammasiga mos keladi.",
+      'price.uzs':"≈ 315 000 so'm",
+      'spec.eyebrow':"Linzalar",
+      'spec.label':"ko'k nur filtrlanadi",
+      'spec.copy':"Keskin nurni kesadi, dunyoni qoraytirmaydi — shu qadar yengilki, taqib olganingizni unutasiz.",
+      'spec.l1':"Yengil TR90 ramka",
+      'spec.l2':"Tiniq, tabiiy rang",
+      'spec.l3':"Kun bo'yi qulay",
+      'spec.l4':"Nozik, minimal dizayn",
+      'cta.eyebrow':"Buyurtma",
+      'cta.title':"Bir necha bosishda buyurtma.",
+      'cta.desc':"Juftlikni band qilish uchun Telegram'ga yozing. Birinchi partiya cheklangan — tez orada Toshkentda.",
+      'btn.order':"Telegram orqali buyurtma",
+      'foot.loc':"Toshkent, O'zbekiston · © 2026 Nox"
+    }
+  };
+
+  var nodes = document.querySelectorAll('[data-i18n]');
+  var buttons = document.querySelectorAll('.lang button');
+
+  function apply(lang){
+    var dict = I18N[lang] || I18N[DEFAULT_LANG];
+    nodes.forEach(function(el){
+      var v = dict[el.getAttribute('data-i18n')];
+      if(v != null) el.textContent = v;
+    });
+    document.documentElement.lang = lang;
+    buttons.forEach(function(b){
+      b.setAttribute('aria-pressed', b.getAttribute('data-lang') === lang ? 'true' : 'false');
+    });
+    try{ localStorage.setItem('nox-lang', lang); }catch(e){}
+  }
+
+  var saved = null;
+  try{ saved = localStorage.getItem('nox-lang'); }catch(e){}
+  apply(saved && I18N[saved] ? saved : DEFAULT_LANG);
+
+  buttons.forEach(function(b){
+    b.addEventListener('click', function(){ apply(b.getAttribute('data-lang')); });
+  });
+})();
+</script>
+</body>
+</html>
