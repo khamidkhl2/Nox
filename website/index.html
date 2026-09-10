@@ -64,7 +64,7 @@ body{
   overflow-x:hidden;
 }
 
-img{ max-width:100%; display:block; height:auto; }
+img{ max-width:100%; display:block; height:auto; image-orientation:none; }
 a{ color:inherit; text-decoration:none; }
 
 /* ---------- Layout helpers ---------- */
@@ -287,7 +287,7 @@ a{ color:inherit; text-decoration:none; }
   transition:all .2s ease;
 }
 .gallery-thumb img{
-  aspect-ratio:1/1; object-fit:cover; border-radius:4px; width:100%;
+  aspect-ratio:1/1; object-fit:cover; object-position:center 20%; border-radius:4px; width:100%;
 }
 .gallery-thumb span{
   display:block; font-size:.65rem; font-family:var(--sans); font-weight:500;
@@ -613,11 +613,11 @@ a{ color:inherit; text-decoration:none; }
               <span data-i18n="prod.view.female">Девушка</span>
             </button>
             <button class="gallery-thumb" type="button" data-img="images/nox-packaging.jpg" aria-selected="false">
-              <img src="images/nox-packaging.jpg" alt="" />
+              <img src="images/nox-packaging-thumb.jpg" alt="" style="object-position:center;" />
               <span data-i18n="prod.view.box">Бокс</span>
             </button>
             <button class="gallery-thumb" type="button" data-img="images/diamond-angle.jpg" aria-selected="false">
-              <img src="images/diamond-angle.jpg" alt="" />
+              <img src="images/diamond-angle.jpg" alt="" style="object-position:center;" />
               <span data-i18n="prod.view.frame">Оправа</span>
             </button>
           </div>
