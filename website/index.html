@@ -261,7 +261,7 @@ a{ color:inherit; text-decoration:none; }
   background:var(--cream-2); border:1px solid var(--line);
 }
 .gallery-main img{
-  width:100%; height:100%; object-fit:cover; object-position:center 4%;
+  width:100%; height:100%; object-fit:cover; object-position:center 36%;
   transition:opacity .25s ease;
 }
 .gallery-main img.fit-contain{
@@ -277,7 +277,7 @@ a{ color:inherit; text-decoration:none; }
   aspect-ratio:1/1; display:flex; align-items:stretch;
 }
 .gallery-thumb img{
-  aspect-ratio:1/1; object-fit:cover; object-position:center 4%; border-radius:7px; width:100%; height:100%;
+  aspect-ratio:1/1; object-fit:cover; object-position:center 36%; border-radius:7px; width:100%; height:100%;
 }
 .gallery-thumb.active{
   border-color:var(--ink); background:var(--cream); box-shadow:0 4px 12px rgba(35,35,32,.12);
@@ -617,16 +617,16 @@ a{ color:inherit; text-decoration:none; }
           </div>
           <div class="gallery-thumbs" role="tablist" aria-label="Ракурсы оправы">
             <button class="gallery-thumb active" type="button" data-img="images/nox-model-male.jpg" aria-selected="true" aria-label="Мужчина в очках Nox">
-              <img src="images/nox-model-male.jpg" alt="" />
+              <img src="images/nox-model-male.jpg" alt="" style="object-position:center 36%;" />
             </button>
             <button class="gallery-thumb" type="button" data-img="images/nox-model-female.jpg" aria-selected="false" aria-label="Девушка в очках Nox">
-              <img src="images/nox-model-female.jpg" alt="" />
+              <img src="images/nox-model-female.jpg" alt="" style="object-position:center 48%;" />
             </button>
             <button class="gallery-thumb" type="button" data-img="images/nox-packaging.jpg" aria-selected="false" aria-label="Премиальный бокс Nox">
-              <img src="images/nox-packaging-thumb.jpg" alt="" />
+              <img src="images/nox-packaging-thumb.jpg" alt="" style="object-position:center center;" />
             </button>
             <button class="gallery-thumb" type="button" data-img="images/diamond-angle.jpg" aria-selected="false" aria-label="Оправа The Diamond ракурс">
-              <img src="images/diamond-angle.jpg" alt="" style="object-fit:contain; padding:4px; background:#fff;" />
+              <img src="images/diamond-angle.jpg" alt="" style="object-fit:contain; object-position:center center; padding:4px; background:#fff;" />
             </button>
           </div>
         </div>
@@ -893,6 +893,13 @@ a{ color:inherit; text-decoration:none; }
   var thumbBtns = document.querySelectorAll('.gallery-thumb');
   if(!mainImg || !thumbBtns.length) return;
 
+  var POS_MAP = {
+    'images/nox-model-male.jpg': 'center 36%',
+    'images/nox-model-female.jpg': 'center 48%',
+    'images/nox-packaging.jpg': 'center 44%',
+    'images/diamond-angle.jpg': 'center center'
+  };
+
   thumbBtns.forEach(function(btn){
     btn.addEventListener('click', function(){
       thumbBtns.forEach(function(b){
@@ -906,6 +913,7 @@ a{ color:inherit; text-decoration:none; }
         mainImg.style.opacity = '0.3';
         setTimeout(function(){
           mainImg.src = nextSrc;
+          mainImg.style.objectPosition = POS_MAP[nextSrc] || 'center 36%';
           if(nextSrc.indexOf('diamond') !== -1){
             mainImg.classList.add('fit-contain');
           } else {
