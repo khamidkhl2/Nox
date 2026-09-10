@@ -1,39 +1,40 @@
 <!doctype html>
-<html lang="en">
+<html lang="ru">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Nox — Blue light eyewear</title>
-<meta name="description" content="Nox — premium blue light blocking eyewear, crafted for calmer evenings and easier screen time. Launching in Tashkent." />
+<title>Nox — Очки для глубокого сна и циркадных ритмов | Ташкент</title>
+<meta name="description" content="Очки Nox блокируют 97.8% синего и зелёного спектра экранов и вечерних ламп. Глубокий сон, выработка мелатонина. Доставка по Ташкенту в день заказа." />
 <meta name="theme-color" content="#F1ECDF" />
 
 <!-- Social preview -->
-<meta property="og:title" content="Nox — Blue light eyewear" />
-<meta property="og:description" content="Designed for better sleep. Blue light eyewear made for the way you live with screens." />
-<meta property="og:image" content="images/diamond-editorial.jpg" />
+<meta property="og:title" content="Nox — Очки для глубокого сна и циркадных ритмов" />
+<meta property="og:description" content="Очки Nox блокируют 97.8% синего и зелёного света перед сном. Спокойные вечера и быстрое засыпание в Ташкенте." />
+<meta property="og:image" content="images/nox-model-female.jpg" />
 <meta property="og:type" content="website" />
 
-<!-- Inline SVG favicon (a small moon — Nox = night) -->
+<!-- Inline SVG favicon (Nox moon) -->
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%23232320'/><path d='M21.5 20.5a7.2 7.2 0 1 1-5.4-11.8 6 6 0 1 0 5.4 11.8z' fill='%23F1ECDF'/></svg>" />
 
 <!-- Fonts: Fraunces (soft editorial serif) + Jost (geometric sans) -->
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
 
 <style>
 /* ============================================================
-   NOX — single-file landing page
+   NOX — Circadian Eyewear Landing Page
    Palette: muted sage + cream/off-white + warm near-black
    Type:    Fraunces (serif headlines) · Jost (geometric labels)
    ============================================================ */
 
 :root{
   --cream:      #F1ECDF;   /* page background (warm off-white) */
-  --paper:      #FAF7EF;   /* lighter cream — arcs, cards, button text bg */
-  --cream-2:    #E7E0CF;   /* deeper cream color block */
-  --sage:       #939D84;   /* medium sage — accent block */
-  --sage-soft:  #D8DCCB;   /* light sage — section background */
+  --paper:      #FAF7EF;   /* lighter cream — cards, arcs */
+  --cream-2:    #E7E0CF;   /* deeper cream */
+  --sage:       #939D84;   /* medium sage */
+  --sage-soft:  #D8DCCB;   /* light sage */
+  --ruby:       #B83226;   /* subtle circadian ruby accent */
   --ink:        #232320;   /* warm near-black — text, dark band */
   --ink-soft:   #5C5C54;   /* muted text */
   --line:       rgba(35,35,32,.14);
@@ -43,7 +44,7 @@
 
   --container: 1180px;
   --pad-x: clamp(1.25rem, 5vw, 3rem);
-  --section-y: clamp(4.5rem, 12vw, 9rem);
+  --section-y: clamp(4.5rem, 11vw, 8.5rem);
 }
 
 *,*::before,*::after{ box-sizing:border-box; }
@@ -69,52 +70,53 @@ a{ color:inherit; text-decoration:none; }
 /* ---------- Layout helpers ---------- */
 .container{ width:100%; max-width:var(--container); margin-inline:auto; padding-inline:var(--pad-x); }
 .section{ padding-block:var(--section-y); }
-
-/* White-background product cutouts blend onto any light color block:
-   white -> disappears, black frame + red lens stay vivid. No transparent PNG needed. */
 .blend{ mix-blend-mode:multiply; }
 
-/* ---------- Shared type ---------- */
+/* ---------- Shared typography ---------- */
 .wordmark{
   font-family:var(--sans);
-  font-weight:500;
-  letter-spacing:.04em;
-  font-size:1.05rem;
+  font-weight:600;
+  letter-spacing:.06em;
+  font-size:1.15rem;
+  text-transform:uppercase;
 }
 .eyebrow{
   font-family:var(--sans);
-  font-weight:400;
-  letter-spacing:.28em;
+  font-weight:500;
+  letter-spacing:.26em;
   text-transform:uppercase;
   font-size:.72rem;
   color:var(--ink-soft);
-  margin:0 0 1.4rem;
+  margin:0 0 1.2rem;
 }
 .display{
   font-family:var(--serif);
   font-weight:400;
   font-optical-sizing:auto;
-  line-height:1.03;
-  letter-spacing:-.012em;
+  line-height:1.06;
+  letter-spacing:-.015em;
   margin:0;
 }
 .lede{
   color:var(--ink-soft);
   font-weight:300;
-  max-width:34ch;
+  max-width:38ch;
   margin:1.4rem 0 0;
+  font-size:clamp(1.05rem,1rem + .45vw,1.25rem);
+  line-height:1.6;
 }
 
 /* ---------- Buttons ---------- */
 .btn{
-  display:inline-flex; align-items:center; gap:.7em;
+  display:inline-flex; align-items:center; justify-content:center; gap:.7em;
   font-family:var(--sans); font-weight:500;
-  font-size:.76rem; letter-spacing:.18em; text-transform:uppercase;
+  font-size:.78rem; letter-spacing:.16em; text-transform:uppercase;
   padding:1.05em 2.1em; border-radius:999px;
   border:1px solid transparent; cursor:pointer;
   transition:transform .3s ease, box-shadow .3s ease, background-color .3s ease, color .3s ease, border-color .3s ease;
+  white-space:nowrap;
 }
-.btn svg{ width:1.05em; height:1.05em; }
+.btn svg{ width:1.1em; height:1.1em; flex-shrink:0; }
 .btn--primary{ background:var(--ink); color:var(--cream); }
 .btn--primary:hover{ transform:translateY(-2px); box-shadow:0 12px 30px rgba(35,35,32,.22); }
 .btn--ghost{ background:transparent; color:var(--ink); border-color:var(--line); }
@@ -126,27 +128,49 @@ a{ color:inherit; text-decoration:none; }
 
 /* ---------- Sticky header ---------- */
 .site-header{
-  position:sticky; top:0; z-index:50;
+  position:sticky; top:0; z-index:100;
   transition:background-color .35s ease, border-color .35s ease, backdrop-filter .35s ease;
   border-bottom:1px solid transparent;
 }
 .site-header.scrolled{
-  background:rgba(241,236,223,.82);
-  backdrop-filter:saturate(140%) blur(10px);
+  background:rgba(241,236,223,.88);
+  backdrop-filter:saturate(140%) blur(12px);
   border-bottom-color:var(--line);
 }
 .site-header .bar{
   display:flex; align-items:center; justify-content:space-between;
-  padding-block:1.15rem;
+  padding-block:1rem;
+}
+.header-nav{
+  display:none; gap:1.8rem; align-items:center;
+  font-family:var(--sans); font-size:.78rem; letter-spacing:.08em; text-transform:uppercase;
+}
+.header-nav a{ color:var(--ink-soft); transition:color .2s ease; }
+.header-nav a:hover{ color:var(--ink); }
+.header-actions{
+  display:flex; align-items:center; gap:1.2rem;
 }
 .header-link{
-  font-family:var(--sans); font-weight:400;
-  font-size:.72rem; letter-spacing:.18em; text-transform:uppercase;
-  color:var(--ink-soft); display:inline-flex; align-items:center; gap:.5em;
-  transition:color .25s ease;
+  font-family:var(--sans); font-weight:500;
+  font-size:.72rem; letter-spacing:.16em; text-transform:uppercase;
+  color:var(--ink); display:inline-flex; align-items:center; gap:.5em;
+  padding:.45rem .95rem; border-radius:999px;
+  background:rgba(35,35,32,.06);
+  transition:all .25s ease;
 }
-.header-link:hover{ color:var(--ink); }
+.header-link:hover{ background:var(--ink); color:var(--cream); }
 .header-link svg{ width:.95em; height:.95em; }
+
+/* Language Switcher */
+.lang{ display:inline-flex; gap:.25rem; align-items:center; font-family:var(--sans); font-size:.72rem; font-weight:500; letter-spacing:.08em; }
+.lang button{
+  background:none; border:0; cursor:pointer; padding:.25rem .35rem;
+  color:var(--ink-soft); border-radius:4px;
+  transition:color .2s ease, background .2s ease;
+}
+.lang button[aria-pressed="true"]{ color:var(--ink); font-weight:600; text-decoration:underline; text-underline-offset:4px; }
+.lang button:hover{ color:var(--ink); }
+.lang span{ color:var(--line); user-select:none; }
 
 /* ============================================================
    HERO
@@ -154,162 +178,311 @@ a{ color:inherit; text-decoration:none; }
 .hero{ position:relative; overflow:hidden; isolation:isolate; }
 .hero .container{ position:relative; }
 .hero-grid{
-  display:grid; gap:clamp(2.5rem,7vw,4rem);
+  display:grid; gap:clamp(2.5rem,6vw,4rem);
   align-items:center;
-  padding-block:clamp(3rem,8vw,5rem) clamp(4rem,10vw,6rem);
+  padding-block:clamp(2.5rem,7vw,4.5rem) clamp(3.5rem,8vw,5.5rem);
 }
-.hero h1{ font-size:clamp(3rem,12vw,6.4rem); }
-.hero .lede{ font-size:clamp(1.05rem,1rem + .5vw,1.3rem); max-width:30ch; }
-.hero-cta{ display:flex; flex-wrap:wrap; gap:.9rem; margin-top:2.4rem; }
+.hero h1{ font-size:clamp(2.6rem,7.5vw,5.2rem); }
+.hero-cta{ display:flex; flex-wrap:wrap; gap:.85rem; margin-top:2.2rem; }
 
-/* Soft cream arc behind the hero (subtle, no gradient) */
 .hero-arc{
   position:absolute; z-index:-1; pointer-events:none;
-  width:135vw; aspect-ratio:1; border-radius:50%;
+  width:130vw; aspect-ratio:1; border-radius:50%;
   background:var(--paper);
-  top:-58vw; right:-42vw;
-  opacity:.9;
+  top:-54vw; right:-38vw;
+  opacity:.95;
 }
 
-/* Product visual — floats on the page's own color, grounded by the photo's soft shadow */
-.visual{ position:relative; }
-.hero-visual img{ width:100%; height:auto; max-height:66vh; object-fit:contain; margin-inline:auto; }
+/* Hero Portrait Visual with Floating Badge */
+.hero-visual{ position:relative; max-width:540px; margin-inline:auto; }
+.hero-photo-frame{
+  position:relative; border-radius:16px; overflow:hidden;
+  box-shadow:0 24px 50px -15px rgba(35,35,32,.18);
+  aspect-ratio:3/4; background:var(--cream-2);
+}
+.hero-photo-frame img{
+  width:100%; height:100%; object-fit:cover; object-position:center 20%;
+  transition:transform .7s ease;
+}
+.hero-photo-frame:hover img{ transform:scale(1.02); }
+
+.hero-badge{
+  position:absolute; bottom:1.2rem; left:1.2rem; right:1.2rem;
+  background:rgba(250,247,239,.92); backdrop-filter:blur(10px);
+  padding:.8rem 1.2rem; border-radius:10px;
+  border:1px solid rgba(35,35,32,.08);
+  display:flex; align-items:center; justify-content:space-between;
+  box-shadow:0 8px 24px rgba(0,0,0,.08);
+}
+.hero-badge .tag-title{ font-family:var(--sans); font-size:.75rem; font-weight:600; text-transform:uppercase; letter-spacing:.12em; color:var(--ink); }
+.hero-badge .tag-sub{ font-size:.7rem; color:var(--ink-soft); }
 
 /* ============================================================
    VALUE STRIP
    ============================================================ */
 .values{ background:var(--paper); border-block:1px solid var(--line); }
-.value-grid{ display:grid; gap:clamp(2.25rem,5vw,3.5rem); }
+.value-grid{ display:grid; gap:clamp(2rem,5vw,3.5rem); }
 .value h3{
   font-family:var(--sans); font-weight:500;
-  font-size:1.02rem; letter-spacing:.02em;
+  font-size:1.1rem; letter-spacing:.02em;
   margin:1.1rem 0 .5rem;
 }
-.value p{ color:var(--ink-soft); font-weight:300; margin:0; max-width:32ch; }
+.value p{ color:var(--ink-soft); font-weight:300; margin:0; max-width:34ch; font-size:.95rem; }
 .value .ic{
-  width:32px; height:32px; stroke:var(--ink); stroke-width:1.4;
+  width:32px; height:32px; stroke:var(--ink); stroke-width:1.5;
   fill:none; stroke-linecap:round; stroke-linejoin:round;
 }
 
 /* ============================================================
-   LIFESTYLE BAND (full-bleed mood image)
+   LIFESTYLE BAND (Full-bleed Tashkent Editorial)
    ============================================================ */
-.lifestyle{ display:block; }
-.lifestyle img{ width:100%; height:clamp(320px,52vh,600px); object-fit:cover; }
+.lifestyle{
+  position:relative; display:block; overflow:hidden;
+  background:var(--ink);
+}
+.lifestyle img{
+  width:100%; height:clamp(360px,56vh,620px);
+  object-fit:cover; object-position:center 32%;
+  opacity:.94;
+}
+.lifestyle-overlay{
+  position:absolute; inset:0;
+  background:linear-gradient(to top, rgba(35,35,32,.65) 0%, rgba(35,35,32,0) 50%);
+  display:flex; align-items:flex-end;
+  padding:clamp(1.5rem,4vw,3rem);
+}
+.lifestyle-overlay .caption{
+  color:var(--cream); font-family:var(--sans);
+  font-size:.85rem; letter-spacing:.14em; text-transform:uppercase;
+  display:inline-flex; align-items:center; gap:.8em;
+}
+.lifestyle-overlay .caption::before{
+  content:""; width:24px; height:1px; background:var(--cream);
+}
 
 /* ============================================================
-   PRODUCT (single model — feature layout)
+   PRODUCT (The Diamond & Interactive Gallery)
    ============================================================ */
-.products .section-head{ max-width:38ch; margin-bottom:clamp(2.5rem,6vw,4rem); }
-.products h2{ font-size:clamp(2.2rem,7vw,3.6rem); }
+.products .section-head{ max-width:44ch; margin-bottom:clamp(2.5rem,6vw,4rem); }
+.products h2{ font-size:clamp(2.2rem,6.5vw,3.6rem); }
 
-.product-feature{ display:grid; gap:clamp(2rem,6vw,4.5rem); align-items:center; }
-.feature-visual{
-  position:relative; aspect-ratio:1/1; border-radius:8px; overflow:hidden;
-  background:var(--sage-soft); display:grid; place-items:center; padding:16% 18%;
-}
-.feature-visual::after{ /* soft ground shadow */
-  content:""; position:absolute; z-index:1;
-  left:50%; bottom:15%; transform:translateX(-50%);
-  width:56%; height:20px; border-radius:50%;
-  background:radial-gradient(ellipse at center, rgba(30,29,24,.20), rgba(30,29,24,0) 72%);
-  filter:blur(6px);
-}
-.feature-visual img{ position:relative; z-index:2; }
+.product-feature{ display:grid; gap:clamp(2.5rem,6vw,4.5rem); align-items:start; }
 
+/* Interactive Gallery Box */
+.gallery-container{ display:flex; flex-direction:column; gap:1rem; }
+.gallery-main{
+  position:relative; aspect-ratio:4/4; border-radius:14px; overflow:hidden;
+  background:var(--cream-2); border:1px solid var(--line);
+}
+.gallery-main img{
+  width:100%; height:100%; object-fit:cover; object-position:center 25%;
+  transition:opacity .25s ease;
+}
+.gallery-thumbs{
+  display:grid; grid-template-columns:repeat(4, 1fr); gap:.6rem;
+}
+.gallery-thumb{
+  background:var(--paper); border:1px solid var(--line); border-radius:8px;
+  padding:.4rem; cursor:pointer; text-align:center;
+  transition:all .2s ease;
+}
+.gallery-thumb img{
+  aspect-ratio:1/1; object-fit:cover; border-radius:4px; width:100%;
+}
+.gallery-thumb span{
+  display:block; font-size:.65rem; font-family:var(--sans); font-weight:500;
+  letter-spacing:.04em; color:var(--ink-soft); margin-top:.35rem;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.gallery-thumb.active{
+  border-color:var(--ink); background:var(--cream); box-shadow:0 4px 12px rgba(35,35,32,.1);
+}
+.gallery-thumb.active span{ color:var(--ink); font-weight:600; }
+
+.feature-body{ display:flex; flex-direction:column; gap:1.2rem; }
+.feature-name{ font-family:var(--serif); font-weight:400; font-size:clamp(2.2rem,5vw,3.2rem); letter-spacing:-.01em; margin:0; }
 .card-tag{
-  font-family:var(--sans); font-size:.66rem; letter-spacing:.2em; text-transform:uppercase;
-  color:var(--ink-soft); margin:.7rem 0 0;
+  font-family:var(--sans); font-size:.7rem; letter-spacing:.22em; text-transform:uppercase;
+  color:var(--ruby); font-weight:500; margin:0;
 }
-.feature-name{ font-family:var(--serif); font-weight:400; font-size:clamp(1.9rem,4.5vw,2.8rem); letter-spacing:-.01em; margin:0; }
-.feature-desc{ color:var(--ink-soft); font-weight:300; margin:1rem 0 1.4rem; max-width:36ch; }
-.card-price{ display:flex; align-items:baseline; gap:.6rem; }
-.card-price .amt{ font-family:var(--serif); font-size:1.7rem; }
-.card-price .uzs{ font-size:.85rem; color:var(--ink-soft); letter-spacing:.02em; }
-.feature-btn{ margin-top:1.8rem; }
+.feature-desc{ color:var(--ink-soft); font-weight:300; margin:0; max-width:44ch; font-size:1.02rem; }
+
+/* Pricing Cards */
+.pricing-cards{ display:grid; gap:.9rem; margin-top:.6rem; }
+.pricing-card{
+  background:var(--paper); border:1px solid var(--line); border-radius:12px;
+  padding:1.15rem 1.4rem; position:relative;
+  transition:border-color .2s ease, box-shadow .2s ease;
+}
+.pricing-card.featured{
+  border-color:var(--ink);
+  background:#fff;
+  box-shadow:0 8px 24px rgba(35,35,32,.07);
+}
+.pricing-header{ display:flex; align-items:baseline; justify-content:space-between; flex-wrap:wrap; gap:.5rem; }
+.pricing-title{ font-family:var(--sans); font-weight:600; font-size:1.05rem; }
+.pricing-badge{
+  font-size:.65rem; letter-spacing:.12em; text-transform:uppercase; font-weight:600;
+  background:var(--ink); color:var(--cream); padding:.2em .7em; border-radius:999px;
+}
+.pricing-sum{ font-family:var(--serif); font-size:1.75rem; font-weight:400; color:var(--ink); margin:.2rem 0; }
+.pricing-desc{ font-size:.84rem; color:var(--ink-soft); margin:0; line-height:1.45; }
+
+.feature-actions{ display:flex; flex-direction:column; gap:.8rem; margin-top:1rem; }
+.feature-guarantee{
+  display:inline-flex; align-items:center; gap:.5em;
+  font-size:.78rem; color:var(--ink-soft); font-family:var(--sans);
+}
+.feature-guarantee svg{ width:1em; height:1em; stroke:var(--ink); fill:none; }
 
 /* ============================================================
-   SPEC (the lenses)
+   SLEEP PROTOCOL BONUS SECTION
+   ============================================================ */
+.guide-section{ background:var(--paper); border-block:1px solid var(--line); }
+.guide-grid{ display:grid; gap:clamp(2.5rem,6vw,4.5rem); align-items:center; }
+.guide-card{
+  background:var(--cream); border:1px solid var(--line); border-radius:16px;
+  overflow:hidden; display:grid;
+}
+.guide-img{
+  aspect-ratio:4/3; width:100%; object-fit:cover; object-position:center 30%;
+}
+.guide-content{ padding:clamp(1.5rem,4vw,2.5rem); }
+.protocol-list{ list-style:none; padding:0; margin:1.6rem 0 0; display:grid; gap:.9rem; }
+.protocol-item{
+  display:flex; gap:1rem; align-items:flex-start;
+  font-size:.92rem; color:var(--ink);
+}
+.protocol-num{
+  font-family:var(--serif); font-size:1.2rem; line-height:1;
+  color:var(--ink); font-weight:400; flex-shrink:0;
+  width:1.5rem; text-align:center;
+}
+.protocol-text strong{ display:block; font-family:var(--sans); font-weight:500; font-size:.95rem; margin-bottom:.15rem; }
+.protocol-text span{ color:var(--ink-soft); font-size:.85rem; }
+
+/* ============================================================
+   SPEC (The Red Circadian Lenses)
    ============================================================ */
 .spec{ background:var(--sage-soft); }
 .spec .container{ display:grid; gap:clamp(2.5rem,6vw,4rem); align-items:center; }
-.stat{ font-family:var(--serif); font-weight:300; line-height:.9; letter-spacing:-.02em;
-  font-size:clamp(5rem,22vw,12rem); }
-.stat-label{ font-family:var(--sans); font-weight:400; letter-spacing:.02em; margin:.4rem 0 0; font-size:1.05rem; }
-.spec-copy p{ color:var(--ink); font-weight:300; max-width:40ch; }
+.stat{
+  font-family:var(--serif); font-weight:300; line-height:.9; letter-spacing:-.02em;
+  font-size:clamp(5rem,20vw,11rem);
+}
+.stat-label{ font-family:var(--sans); font-weight:500; letter-spacing:.04em; margin:.5rem 0 0; font-size:1.15rem; }
+.spec-copy p{ color:var(--ink); font-weight:300; max-width:44ch; font-size:1.02rem; }
 .spec-list{ list-style:none; margin:2rem 0 0; padding:0; display:grid; gap:1px; background:var(--line); border-block:1px solid var(--line); }
-.spec-list li{ background:var(--sage-soft); padding:1.1rem 0; display:flex; align-items:center; gap:.9rem;
-  font-family:var(--sans); font-weight:400; font-size:.95rem; }
+.spec-list li{
+  background:var(--sage-soft); padding:1.15rem 0; display:flex; align-items:center; gap:.9rem;
+  font-family:var(--sans); font-weight:400; font-size:.95rem;
+}
 .spec-list li::before{ content:""; width:6px; height:6px; border-radius:50%; background:var(--ink); flex:none; }
 
 /* ============================================================
-   CTA + FOOTER (dark night band, angled top edge)
+   HOW IT WORKS / TASHKENT DELIVERY
+   ============================================================ */
+.delivery-steps{ display:grid; gap:1.8rem; margin-top:2.8rem; }
+.step-card{
+  background:var(--paper); border:1px solid var(--line); border-radius:14px;
+  padding:2rem 1.6rem; position:relative;
+}
+.step-num{
+  font-family:var(--serif); font-size:2.4rem; line-height:1;
+  color:var(--sage); margin-bottom:.8rem;
+}
+.step-card h3{ font-family:var(--sans); font-weight:500; font-size:1.1rem; margin:0 0 .5rem; }
+.step-card p{ font-size:.92rem; color:var(--ink-soft); margin:0; line-height:1.5; }
+
+/* ============================================================
+   FAQ ACCORDION
+   ============================================================ */
+.faq{ background:var(--paper); border-block:1px solid var(--line); }
+.faq-list{ display:grid; gap:.85rem; margin-top:2.5rem; max-width:820px; }
+.faq-item{
+  background:var(--cream); border:1px solid var(--line); border-radius:10px;
+  overflow:hidden; transition:border-color .2s ease;
+}
+.faq-item[open]{ border-color:var(--ink); }
+.faq-summary{
+  padding:1.25rem 1.5rem; cursor:pointer; list-style:none;
+  display:flex; justify-content:space-between; align-items:center; gap:1rem;
+  font-family:var(--sans); font-weight:500; font-size:1.02rem;
+}
+.faq-summary::-webkit-details-marker{ display:none; }
+.faq-chevron{ width:1.1em; height:1.1em; transition:transform .3s ease; stroke:var(--ink); fill:none; stroke-width:2; flex-shrink:0; }
+.faq-item[open] .faq-chevron{ transform:rotate(180deg); }
+.faq-body{
+  padding:0 1.5rem 1.4rem; color:var(--ink-soft); font-size:.94rem; line-height:1.6;
+}
+
+/* ============================================================
+   CTA + FOOTER (dark night band)
    ============================================================ */
 .closer{
   position:relative; background:var(--ink); color:var(--cream);
-  clip-path:polygon(0 2.8vw, 100% 0, 100% 100%, 0 100%);
-  margin-top:clamp(2rem,6vw,4rem);
-  padding-top:2.8vw;
+  clip-path:polygon(0 2.4vw, 100% 0, 100% 100%, 0 100%);
+  margin-top:clamp(2rem,5vw,4rem);
+  padding-top:2.4vw;
 }
-.cta{ text-align:center; padding-block:clamp(4.5rem,11vw,8rem) clamp(3rem,7vw,5rem); }
+.cta{ text-align:center; padding-block:clamp(4.5rem,10vw,7.5rem) clamp(3rem,6vw,4.5rem); }
 .cta .eyebrow{ color:rgba(250,247,239,.55); }
-.cta h2{ font-size:clamp(2.4rem,8vw,4.4rem); color:var(--cream); }
-.cta p{ color:rgba(250,247,239,.72); font-weight:300; max-width:42ch; margin:1.3rem auto 2.4rem; }
-.cta-actions{ display:flex; flex-direction:column; align-items:center; gap:1.4rem; }
-.ig-link{
-  display:inline-flex; align-items:center; gap:.6em;
-  font-family:var(--sans); font-size:.85rem; letter-spacing:.06em;
-  color:rgba(250,247,239,.72); transition:color .25s ease;
+.cta h2{ font-size:clamp(2.4rem,7.5vw,4.2rem); color:var(--cream); }
+.cta p{ color:rgba(250,247,239,.75); font-weight:300; max-width:44ch; margin:1.3rem auto 2.4rem; font-size:1.05rem; }
+.cta-actions{ display:flex; flex-wrap:wrap; justify-content:center; align-items:center; gap:1.2rem; }
+
+.social-links{ display:flex; gap:1.5rem; justify-content:center; margin-top:2.2rem; }
+.social-link{
+  display:inline-flex; align-items:center; gap:.5em;
+  font-family:var(--sans); font-size:.82rem; letter-spacing:.08em;
+  color:rgba(250,247,239,.7); transition:color .25s ease;
 }
-.ig-link:hover{ color:var(--cream); }
-.ig-link svg{ width:1.1em; height:1.1em; }
+.social-link:hover{ color:var(--cream); }
+.social-link svg{ width:1.1em; height:1.1em; }
 
 .site-footer{ border-top:1px solid rgba(250,247,239,.14); }
 .footer-row{
   display:flex; flex-wrap:wrap; gap:1rem 2rem; align-items:center; justify-content:space-between;
   padding-block:2.2rem;
-  font-family:var(--sans); font-size:.72rem; letter-spacing:.06em;
+  font-family:var(--sans); font-size:.75rem; letter-spacing:.06em;
   color:rgba(250,247,239,.55);
 }
 .footer-row .wordmark{ color:var(--cream); }
-.lang{ display:flex; gap:.4rem; align-items:center; }
-.lang button{
-  background:none; border:0; cursor:pointer; padding:.2rem .1rem;
-  font-family:var(--sans); font-size:.72rem; letter-spacing:.1em; color:rgba(250,247,239,.5);
-  transition:color .25s ease;
-}
-.lang button[aria-pressed="true"]{ color:var(--cream); }
-.lang button:hover{ color:var(--cream); }
-.lang span{ color:rgba(250,247,239,.3); }
+.footer-lang button{ color:rgba(250,247,239,.5); }
+.footer-lang button[aria-pressed="true"]{ color:var(--cream); }
+.footer-lang button:hover{ color:var(--cream); }
+.footer-lang span{ color:rgba(250,247,239,.2); }
 
 /* ============================================================
    REVEAL ON SCROLL
    ============================================================ */
-[data-reveal]{ opacity:0; transform:translateY(20px); transition:opacity .8s ease, transform .8s ease; }
+[data-reveal]{ opacity:0; transform:translateY(22px); transition:opacity .8s ease, transform .8s ease; }
 [data-reveal].in-view{ opacity:1; transform:none; }
-.value:nth-child(2){ transition-delay:.08s; }
-.value:nth-child(3){ transition-delay:.16s; }
+.value:nth-child(2), .step-card:nth-child(2){ transition-delay:.08s; }
+.value:nth-child(3), .step-card:nth-child(3){ transition-delay:.16s; }
 
 /* ============================================================
    RESPONSIVE
    ============================================================ */
 @media (min-width:640px){
   .value-grid{ grid-template-columns:repeat(3,1fr); }
+  .delivery-steps{ grid-template-columns:repeat(3,1fr); }
 }
 @media (min-width:768px){
-  .product-feature{ grid-template-columns:1fr 1.05fr; }
+  .header-nav{ display:flex; }
+  .product-feature{ grid-template-columns:1fr 1fr; }
   .spec .container{ grid-template-columns:1fr 1fr; }
   .spec-list{ grid-template-columns:1fr 1fr; gap:1px; }
+  .guide-card{ grid-template-columns:1fr 1.15fr; }
+  .guide-img{ aspect-ratio:auto; height:100%; }
 }
 @media (min-width:900px){
-  .hero-grid{ grid-template-columns:1.05fr 1fr; min-height:86vh; padding-block:2rem; }
+  .hero-grid{ grid-template-columns:1.1fr .9fr; min-height:84vh; padding-block:2rem; }
   .hero-visual{ order:2; }
   .hero-arc{ width:70vw; top:-18vw; right:-14vw; }
 }
 
-/* ============================================================
-   REDUCED MOTION
-   ============================================================ */
+/* Reduced Motion */
 @media (prefers-reduced-motion:reduce){
   html{ scroll-behavior:auto; }
   *{ transition:none !important; animation:none !important; }
@@ -324,11 +497,27 @@ a{ color:inherit; text-decoration:none; }
 <header class="site-header" id="header">
   <div class="container bar">
     <a href="#top" class="wordmark" aria-label="Nox — home">Nox</a>
-    <!-- PLACEHOLDER LINK: replace with real Telegram channel -->
-    <a class="header-link" href="https://t.me/noxglasses" target="_blank" rel="noopener">
-      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.8 4.3 2.9 11.6c-1.1.4-1.1 1.6-.1 1.9l4.7 1.5 1.8 5.6c.2.6.6.7 1.1.3l2.6-2.1 4.9 3.6c.7.4 1.3.2 1.5-.7l3.2-15c.2-1-.4-1.5-1.3-1.1z"/></svg>
-      Telegram
-    </a>
+
+    <nav class="header-nav" aria-label="Quick links">
+      <a href="#product" data-i18n="nav.glasses">Очки</a>
+      <a href="#protocol" data-i18n="nav.protocol">Гид по сну</a>
+      <a href="#delivery" data-i18n="nav.delivery">Доставка</a>
+      <a href="#faq" data-i18n="nav.faq">FAQ</a>
+    </nav>
+
+    <div class="header-actions">
+      <!-- Language switcher in header -->
+      <div class="lang header-lang" role="group" aria-label="Language">
+        <button type="button" data-lang="ru">RU</button><span>/</span>
+        <button type="button" data-lang="uz">UZ</button><span>/</span>
+        <button type="button" data-lang="en">EN</button>
+      </div>
+
+      <a class="header-link" href="https://t.me/noxglasses" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.8 4.3 2.9 11.6c-1.1.4-1.1 1.6-.1 1.9l4.7 1.5 1.8 5.6c.2.6.6.7 1.1.3l2.6-2.1 4.9 3.6c.7.4 1.3.2 1.5-.7l3.2-15c.2-1-.4-1.5-1.3-1.1z"/></svg>
+        <span>Telegram</span>
+      </a>
+    </div>
   </div>
 </header>
 
@@ -340,75 +529,185 @@ a{ color:inherit; text-decoration:none; }
     <div class="container">
       <div class="hero-grid">
         <div class="hero-copy" data-reveal>
-          <p class="eyebrow" data-i18n="hero.eyebrow">Blue light eyewear · Tashkent</p>
-          <h1 class="display" id="hero-title" data-i18n="hero.title">Designed for better sleep.</h1>
-          <p class="lede" data-i18n="hero.lede">Blue light eyewear made for the way you live with screens — calmer evenings, easier days.</p>
+          <p class="eyebrow" data-i18n="hero.eyebrow">Вечерние циркадные очки · Ташкент</p>
+          <h1 class="display" id="hero-title" data-i18n="hero.title">Защитите мелатонин. Верните глубокий сон.</h1>
+          <p class="lede" data-i18n="hero.lede">Блокируют 97.8% синего и зелёного спектра от экранов и вечерних ламп. Наденьте за 2–3 часа до сна, чтобы глаза расслабились, а организм легко перешел в фазу восстановления.</p>
           <div class="hero-cta">
-            <!-- PLACEHOLDER LINK: replace with real Telegram channel -->
             <a class="btn btn--primary" href="https://t.me/noxglasses" target="_blank" rel="noopener">
               <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.8 4.3 2.9 11.6c-1.1.4-1.1 1.6-.1 1.9l4.7 1.5 1.8 5.6c.2.6.6.7 1.1.3l2.6-2.1 4.9 3.6c.7.4 1.3.2 1.5-.7l3.2-15c.2-1-.4-1.5-1.3-1.1z"/></svg>
-              <span data-i18n="btn.shop">Shop via Telegram</span>
+              <span data-i18n="btn.shop">Заказать в Telegram</span>
             </a>
-            <a class="btn btn--ghost" href="#product" data-i18n="btn.explore">See the frame</a>
+            <a class="btn btn--ghost" href="#product" data-i18n="btn.explore">Смотреть оправу</a>
           </div>
         </div>
-        <div class="hero-visual visual" data-reveal>
-          <img class="blend" src="images/diamond-angle.jpg" alt="Nox Diamond blue light glasses, three-quarter view" width="1691" height="930" />
+
+        <!-- Real photoshoot model visual in hero -->
+        <div class="hero-visual" data-reveal>
+          <div class="hero-photo-frame">
+            <img src="images/nox-model-female.jpg" alt="Модель в очках Nox с рубиновыми линзами в Ташкенте" width="1050" height="1400" />
+            <div class="hero-badge">
+              <div>
+                <div class="tag-title" data-i18n="hero.badge.t">97.8% светофильтр</div>
+                <div class="tag-sub" data-i18n="hero.badge.d">Блокирует синий и зелёный спектр до 550 нм</div>
+              </div>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a6.6 6.6 0 0 0 9.8 9.8z"/></svg>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
   <!-- ======================= VALUE STRIP ======================= -->
-  <section class="values section" aria-label="Why Nox">
+  <section class="values section" aria-label="Почему Nox">
     <div class="container">
       <div class="value-grid">
         <div class="value" data-reveal>
           <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a6.6 6.6 0 0 0 9.8 9.8z"/></svg>
-          <h3 data-i18n="val.a.t">Softer evenings</h3>
-          <p data-i18n="val.a.d">Ease off the screens and into your night.</p>
+          <h3 data-i18n="val.a.t">Естественный мелатонин</h3>
+          <p data-i18n="val.a.d">Красный фильтр отсекает частоты до 550 нм, давая мозгу биологический сигнал о наступлении ночи.</p>
         </div>
         <div class="value" data-reveal>
           <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M8 20h8M12 16v4"/></svg>
-          <h3 data-i18n="val.b.t">Screen comfort</h3>
-          <p data-i18n="val.b.d">Less glare through long hours of work and scrolling.</p>
+          <h3 data-i18n="val.b.t">Снятие глазного спазма</h3>
+          <p data-i18n="val.b.d">Убирают сухость, резь и зрительное напряжение после долгого рабочего дня за монитором и телефоном.</p>
         </div>
         <div class="value" data-reveal>
-          <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="6.5" cy="14" r="3.2"/><circle cx="17.5" cy="14" r="3.2"/><path d="M9.7 13.4c.9-.9 3.7-.9 4.6 0M2.6 11 4 9m17.4 2L20 9"/></svg>
-          <h3 data-i18n="val.c.t">Everyday style</h3>
-          <p data-i18n="val.c.d">A clean, minimal frame that goes with everything.</p>
+          <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><polyline points="12 6 12 12 16 14"/></svg>
+          <h3 data-i18n="val.c.t">Глубокие фазы сна</h3>
+          <p data-i18n="val.c.d">Увеличивают долю восстановительного медленного и REM-сна. Утреннее пробуждение становится лёгким.</p>
         </div>
       </div>
     </div>
   </section>
 
   <!-- ======================= LIFESTYLE BAND ======================= -->
-  <section class="lifestyle" aria-hidden="true">
-    <img src="images/diamond-dark.jpg" alt="" width="1122" height="1402" loading="lazy" />
+  <section class="lifestyle" aria-label="Nox в Ташкенте">
+    <img src="images/nox-lifestyle-street.jpg" alt="Модель в очках Nox на улицах вечернего Ташкента" width="1050" height="1400" loading="lazy" />
+    <div class="lifestyle-overlay">
+      <span class="caption" data-i18n="lifestyle.caption">Созданы для спокойных вечеров в ритме города · Ташкент</span>
+    </div>
   </section>
 
-  <!-- ======================= PRODUCT (single model) ======================= -->
+  <!-- ======================= PRODUCT ======================= -->
   <section class="products section" id="product" aria-labelledby="product-title">
     <div class="container">
       <div class="section-head" data-reveal>
-        <p class="eyebrow" data-i18n="prod.eyebrow">The frame</p>
-        <h2 class="display" id="product-title" data-i18n="prod.title">One frame for every kind of day.</h2>
+        <p class="eyebrow" data-i18n="prod.eyebrow">The Frame</p>
+        <h2 class="display" id="product-title" data-i18n="prod.title">The Diamond — геометрия и лёгкость.</h2>
       </div>
 
       <div class="product-feature" data-reveal>
-        <div class="feature-visual">
-          <img class="blend" src="images/diamond-front.jpg" alt="Nox Diamond blue light glasses, front view" width="1725" height="912" />
+        <!-- Interactive Multi-View Gallery -->
+        <div class="gallery-container">
+          <div class="gallery-main">
+            <img id="product-main-img" src="images/nox-model-male.jpg" alt="Очки Nox The Diamond на мужской модели" width="1050" height="1400" />
+          </div>
+          <div class="gallery-thumbs" role="tablist" aria-label="Ракурсы оправы">
+            <button class="gallery-thumb active" type="button" data-img="images/nox-model-male.jpg" aria-selected="true">
+              <img src="images/nox-model-male.jpg" alt="" />
+              <span data-i18n="prod.view.male">Мужчина</span>
+            </button>
+            <button class="gallery-thumb" type="button" data-img="images/nox-model-female.jpg" aria-selected="false">
+              <img src="images/nox-model-female.jpg" alt="" />
+              <span data-i18n="prod.view.female">Девушка</span>
+            </button>
+            <button class="gallery-thumb" type="button" data-img="images/nox-packaging.jpg" aria-selected="false">
+              <img src="images/nox-packaging.jpg" alt="" />
+              <span data-i18n="prod.view.box">Бокс</span>
+            </button>
+            <button class="gallery-thumb" type="button" data-img="images/diamond-angle.jpg" aria-selected="false">
+              <img src="images/diamond-angle.jpg" alt="" />
+              <span data-i18n="prod.view.frame">Оправа</span>
+            </button>
+          </div>
         </div>
+
+        <!-- Product Specs & Pricing Offer -->
         <div class="feature-body">
+          <p class="card-tag" data-i18n="prod.tag">Красный светофильтр 97.8% · TR90</p>
           <h3 class="feature-name" data-i18n="prod.name">The Diamond</h3>
-          <p class="card-tag" data-i18n="prod.tag">Blue light 97.8%</p>
-          <p class="feature-desc" data-i18n="prod.desc">A clean, modern frame — light on your face, easy on your eyes. One shape, made to go with everything.</p>
-          <p class="card-price"><span class="amt">$25</span><span class="uzs" data-i18n="price.uzs">≈ 315 000 so'm</span></p>
-          <!-- PLACEHOLDER LINK: replace with real Telegram channel -->
-          <a class="btn btn--primary feature-btn" href="https://t.me/noxglasses" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.8 4.3 2.9 11.6c-1.1.4-1.1 1.6-.1 1.9l4.7 1.5 1.8 5.6c.2.6.6.7 1.1.3l2.6-2.1 4.9 3.6c.7.4 1.3.2 1.5-.7l3.2-15c.2-1-.4-1.5-1.3-1.1z"/></svg>
-            <span data-i18n="btn.shop">Shop via Telegram</span>
-          </a>
+          <p class="feature-desc" data-i18n="prod.desc">Универсальная форма, гармонично подходящая для мужских и женских лиц. Сверхлёгкий швейцарский полимер TR90 весом 22 грамма обеспечивает идеальную посадку без давления на виски.</p>
+
+          <div class="pricing-cards">
+            <!-- Single Pair -->
+            <div class="pricing-card featured">
+              <div class="pricing-header">
+                <span class="pricing-title" data-i18n="pricing.single.t">1 пара — The Diamond</span>
+                <span class="pricing-badge" data-i18n="pricing.single.badge">Хит продаж</span>
+              </div>
+              <div class="pricing-sum" data-i18n="pricing.single.price">249 000 сум</div>
+              <p class="pricing-desc" data-i18n="pricing.single.d">Очки The Diamond + премиальный жесткий футляр Nox + салфетка из микрофибры + PDF «Гид по сну Nox Protocol».</p>
+            </div>
+
+            <!-- Bundle Pair -->
+            <div class="pricing-card">
+              <div class="pricing-header">
+                <span class="pricing-title" data-i18n="pricing.bundle.t">Сет из 2 пар (Для двоих)</span>
+                <span class="pricing-badge" style="background:#B83226;" data-i18n="pricing.bundle.badge">Выгода 49 000 сум</span>
+              </div>
+              <div class="pricing-sum" data-i18n="pricing.bundle.price">449 000 сум</div>
+              <p class="pricing-desc" data-i18n="pricing.bundle.d">Две пары The Diamond для вас и близкого человека. Полный комплект к каждой паре + бесплатная доставка по Ташкенту.</p>
+            </div>
+          </div>
+
+          <div class="feature-actions">
+            <a class="btn btn--primary" href="https://t.me/noxglasses" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.8 4.3 2.9 11.6c-1.1.4-1.1 1.6-.1 1.9l4.7 1.5 1.8 5.6c.2.6.6.7 1.1.3l2.6-2.1 4.9 3.6c.7.4 1.3.2 1.5-.7l3.2-15c.2-1-.4-1.5-1.3-1.1z"/></svg>
+              <span data-i18n="btn.shop">Заказать через Telegram</span>
+            </a>
+            <div class="feature-guarantee">
+              <svg viewBox="0 0 24 24" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              <span data-i18n="prod.guarantee">Примерка перед оплатой · Доставка в день заказа</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= SLEEP PROTOCOL ======================= -->
+  <section class="guide-section section" id="protocol" aria-labelledby="guide-title">
+    <div class="container">
+      <div class="guide-grid">
+        <div class="guide-card" data-reveal>
+          <img class="guide-img" src="images/nox-lifestyle-mirror.jpg" alt="Модель смотрит в зеркало в очках Nox" width="1050" height="1400" loading="lazy" />
+          <div class="guide-content">
+            <p class="eyebrow" data-i18n="guide.eyebrow">Бесплатный подарок к заказу</p>
+            <h2 class="display" id="guide-title" data-i18n="guide.title" style="font-size:clamp(1.8rem,4vw,2.4rem);">Гид по сну Nox Sleep Protocol</h2>
+            <p style="color:var(--ink-soft);margin-top:.8rem;font-size:.95rem;" data-i18n="guide.desc">Очки — мощный оптический инструмент, но системный результат строится на привычках. К каждой паре очков мы дарим авторский PDF-протокол вечерней гигиены:</p>
+
+            <ul class="protocol-list">
+              <li class="protocol-item">
+                <span class="protocol-num">01</span>
+                <div class="protocol-text">
+                  <strong data-i18n="guide.p1.t">Правило 2–3 часов</strong>
+                  <span data-i18n="guide.p1.d">Точное время надевания очков после заката для запуска каскада мелатонина.</span>
+                </div>
+              </li>
+              <li class="protocol-item">
+                <span class="protocol-num">02</span>
+                <div class="protocol-text">
+                  <strong data-i18n="guide.p2.t">Управление домашним светом</strong>
+                  <span data-i18n="guide.p2.d">Как приглушить люстры и переключить квартиру на теплый рассеянный свет.</span>
+                </div>
+              </li>
+              <li class="protocol-item">
+                <span class="protocol-num">03</span>
+                <div class="protocol-text">
+                  <strong data-i18n="guide.p3.t">Температурный оптимум (18–20°C)</strong>
+                  <span data-i18n="guide.p3.d">Физиология охлаждения тела для глубоких фаз восстановительного сна.</span>
+                </div>
+              </li>
+              <li class="protocol-item">
+                <span class="protocol-num">04</span>
+                <div class="protocol-text">
+                  <strong data-i18n="guide.p4.t">Цифровой закат</strong>
+                  <span data-i18n="guide.p4.d">Простые вечерние ритуалы за 30 минут до сна без стресса от уведомлений.</span>
+                </div>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
@@ -418,18 +717,98 @@ a{ color:inherit; text-decoration:none; }
   <section class="spec section" aria-labelledby="spec-title">
     <div class="container">
       <div data-reveal>
-        <p class="eyebrow" data-i18n="spec.eyebrow">The lenses</p>
+        <p class="eyebrow" data-i18n="spec.eyebrow">Наука и оптика</p>
         <p class="stat">97.8<span style="font-size:.4em;vertical-align:.35em">%</span></p>
-        <p class="stat-label" id="spec-title" data-i18n="spec.label">of blue light filtered</p>
+        <p class="stat-label" id="spec-title" data-i18n="spec.label">синего и зелёного спектра отфильтровано</p>
       </div>
       <div class="spec-copy" data-reveal>
-        <p data-i18n="spec.copy">Tuned to cut the harsh stuff without dimming your world — light enough that you forget you're wearing them.</p>
+        <p data-i18n="spec.copy">Обычные прозрачные компьютерные очки задерживают лишь 10–20% фиолетового спектра и не защищают мелатонин. Оптические линзы Nox глубокого красного цвета отсекают сине-зелёный спектр до 550 нм — именно те волны, которые разрушают ночной гормон сна.</p>
         <ul class="spec-list">
-          <li data-i18n="spec.l1">Lightweight TR90 frame</li>
-          <li data-i18n="spec.l2">Clear, true-to-life tint</li>
-          <li data-i18n="spec.l3">Built for all-day wear</li>
-          <li data-i18n="spec.l4">Slim, minimal profile</li>
+          <li data-i18n="spec.l1">Оптический полимер CR-39 с защитой UV400</li>
+          <li data-i18n="spec.l2">Глубокий рубиновый вечерний светофильтр (до 550 нм)</li>
+          <li data-i18n="spec.l3">Сверхлёгкая оправа TR90 (весит всего 22 г)</li>
+          <li data-i18n="spec.l4">Антибликовое покрытие и защита от микроцарапин</li>
         </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= DELIVERY & HOW IT WORKS ======================= -->
+  <section class="delivery section" id="delivery" aria-labelledby="delivery-title">
+    <div class="container">
+      <div style="max-width:38ch;" data-reveal>
+        <p class="eyebrow" data-i18n="how.eyebrow">Сервис в Ташкенте</p>
+        <h2 class="display" id="delivery-title" data-i18n="how.title">Как получить очки в Ташкенте</h2>
+      </div>
+
+      <div class="delivery-steps">
+        <div class="step-card" data-reveal>
+          <div class="step-num">01</div>
+          <h3 data-i18n="how.s1.t">Заказ в Telegram</h3>
+          <p data-i18n="how.s1.d">Напишите нам в чат в пару кликов без предоплаты. Менеджер свяжется с вами за 2–5 минут и согласует адрес.</p>
+        </div>
+        <div class="step-card" data-reveal>
+          <div class="step-num">02</div>
+          <h3 data-i18n="how.s2.t">Доставка день в день</h3>
+          <p data-i18n="how.s2.d">Отправляем курьером через сервис Yandex Go по всему Ташкенту — очки приедут уже через 1–2 часа.</p>
+        </div>
+        <div class="step-card" data-reveal>
+          <div class="step-num">03</div>
+          <h3 data-i18n="how.s3.t">Примерка и оплата</h3>
+          <p data-i18n="how.s3.d">Распакуйте коробку, примерьте очки. Убедитесь в идеальной посадке и оплатите через Click, Payme или наличными.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= FAQ ======================= -->
+  <section class="faq section" id="faq" aria-labelledby="faq-title">
+    <div class="container">
+      <div style="max-width:40ch;" data-reveal>
+        <p class="eyebrow" data-i18n="faq.eyebrow">Вопросы и ответы</p>
+        <h2 class="display" id="faq-title" data-i18n="faq.title">Всё, что важно знать о Nox.</h2>
+      </div>
+
+      <div class="faq-list" data-reveal>
+        <details class="faq-item" open>
+          <summary class="faq-summary">
+            <span data-i18n="faq.q1">Почему линзы именно красные, а не прозрачные или жёлтые?</span>
+            <svg class="faq-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary>
+          <div class="faq-body">
+            <p data-i18n="faq.a1">Клетки сетчатки глаза содержат меланопсин — фотопигмент, реагирующий на синий и зеленый спектр до 550 нм. Прозрачные очки отсекают лишь малую часть (10–20%), а желтые не блокируют зеленый диапазон. Только глубокий красный фильтр нейтрализует обе зоны спектра, позволяя мозгу начать естественную выработку мелатонина.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary class="faq-summary">
+            <span data-i18n="faq.q2">Когда и как правильно носить очки?</span>
+            <svg class="faq-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary>
+          <div class="faq-body">
+            <p data-i18n="faq.a2">Надевайте очки за 2–3 часа до запланированного сна, если вы работаете за экраном компьютера, смотрите телефон, телевизор или находитесь под ярким освещением. Снимайте очки непосредственно перед сном, когда выключаете свет в спальне.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary class="faq-summary">
+            <span data-i18n="faq.q3">Подойдет ли оправа The Diamond под мою форму лица?</span>
+            <svg class="faq-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary>
+          <div class="faq-body">
+            <p data-i18n="faq.a3">Да, The Diamond имеет универсальную геометрию (unisex), разработанную для большинства типов мужских и женских лиц. Оправа выполнена из швейцарского полимера TR90 с памятью формы — она эластична, весит всего 22 грамма и не сдавливает виски.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary class="faq-summary">
+            <span data-i18n="faq.q4">Как работает доставка и оплата в Ташкенте?</span>
+            <svg class="faq-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+          </summary>
+          <div class="faq-body">
+            <p data-i18n="faq.a4">Мы отправляем заказ через Yandex Go в день оформления. Вы можете открыть фирменную коробку, примерить очки, оценить оптику и только затем оплатить заказ курьеру через Click, Payme или наличными.</p>
+          </div>
+        </details>
       </div>
     </div>
   </section>
@@ -440,19 +819,24 @@ a{ color:inherit; text-decoration:none; }
 <div class="closer">
   <section class="cta" aria-labelledby="cta-title">
     <div class="container" data-reveal>
-      <p class="eyebrow" data-i18n="cta.eyebrow">Order now</p>
-      <h2 class="display" id="cta-title" data-i18n="cta.title">Order in a few taps.</h2>
-      <p data-i18n="cta.desc">Message us on Telegram to reserve your pair. The first drop is limited — arriving in Tashkent soon.</p>
+      <p class="eyebrow" data-i18n="cta.eyebrow">Заказ в Ташкенте</p>
+      <h2 class="display" id="cta-title" data-i18n="cta.title">Подарите себе ночь глубокого сна.</h2>
+      <p data-i18n="cta.desc">Напишите нам в Telegram, чтобы заказать The Diamond с доставкой в день заказа и получить полный протокол сна.</p>
       <div class="cta-actions">
-        <!-- PLACEHOLDER LINK: replace with real Telegram channel -->
         <a class="btn btn--light" href="https://t.me/noxglasses" target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.8 4.3 2.9 11.6c-1.1.4-1.1 1.6-.1 1.9l4.7 1.5 1.8 5.6c.2.6.6.7 1.1.3l2.6-2.1 4.9 3.6c.7.4 1.3.2 1.5-.7l3.2-15c.2-1-.4-1.5-1.3-1.1z"/></svg>
-          <span data-i18n="btn.order">Order via Telegram</span>
+          <span data-i18n="btn.order">Заказать в Telegram</span>
         </a>
-        <!-- PLACEHOLDER LINK: replace with real Instagram handle -->
-        <a class="ig-link" href="https://instagram.com/noxglasses.uz" target="_blank" rel="noopener">
+      </div>
+
+      <div class="social-links">
+        <a class="social-link" href="https://t.me/noxglassesuz" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.8 4.3 2.9 11.6c-1.1.4-1.1 1.6-.1 1.9l4.7 1.5 1.8 5.6c.2.6.6.7 1.1.3l2.6-2.1 4.9 3.6c.7.4 1.3.2 1.5-.7l3.2-15c.2-1-.4-1.5-1.3-1.1z"/></svg>
+          <span>@noxglassesuz</span>
+        </a>
+        <a class="social-link" href="https://instagram.com/noxglasses.uz" target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1" fill="currentColor" stroke="none"/></svg>
-          @noxglasses.uz
+          <span>@noxglasses.uz</span>
         </a>
       </div>
     </div>
@@ -461,10 +845,10 @@ a{ color:inherit; text-decoration:none; }
   <footer class="site-footer">
     <div class="container footer-row">
       <span class="wordmark">Nox</span>
-      <span data-i18n="foot.loc">Tashkent, Uzbekistan · © 2026 Nox</span>
-      <div class="lang" role="group" aria-label="Language">
-        <button type="button" data-lang="uz">UZ</button><span>/</span>
+      <span data-i18n="foot.loc">Ташкент, Узбекистан · © 2026 Nox</span>
+      <div class="lang footer-lang" role="group" aria-label="Language">
         <button type="button" data-lang="ru">RU</button><span>/</span>
+        <button type="button" data-lang="uz">UZ</button><span>/</span>
         <button type="button" data-lang="en">EN</button>
       </div>
     </div>
@@ -480,7 +864,7 @@ a{ color:inherit; text-decoration:none; }
   window.addEventListener('scroll', onScroll, { passive:true });
 })();
 
-/* ---- Reveal on scroll (skips if reduced motion) ---- */
+/* ---- Reveal on scroll ---- */
 (function(){
   var items = document.querySelectorAll('[data-reveal]');
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -492,102 +876,286 @@ a{ color:inherit; text-decoration:none; }
     entries.forEach(function(e){
       if(e.isIntersecting){ e.target.classList.add('in-view'); io.unobserve(e.target); }
     });
-  }, { threshold:.14, rootMargin:'0px 0px -8% 0px' });
+  }, { threshold:.12, rootMargin:'0px 0px -6% 0px' });
   items.forEach(function(el){ io.observe(el); });
 })();
 
-/* ---- Language switcher (UZ / RU / EN) --------------------------------------
-   Copy lives in the I18N dictionary below. To change the default language a
-   first-time visitor sees, edit DEFAULT_LANG ('en' | 'ru' | 'uz').
-   NOTE: RU + UZ strings are a solid first pass — review/finalize the wording.
---------------------------------------------------------------------------- */
+/* ---- Product Gallery Switcher ---- */
 (function(){
-  var DEFAULT_LANG = 'en';
+  var mainImg = document.getElementById('product-main-img');
+  var thumbBtns = document.querySelectorAll('.gallery-thumb');
+  if(!mainImg || !thumbBtns.length) return;
+
+  thumbBtns.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      thumbBtns.forEach(function(b){
+        b.classList.remove('active');
+        b.setAttribute('aria-selected', 'false');
+      });
+      btn.classList.add('active');
+      btn.setAttribute('aria-selected', 'true');
+      var nextSrc = btn.getAttribute('data-img');
+      if(nextSrc && mainImg.getAttribute('src') !== nextSrc){
+        mainImg.style.opacity = '0.3';
+        setTimeout(function(){
+          mainImg.src = nextSrc;
+          mainImg.style.opacity = '1';
+        }, 120);
+      }
+    });
+  });
+})();
+
+/* ---- Language Switcher (RU / UZ / EN) ---------------------------------------
+   Default language: RU (Russian, ~70% Tashkent market), with UZ and EN.
+   Synchronized between header and footer with persistent local storage.
+---------------------------------------------------------------------------- */
+(function(){
+  var DEFAULT_LANG = 'ru';
 
   var I18N = {
-    en: {
-      'hero.eyebrow':"Blue light eyewear · Tashkent",
-      'hero.title':"Designed for better sleep.",
-      'hero.lede':"Blue light eyewear made for the way you live with screens — calmer evenings, easier days.",
-      'btn.shop':"Shop via Telegram",
-      'btn.explore':"See the frame",
-      'val.a.t':"Softer evenings",  'val.a.d':"Ease off the screens and into your night.",
-      'val.b.t':"Screen comfort",   'val.b.d':"Less glare through long hours of work and scrolling.",
-      'val.c.t':"Everyday style",   'val.c.d':"A clean, minimal frame that goes with everything.",
-      'prod.eyebrow':"The frame",
-      'prod.title':"One frame for every kind of day.",
-      'prod.name':"The Diamond",
-      'prod.tag':"Blue light 97.8%",
-      'prod.desc':"A clean, modern frame — light on your face, easy on your eyes. One shape, made to go with everything.",
-      'price.uzs':"≈ 315 000 so'm",
-      'spec.eyebrow':"The lenses",
-      'spec.label':"of blue light filtered",
-      'spec.copy':"Tuned to cut the harsh stuff without dimming your world — light enough that you forget you're wearing them.",
-      'spec.l1':"Lightweight TR90 frame",
-      'spec.l2':"Clear, true-to-life tint",
-      'spec.l3':"Built for all-day wear",
-      'spec.l4':"Slim, minimal profile",
-      'cta.eyebrow':"Order now",
-      'cta.title':"Order in a few taps.",
-      'cta.desc':"Message us on Telegram to reserve your pair. The first drop is limited — arriving in Tashkent soon.",
-      'btn.order':"Order via Telegram",
-      'foot.loc':"Tashkent, Uzbekistan · © 2026 Nox"
-    },
     ru: {
-      'hero.eyebrow':"Очки от синего света · Ташкент",
-      'hero.title':"Создано для лучшего сна.",
-      'hero.lede':"Очки от синего света для жизни с экранами — спокойнее вечера, легче дни.",
-      'btn.shop':"Купить в Telegram",
+      'page.title':"Nox — Очки для глубокого сна и циркадных ритмов | Ташкент",
+      'page.desc':"Очки Nox блокируют 97.8% синего и зелёного спектра экранов и вечерних ламп. Глубокий сон, выработка мелатонина. Доставка по Ташкенту в день заказа.",
+      'nav.glasses':"Очки",
+      'nav.protocol':"Гид по сну",
+      'nav.delivery':"Доставка",
+      'nav.faq':"FAQ",
+      'hero.eyebrow':"Вечерние циркадные очки · Ташкент",
+      'hero.title':"Защитите мелатонин. Верните глубокий сон.",
+      'hero.lede':"Блокируют 97.8% синего и зелёного спектра от экранов и вечерних ламп. Наденьте за 2–3 часа до сна, чтобы глаза расслабились, а организм легко перешел в фазу восстановления.",
+      'hero.badge.t':"97.8% светофильтр",
+      'hero.badge.d':"Блокирует синий и зелёный спектр до 550 нм",
+      'btn.shop':"Заказать в Telegram",
       'btn.explore':"Смотреть оправу",
-      'val.a.t':"Спокойные вечера", 'val.a.d':"Проще отложить экран и отдохнуть.",
-      'val.b.t':"Комфорт у экрана", 'val.b.d':"Меньше бликов в долгие часы работы и скроллинга.",
-      'val.c.t':"Стиль на каждый день", 'val.c.d':"Чистая минималистичная оправа, которая идёт ко всему.",
-      'prod.eyebrow':"Оправа",
-      'prod.title':"Одна оправа для любого дня.",
-      'prod.name':"The Diamond",
-      'prod.tag':"Синий свет 97.8%",
-      'prod.desc':"Чистая современная оправа — лёгкая и удобная. Одна форма, которая идёт ко всему.",
-      'price.uzs':"≈ 315 000 сум",
-      'spec.eyebrow':"Линзы",
-      'spec.label':"синего света отфильтровано",
-      'spec.copy':"Убирают резкий свет, не затемняя картину — и такие лёгкие, что о них забываешь.",
-      'spec.l1':"Лёгкая оправа TR90",
-      'spec.l2':"Чистый, естественный оттенок",
-      'spec.l3':"Комфортно весь день",
-      'spec.l4':"Тонкий минималистичный профиль",
-      'cta.eyebrow':"Заказать",
-      'cta.title':"Заказ в пару касаний.",
-      'cta.desc':"Напишите нам в Telegram, чтобы забронировать пару. Первая партия ограничена — скоро в Ташкенте.",
       'btn.order':"Заказать в Telegram",
+      'val.a.t':"Естественный мелатонин",
+      'val.a.d':"Красный фильтр отсекает частоты до 550 нм, давая мозгу биологический сигнал о наступлении ночи.",
+      'val.b.t':"Снятие глазного спазма",
+      'val.b.d':"Убирают сухость, резь и зрительное напряжение после долгого рабочего дня за монитором и телефоном.",
+      'val.c.t':"Глубокие фазы сна",
+      'val.c.d':"Увеличивают долю восстановительного медленного и REM-сна. Утреннее пробуждение становится лёгким.",
+      'lifestyle.caption':"Созданы для спокойных вечеров в ритме города · Ташкент",
+      'prod.eyebrow':"The Frame",
+      'prod.title':"The Diamond — геометрия и лёгкость.",
+      'prod.name':"The Diamond",
+      'prod.tag':"Красный светофильтр 97.8% · TR90",
+      'prod.desc':"Универсальная форма, гармонично подходящая для мужских и женских лиц. Сверхлёгкий швейцарский полимер TR90 весом 22 грамма обеспечивает идеальную посадку без давления на виски.",
+      'prod.view.male':"Мужчина",
+      'prod.view.female':"Девушка",
+      'prod.view.box':"Бокс",
+      'prod.view.frame':"Оправа",
+      'pricing.single.t':"1 пара — The Diamond",
+      'pricing.single.badge':"Хит продаж",
+      'pricing.single.price':"249 000 сум",
+      'pricing.single.d':"Очки The Diamond + премиальный жесткий футляр Nox + салфетка из микрофибры + PDF «Гид по сну Nox Protocol».",
+      'pricing.bundle.t':"Сет из 2 пар (Для двоих)",
+      'pricing.bundle.badge':"Выгода 49 000 сум",
+      'pricing.bundle.price':"449 000 сум",
+      'pricing.bundle.d':"Две пары The Diamond для вас и близкого человека. Полный комплект к каждой паре + бесплатная доставка по Ташкенту.",
+      'prod.guarantee':"Примерка перед оплатой · Доставка в день заказа",
+      'guide.eyebrow':"Бесплатный подарок к заказу",
+      'guide.title':"Гид по сну Nox Sleep Protocol",
+      'guide.desc':"Очки — мощный оптический инструмент, но системный результат строится на привычках. К каждой паре очков мы дарим авторский PDF-протокол вечерней гигиены:",
+      'guide.p1.t':"Правило 2–3 часов",
+      'guide.p1.d':"Точное время надевания очков после заката для запуска каскада мелатонина.",
+      'guide.p2.t':"Управление домашним светом",
+      'guide.p2.d':"Как приглушить люстры и переключить квартиру на теплый рассеянный свет.",
+      'guide.p3.t':"Температурный оптимум (18–20°C)",
+      'guide.p3.d':"Физиология охлаждения тела для глубоких фаз восстановительного сна.",
+      'guide.p4.t':"Цифровой закат",
+      'guide.p4.d':"Простые вечерние ритуалы за 30 минут до сна без стресса от уведомлений.",
+      'spec.eyebrow':"Наука и оптика",
+      'spec.label':"синего и зелёного спектра отфильтровано",
+      'spec.copy':"Обычные прозрачные компьютерные очки задерживают лишь 10–20% фиолетового спектра и не защищают мелатонин. Оптические линзы Nox глубокого красного цвета отсекают сине-зелёный спектр до 550 нм — именно те волны, которые разрушают ночной гормон сна.",
+      'spec.l1':"Оптический полимер CR-39 с защитой UV400",
+      'spec.l2':"Глубокий рубиновый вечерний светофильтр (до 550 нм)",
+      'spec.l3':"Сверхлёгкая оправа TR90 (весит всего 22 г)",
+      'spec.l4':"Антибликовое покрытие и защита от микроцарапин",
+      'how.eyebrow':"Сервис в Ташкенте",
+      'how.title':"Как получить очки в Ташкенте",
+      'how.s1.t':"1. Заказ в Telegram",
+      'how.s1.d':"Напишите нам в чат в пару кликов без предоплаты. Менеджер свяжется с вами за 2–5 минут и согласует адрес.",
+      'how.s2.t':"2. Доставка день в день",
+      'how.s2.d':"Отправляем курьером через сервис Yandex Go по всему Ташкенту — очки приедут уже через 1–2 часа.",
+      'how.s3.t':"3. Примерка и оплата",
+      'how.s3.d':"Распакуйте коробку, примерьте очки. Убедитесь в идеальной посадке и оплатите через Click, Payme или наличными.",
+      'faq.eyebrow':"Вопросы и ответы",
+      'faq.title':"Всё, что важно знать о Nox.",
+      'faq.q1':"Почему линзы именно красные, а не прозрачные или жёлтые?",
+      'faq.a1':"Клетки сетчатки глаза содержат меланопсин — фотопигмент, реагирующий на синий и зеленый спектр до 550 нм. Прозрачные очки отсекают лишь малую часть (10–20%), а желтые не блокируют зеленый диапазон. Только глубокий красный фильтр нейтрализует обе зоны спектра, позволяя мозгу начать естественную выработку мелатонина.",
+      'faq.q2':"Когда и как правильно носить очки?",
+      'faq.a2':"Надевайте очки за 2–3 часа до запланированного сна, если вы работаете за экраном компьютера, смотрите телефон, телевизор или находитесь под ярким освещением. Снимайте очки непосредственно перед сном, когда выключаете свет в спальне.",
+      'faq.q3':"Подойдет ли оправа The Diamond под мою форму лица?",
+      'faq.a3':"Да, The Diamond имеет универсальную геометрию (unisex), разработанную для большинства типов мужских и женских лиц. Оправа выполнена из швейцарского полимера TR90 с памятью формы — она эластична, весит всего 22 грамма и не сдавливает виски.",
+      'faq.q4':"Как работает доставка и оплата в Ташкенте?",
+      'faq.a4':"Мы отправляем заказ через Yandex Go в день оформления. Вы можете открыть фирменную коробку, примерить очки, оценить оптику и только затем оплатить заказ курьеру через Click, Payme или наличными.",
+      'cta.eyebrow':"Заказ в Ташкенте",
+      'cta.title':"Подарите себе ночь глубокого сна.",
+      'cta.desc':"Напишите нам в Telegram, чтобы заказать The Diamond с доставкой в день заказа и получить полный протокол сна.",
       'foot.loc':"Ташкент, Узбекистан · © 2026 Nox"
     },
     uz: {
-      'hero.eyebrow':"Ko'k nur ko'zoynaklari · Toshkent",
-      'hero.title':"Yaxshiroq uyqu uchun.",
-      'hero.lede':"Ekran bilan hayot uchun ko'k nur ko'zoynaklari — tinch oqshomlar, yengil kunlar.",
+      'page.title':"Nox — Chuqur uyqu va sirkad ritmlar uchun ko'zoynaklar | Toshkent",
+      'page.desc':"Nox ko'zoynaklari melatonin ishlab chiqarish va chuqur uyqu uchun ko'k va yashil nurni 97.8% to'sadi. Toshkent bo'ylab buyurtma kunida yetkazib berish.",
+      'nav.glasses':"Ko'zoynak",
+      'nav.protocol':"Uyqu qo'llanmasi",
+      'nav.delivery':"Yetkazib berish",
+      'nav.faq':"FAQ",
+      'hero.eyebrow':"Kechki sirkad ko'zoynaklar · Toshkent",
+      'hero.title':"Melatoninni asrang. Chuqur uyquni qaytaring.",
+      'hero.lede':"Ekran va sun'iy chiroqlarning ko'k va yashil nurini 97.8% to'sadi. Uyqudan 2–3 soat oldin taqing — ko'zlar dam oladi, miya tabiiy uyqu holatiga o'tadi.",
+      'hero.badge.t':"97.8% yorug'lik filtri",
+      'hero.badge.d':"Ko'k va yashil nurni 550 nm gacha to'sadi",
       'btn.shop':"Telegram orqali xarid",
       'btn.explore':"Ramkani ko'rish",
-      'val.a.t':"Tinch oqshomlar", 'val.a.d':"Ekrandan uzoqlashib, oqshomga o'ting.",
-      'val.b.t':"Ekran qulayligi", 'val.b.d':"Uzoq soatlik ish va skrollda kamroq yaltirash.",
-      'val.c.t':"Har kunlik uslub", 'val.c.d':"Hammasiga mos keladigan sodda, minimal ramka.",
-      'prod.eyebrow':"Ramka",
-      'prod.title':"Har kun uchun bitta ramka.",
-      'prod.name':"The Diamond",
-      'prod.tag':"Ko'k nur 97.8%",
-      'prod.desc':"Toza, zamonaviy ramka — yengil va qulay. Bitta shakl, hammasiga mos keladi.",
-      'price.uzs':"≈ 315 000 so'm",
-      'spec.eyebrow':"Linzalar",
-      'spec.label':"ko'k nur filtrlanadi",
-      'spec.copy':"Keskin nurni kesadi, dunyoni qoraytirmaydi — shu qadar yengilki, taqib olganingizni unutasiz.",
-      'spec.l1':"Yengil TR90 ramka",
-      'spec.l2':"Tiniq, tabiiy rang",
-      'spec.l3':"Kun bo'yi qulay",
-      'spec.l4':"Nozik, minimal dizayn",
-      'cta.eyebrow':"Buyurtma",
-      'cta.title':"Bir necha bosishda buyurtma.",
-      'cta.desc':"Juftlikni band qilish uchun Telegram'ga yozing. Birinchi partiya cheklangan — tez orada Toshkentda.",
       'btn.order':"Telegram orqali buyurtma",
+      'val.a.t':"Tabiiy melatonin",
+      'val.a.d':"Qizil filtr 550 nm gacha bo'lgan to'lqinlarni to'sib, tanaga tabiiy tun tushganini bildiradi.",
+      'val.b.t':"Ko'zlar uchun orom",
+      'val.b.d':"Kun bo'yi kompyuter va telefon oldida ishlashdan kelib chiqadigan quruqlik va charchoqni oladi.",
+      'val.c.t':"Chuqur uyqu fazalari",
+      'val.c.d':"Sekin va tiklovchi uyqu fazasini uzaytiradi — ertalab haqiqatan tetik va bardam uyg'onasiz.",
+      'lifestyle.caption':"Shahar ritmidagi sokin oqshomlar uchun yaratilgan · Toshkent",
+      'prod.eyebrow':"The Frame",
+      'prod.title':"The Diamond — mukammal yengillik va geometriya.",
+      'prod.name':"The Diamond",
+      'prod.tag':"Qizil yorug'lik filtri 97.8% · TR90",
+      'prod.desc':"Erkaklar va ayollar uchun birdek mos keladigan universal dizayn. Shveysariya TR90 polimeridan ishlangan, og'irligi atigi 22 gramm — yuzda deyarli sezilmaydi.",
+      'prod.view.male':"Erkak kishida",
+      'prod.view.female':"Ayol kishida",
+      'prod.view.box':"Quti",
+      'prod.view.frame':"Ramka",
+      'pricing.single.t':"1 juft — The Diamond",
+      'pricing.single.badge':"Ommabop",
+      'pricing.single.price':"249 000 so'm",
+      'pricing.single.d':"The Diamond ko'zoynagi + Nox qattiq g'ilofi + mikrofibra salfetka + PDF «Nox Protocol uyqu qo'llanmasi».",
+      'pricing.bundle.t':"2 juftlik to'plam (Ikkala kishi uchun)",
+      'pricing.bundle.badge':"49 000 so'm tejang",
+      'pricing.bundle.price':"449 000 so'm",
+      'pricing.bundle.d':"Siz va yaqiningiz uchun ikkita juftlik. Har bir juftlik uchun to'liq to'plam + Toshkent bo'ylab bepul yetkazib berish.",
+      'prod.guarantee':"To'lovdan oldin taqib ko'rish · Buyurtma kunida yetkazish",
+      'guide.eyebrow':"Har bir buyurtma uchun bepul sovg'a",
+      'guide.title':"Nox Sleep Protocol — kechki uyqu bo'yicha qo'llanma",
+      'guide.desc':"Ko'zoynak — muhim optik vosita, lekin tizimli odatlar haqiqiy natija keltiradi. Har bir xarid bilan birga maxsus PDF uyqu qo'llanmasiga ega bo'lasiz:",
+      'guide.p1.t':"2–3 soat qoidasi",
+      'guide.p1.d':"Melatonin ishlab chiqarilishini yoqish uchun quyosh botgandan keyin ko'zoynak taqish vaqti.",
+      'guide.p2.t':"Xona yorug'ligini boshqarish",
+      'guide.p2.d':"Kechasi qandillarni o'chirib, yumshoq iliq chiroqlarga o'tish usuli.",
+      'guide.p3.t':"Optimal harorat (18–20°C)",
+      'guide.p3.d':"Chuqur tiklovchi uyqu fazalariga kirish uchun tanani tabiiy sovutish fiziologiyasi.",
+      'guide.p4.t':"Raqamli oqshom",
+      'guide.p4.d':"Uyqudan 30 daqiqa oldin bildirishnomalar va ekransiz osoyishta dam olish tartibi.",
+      'spec.eyebrow':"Ilmiy optika",
+      'spec.label':"ko'k va yashil nur to'liq filtrlanadi",
+      'spec.copy':"Oddiy shaffof kompyuter ko'zoynaklari atigi 10–20% binafsha nurni tutadi va melatoninni asramaydi. Nox'ning chuqur qizil optik linzalari 550 nm gacha bo'lgan nurni to'sadi — aynan shu to'lqinlar uyquni buzadi.",
+      'spec.l1':"UV400 himoyali CR-39 optik polimeri",
+      'spec.l2':"Chuqur yoqut rangli kechki yorug'lik filtri (550 nm)",
+      'spec.l3':"O'ta yengil va egiluvchan TR90 ramkasi (vazni 22 g)",
+      'spec.l4':"Yaltirashga qarshi va chizilishdan himoyalovchi qatlam",
+      'how.eyebrow':"Toshkentda xizmat ko'rsatish",
+      'how.title':"Toshkentda buyurtma berish tartibi",
+      'how.s1.t':"1. Telegram orqali buyurtma",
+      'how.s1.d':"Oldindan to'lovsiz bir necha bosishda yozing. Menejer 2–5 daqiqada javob berib, manzilni aniqlaydi.",
+      'how.s2.t':"2. Buyurtma kuni yetkazish",
+      'how.s2.d':"Yandex Go orqali Toshkent bo'yicha tez yuboramiz — ko'zoynaklar 1–2 soat ichida yetib boradi.",
+      'how.s3.t':"3. Taqib ko'rish va to'lov",
+      'how.s3.d':"Qutini oching, taqib ko'ring va sifatiga ishonch hosil qiling. To'lovni Click, Payme yoki naqd qiling.",
+      'faq.eyebrow':"Ko'p so'raladigan savollar",
+      'faq.title':"Nox haqida barcha muhim savollar.",
+      'faq.q1':"Nega linzalar shaffof yoki sariq emas, balki qizil?",
+      'faq.a1':"Ko'z to'r pardasida melatonin ishlab chiqarishni to'xtatuvchi 550 nm gacha bo'lgan ko'k va yashil nurga sezgir melanopsin retseptorlari bor. Shaffof linzalar buni to'xtata olmaydi, sariq linzalar esa yashil nurni o'tkazadi. Faqat qizil optik filtr bu to'lqinlarni to'liq to'sib, tanada tabiiy uyquni yoqadi.",
+      'faq.q2':"Ko'zoynakni qachon va qancha vaqt taqish kerak?",
+      'faq.a2':"Rejalashtirilgan uyqudan 2–3 soat oldin, noutbukda ishlaganda, telefon ko'rganda, televizor ko'rganda yoki xona chiroqlari ostida taqing. Yotishdan oldin chiroqni o'chirganda yechib qo'ying.",
+      'faq.q3':"The Diamond o'lchami har qanday yuzga to'g'ri keladimi?",
+      'faq.a3':"Ha. The Diamond ramkasi universal (unisex) qilib loyihalashtirilgan. Egiluvchan TR90 xotirali materiali tufayli har qanday yuz tuzilishiga qisib qo'ymasdan mukammal o'tiradi.",
+      'faq.q4':"Toshkentda xarid qilishdan oldin taqib ko'rsa bo'ladimi?",
+      'faq.a4':"Albatta! Buyurtma yetib kelganda, qutini ochib taqib ko'rishingiz, qulayligini tekshirishingiz va shundan so'ng Click, Payme yoki naqd to'lashingiz mumkin.",
+      'cta.eyebrow':"Toshkentda buyurtma",
+      'cta.title':"O'zingizga chuqur uyqu sovg'a qiling.",
+      'cta.desc':"The Diamond ko'zoynaklarini buyurtma qilish va to'liq uyqu qo'llanmasiga ega bo'lish uchun Telegram'da yozing.",
       'foot.loc':"Toshkent, O'zbekiston · © 2026 Nox"
+    },
+    en: {
+      'page.title':"Nox — Circadian Eyewear for Deep Sleep | Tashkent",
+      'page.desc':"Nox circadian glasses block 97.8% of blue and green light from screens and bulbs for natural melatonin release and deep sleep. Same-day delivery in Tashkent.",
+      'nav.glasses':"The Frame",
+      'nav.protocol':"Sleep Protocol",
+      'nav.delivery':"Delivery",
+      'nav.faq':"FAQ",
+      'hero.eyebrow':"Circadian Evening Eyewear · Tashkent",
+      'hero.title':"Protect your melatonin. Reclaim deep sleep.",
+      'hero.lede':"Blocks 97.8% of blue and green light from screens and indoor lamps. Slip them on 2–3 hours before bed so your eyes unwind and your body falls into restorative rest.",
+      'hero.badge.t':"97.8% Circadian Filter",
+      'hero.badge.d':"Blocks blue & green spectrum up to 550 nm",
+      'btn.shop':"Order via Telegram",
+      'btn.explore':"See the Frame",
+      'btn.order':"Order via Telegram",
+      'val.a.t':"Natural Melatonin",
+      'val.a.d':"Blocks light wavelengths up to 550 nm, sending your pineal gland the biological signal for nighttime.",
+      'val.b.t':"Eye Strain Relief",
+      'val.b.d':"Eliminates late-night digital dryness and eye fatigue after intensive work sessions and screen time.",
+      'val.c.t':"Deeper Sleep Cycles",
+      'val.c.d':"Lengthens restorative slow-wave and REM sleep phases so you wake up genuinely refreshed.",
+      'lifestyle.caption':"Designed for calmer evenings in the city rhythm · Tashkent",
+      'prod.eyebrow':"The Frame",
+      'prod.title':"The Diamond — geometric lightness.",
+      'prod.name':"The Diamond",
+      'prod.tag':"97.8% Circadian Filter · TR90",
+      'prod.desc':"A clean, contemporary frame engineered for both men and women. Made from featherlight Swiss TR90 polymer weighing only 22 grams, delivering all-evening comfort with zero temple pinch.",
+      'prod.view.male':"Men",
+      'prod.view.female':"Women",
+      'prod.view.box':"Unboxing",
+      'prod.view.frame':"Frame",
+      'pricing.single.t':"1 Pair — The Diamond",
+      'pricing.single.badge':"Bestseller",
+      'pricing.single.price':"249,000 UZS",
+      'pricing.single.d':"The Diamond glasses + premium Nox hardshell case + microfiber cleaning cloth + free PDF «Nox Sleep Protocol».",
+      'pricing.bundle.t':"2-Pair Set (For Couples)",
+      'pricing.bundle.badge':"Save 49,000 UZS",
+      'pricing.bundle.price':"449,000 UZS",
+      'pricing.bundle.d':"Two pairs of The Diamond for you and your partner or colleague. Full kit with each pair + free Tashkent courier delivery.",
+      'prod.guarantee':"Try on before paying · Same-day delivery",
+      'guide.eyebrow':"Complimentary with every order",
+      'guide.title':"Nox Sleep Protocol — Evening Ritual Guide",
+      'guide.desc':"Glasses are an essential optical tool, but systemic sleep transformation requires habit alignment. With each pair, you receive our comprehensive PDF evening guide:",
+      'guide.p1.t':"The 2–3 Hour Rule",
+      'guide.p1.d':"Optimal timing to put on the glasses after sunset to ignite your melatonin cascade.",
+      'guide.p2.t':"Home Lighting Management",
+      'guide.p2.d':"How to dial down overhead LEDs and transition your living space into warm, ambient light.",
+      'guide.p3.t':"Thermal Optimum (18–20°C)",
+      'guide.p3.d':"The physiology of core temperature cooling required for deep restorative sleep phases.",
+      'guide.p4.t':"Digital Sunset",
+      'guide.p4.d':"Simple evening routines 30 minutes before bed without device notifications and cognitive arousal.",
+      'spec.eyebrow':"Optical Science",
+      'spec.label':"of blue & green light filtered",
+      'spec.copy':"Standard clear computer glasses only block 10–20% of violet light and do not protect melatonin. Nox optical lenses in deep red eliminate wavelengths up to 550 nm — the exact spectrum that disrupts human sleep architecture.",
+      'spec.l1':"Optical-grade CR-39 polymer with UV400 protection",
+      'spec.l2':"Deep ruby circadian evening filter (up to 550 nm)",
+      'spec.l3':"Featherlight, flexible TR90 frame (22 grams)",
+      'spec.l4':"Anti-reflective and anti-scratch coating",
+      'how.eyebrow':"Service in Tashkent",
+      'how.title':"How to Order in Tashkent",
+      'how.s1.t':"1. Quick Order via Telegram",
+      'how.s1.d':"Message us in a couple of clicks without prepayment. A manager confirms your order and address within 2–5 minutes.",
+      'how.s2.t':"2. Same-Day Courier",
+      'how.s2.d':"Dispatched via Yandex Go across Tashkent on the same day — usually arrives in 1–2 hours.",
+      'how.s3.t':"3. Try On & Pay",
+      'how.s3.d':"Unbox and try the glasses on. Verify the fit and pay the courier via Click, Payme, or cash.",
+      'faq.eyebrow':"Frequently Asked Questions",
+      'faq.title':"Everything you should know about Nox.",
+      'faq.q1':"Why are the lenses deep red rather than clear or yellow?",
+      'faq.a1':"The human retina contains melanopsin photoreceptors sensitive to blue and green light up to 550 nm. Clear lenses block only 10–20%, while yellow lenses do not eliminate the green band. Only deep red circadian filters suppress both frequencies, signaling the brain to release melatonin.",
+      'faq.q2':"When and how long should I wear Nox glasses?",
+      'faq.a2':"Put them on 2 to 3 hours before your planned bedtime whenever you are using a computer, phone, watching TV, or sitting under indoor lighting. Take them off right before sleeping when turning off all lights.",
+      'faq.q3':"Will The Diamond frame fit my face shape?",
+      'faq.a3':"Yes. The Diamond features a balanced unisex geometry designed to flatter virtually any facial structure. The Swiss TR90 polymer has shape memory and bends comfortably around your temples without pinching.",
+      'faq.q4':"Can I try them on before paying in Tashkent?",
+      'faq.a4':"Absolutely! Our courier brings the order directly to you. You can unbox the package, try them on, inspect the optical quality, and pay via Click, Payme, or cash on delivery.",
+      'cta.eyebrow':"Order in Tashkent",
+      'cta.title':"Give yourself a night of deep, restorative sleep.",
+      'cta.desc':"Message us on Telegram to order The Diamond with same-day Tashkent delivery and get the complete Sleep Protocol.",
+      'foot.loc':"Tashkent, Uzbekistan · © 2026 Nox"
     }
   };
 
@@ -597,13 +1165,22 @@ a{ color:inherit; text-decoration:none; }
   function apply(lang){
     var dict = I18N[lang] || I18N[DEFAULT_LANG];
     nodes.forEach(function(el){
-      var v = dict[el.getAttribute('data-i18n')];
+      var key = el.getAttribute('data-i18n');
+      var v = dict[key];
       if(v != null) el.textContent = v;
     });
+
+    if(dict['page.title']) document.title = dict['page.title'];
+    var metaDesc = document.querySelector('meta[name="description"]');
+    if(metaDesc && dict['page.desc']) metaDesc.setAttribute('content', dict['page.desc']);
+
     document.documentElement.lang = lang;
+
     buttons.forEach(function(b){
-      b.setAttribute('aria-pressed', b.getAttribute('data-lang') === lang ? 'true' : 'false');
+      var isCur = b.getAttribute('data-lang') === lang;
+      b.setAttribute('aria-pressed', isCur ? 'true' : 'false');
     });
+
     try{ localStorage.setItem('nox-lang', lang); }catch(e){}
   }
 
@@ -612,7 +1189,9 @@ a{ color:inherit; text-decoration:none; }
   apply(saved && I18N[saved] ? saved : DEFAULT_LANG);
 
   buttons.forEach(function(b){
-    b.addEventListener('click', function(){ apply(b.getAttribute('data-lang')); });
+    b.addEventListener('click', function(){
+      apply(b.getAttribute('data-lang'));
+    });
   });
 })();
 </script>

@@ -1,1 +1,34 @@
+# OS files
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+
+# Sensitive files & credentials
+API keys*
+*.rtf
+*.env*
+
+# Internal business strategy, B2B lists & planning docs
+NOX_*
+Nox_*
+*.docx
+*.xlsx
+*.pdf
+video analitics/
+
+# Raw camera footage & heavy media
+Nox photoshoot/
+videos/
+generated-images/
+brochure*.png
+btochure*.png
+generate_nox_images.py
+*.mov
+*.MOV
+
+# Editor & cache
+.claude/
+*.pyc
+__pycache__/
