@@ -261,29 +261,27 @@ a{ color:inherit; text-decoration:none; }
   background:var(--cream-2); border:1px solid var(--line);
 }
 .gallery-main img{
-  width:100%; height:100%; object-fit:cover; object-position:center 25%;
+  width:100%; height:100%; object-fit:cover; object-position:center 4%;
   transition:opacity .25s ease;
 }
+.gallery-main img.fit-contain{
+  object-fit:contain; object-position:center; padding:clamp(1.5rem,4vw,2.5rem); background:#fff;
+}
 .gallery-thumbs{
-  display:grid; grid-template-columns:repeat(4, 1fr); gap:.6rem;
+  display:grid; grid-template-columns:repeat(4, 1fr); gap:.65rem;
 }
 .gallery-thumb{
-  background:var(--paper); border:1px solid var(--line); border-radius:8px;
-  padding:.4rem; cursor:pointer; text-align:center;
+  background:var(--paper); border:2px solid transparent; border-radius:10px;
+  padding:2px; cursor:pointer; overflow:hidden;
   transition:all .2s ease;
+  aspect-ratio:1/1; display:flex; align-items:stretch;
 }
 .gallery-thumb img{
-  aspect-ratio:1/1; object-fit:cover; object-position:center 20%; border-radius:4px; width:100%;
-}
-.gallery-thumb span{
-  display:block; font-size:.65rem; font-family:var(--sans); font-weight:500;
-  letter-spacing:.04em; color:var(--ink-soft); margin-top:.35rem;
-  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  aspect-ratio:1/1; object-fit:cover; object-position:center 4%; border-radius:7px; width:100%; height:100%;
 }
 .gallery-thumb.active{
-  border-color:var(--ink); background:var(--cream); box-shadow:0 4px 12px rgba(35,35,32,.1);
+  border-color:var(--ink); background:var(--cream); box-shadow:0 4px 12px rgba(35,35,32,.12);
 }
-.gallery-thumb.active span{ color:var(--ink); font-weight:600; }
 
 .feature-body{ display:flex; flex-direction:column; gap:1.2rem; }
 .feature-name{ font-family:var(--serif); font-weight:400; font-size:clamp(2.2rem,5vw,3.2rem); letter-spacing:-.01em; margin:0; }
@@ -618,21 +616,17 @@ a{ color:inherit; text-decoration:none; }
             <img id="product-main-img" src="images/nox-model-male.jpg" alt="Очки Nox The Diamond на мужской модели" width="1050" height="1400" />
           </div>
           <div class="gallery-thumbs" role="tablist" aria-label="Ракурсы оправы">
-            <button class="gallery-thumb active" type="button" data-img="images/nox-model-male.jpg" aria-selected="true">
+            <button class="gallery-thumb active" type="button" data-img="images/nox-model-male.jpg" aria-selected="true" aria-label="Мужчина в очках Nox">
               <img src="images/nox-model-male.jpg" alt="" />
-              <span data-i18n="prod.view.male">Мужчина</span>
             </button>
-            <button class="gallery-thumb" type="button" data-img="images/nox-model-female.jpg" aria-selected="false">
+            <button class="gallery-thumb" type="button" data-img="images/nox-model-female.jpg" aria-selected="false" aria-label="Девушка в очках Nox">
               <img src="images/nox-model-female.jpg" alt="" />
-              <span data-i18n="prod.view.female">Девушка</span>
             </button>
-            <button class="gallery-thumb" type="button" data-img="images/nox-packaging.jpg" aria-selected="false">
-              <img src="images/nox-packaging-thumb.jpg" alt="" style="object-position:center;" />
-              <span data-i18n="prod.view.box">Бокс</span>
+            <button class="gallery-thumb" type="button" data-img="images/nox-packaging.jpg" aria-selected="false" aria-label="Премиальный бокс Nox">
+              <img src="images/nox-packaging-thumb.jpg" alt="" />
             </button>
-            <button class="gallery-thumb" type="button" data-img="images/diamond-angle.jpg" aria-selected="false">
-              <img src="images/diamond-angle.jpg" alt="" style="object-position:center;" />
-              <span data-i18n="prod.view.frame">Оправа</span>
+            <button class="gallery-thumb" type="button" data-img="images/diamond-angle.jpg" aria-selected="false" aria-label="Оправа The Diamond ракурс">
+              <img src="images/diamond-angle.jpg" alt="" style="object-fit:contain; padding:4px; background:#fff;" />
             </button>
           </div>
         </div>
@@ -648,9 +642,8 @@ a{ color:inherit; text-decoration:none; }
             <div class="pricing-card featured">
               <div class="pricing-header">
                 <span class="pricing-title" data-i18n="pricing.single.t">1 пара — The Diamond</span>
-                <span class="pricing-badge" data-i18n="pricing.single.badge">Хит продаж</span>
               </div>
-              <div class="pricing-sum" data-i18n="pricing.single.price">249 000 сум</div>
+              <div class="pricing-sum" data-i18n="pricing.single.price">300 000 сум</div>
               <p class="pricing-desc" data-i18n="pricing.single.d">Очки The Diamond + премиальный жесткий футляр Nox + салфетка из микрофибры + PDF «Гид по сну Nox Protocol».</p>
             </div>
 
@@ -658,9 +651,9 @@ a{ color:inherit; text-decoration:none; }
             <div class="pricing-card">
               <div class="pricing-header">
                 <span class="pricing-title" data-i18n="pricing.bundle.t">Сет из 2 пар (Для двоих)</span>
-                <span class="pricing-badge" style="background:#B83226;" data-i18n="pricing.bundle.badge">Выгода 49 000 сум</span>
+                <span class="pricing-badge" style="background:#B83226;" data-i18n="pricing.bundle.badge">Выгода 50 000 сум</span>
               </div>
-              <div class="pricing-sum" data-i18n="pricing.bundle.price">449 000 сум</div>
+              <div class="pricing-sum" data-i18n="pricing.bundle.price">550 000 сум</div>
               <p class="pricing-desc" data-i18n="pricing.bundle.d">Две пары The Diamond для вас и близкого человека. Полный комплект к каждой паре + бесплатная доставка по Ташкенту.</p>
             </div>
           </div>
@@ -672,7 +665,7 @@ a{ color:inherit; text-decoration:none; }
             </a>
             <div class="feature-guarantee">
               <svg viewBox="0 0 24 24" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-              <span data-i18n="prod.guarantee">Примерка перед оплатой · Доставка в день заказа</span>
+              <span data-i18n="prod.guarantee">Доставка в день заказа · Есть возможность возврата</span>
             </div>
           </div>
         </div>
@@ -768,8 +761,8 @@ a{ color:inherit; text-decoration:none; }
         </div>
         <div class="step-card" data-reveal>
           <div class="step-num">03</div>
-          <h3 data-i18n="how.s3.t">Примерка и оплата</h3>
-          <p data-i18n="how.s3.d">Распакуйте коробку, примерьте очки. Убедитесь в идеальной посадке и оплатите через Click, Payme или наличными.</p>
+          <h3 data-i18n="how.s3.t">Оплата при получении</h3>
+          <p data-i18n="how.s3.d">Оплатите курьеру через Click, Payme или наличными. Если очки вам не подойдут, есть возможность возврата.</p>
         </div>
       </div>
     </div>
@@ -820,7 +813,7 @@ a{ color:inherit; text-decoration:none; }
             <svg class="faq-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
           </summary>
           <div class="faq-body">
-            <p data-i18n="faq.a4">Мы отправляем заказ через Yandex Go в день оформления. Вы можете открыть фирменную коробку, примерить очки, оценить оптику и только затем оплатить заказ курьеру через Click, Payme или наличными.</p>
+            <p data-i18n="faq.a4">Мы отправляем заказ через Yandex Go в день оформления. Оплата курьеру при получении через Click, Payme или наличными. Если вам что-то не подойдёт, есть возможность возврата.</p>
           </div>
         </details>
       </div>
@@ -913,6 +906,11 @@ a{ color:inherit; text-decoration:none; }
         mainImg.style.opacity = '0.3';
         setTimeout(function(){
           mainImg.src = nextSrc;
+          if(nextSrc.indexOf('diamond') !== -1){
+            mainImg.classList.add('fit-contain');
+          } else {
+            mainImg.classList.remove('fit-contain');
+          }
           mainImg.style.opacity = '1';
         }, 120);
       }
@@ -960,14 +958,14 @@ a{ color:inherit; text-decoration:none; }
       'prod.view.box':"Бокс",
       'prod.view.frame':"Оправа",
       'pricing.single.t':"1 пара — The Diamond",
-      'pricing.single.badge':"Хит продаж",
-      'pricing.single.price':"249 000 сум",
+      'pricing.single.badge':"",
+      'pricing.single.price':"300 000 сум",
       'pricing.single.d':"Очки The Diamond + премиальный жесткий футляр Nox + салфетка из микрофибры + PDF «Гид по сну Nox Protocol».",
       'pricing.bundle.t':"Сет из 2 пар (Для двоих)",
-      'pricing.bundle.badge':"Выгода 49 000 сум",
-      'pricing.bundle.price':"449 000 сум",
+      'pricing.bundle.badge':"Выгода 50 000 сум",
+      'pricing.bundle.price':"550 000 сум",
       'pricing.bundle.d':"Две пары The Diamond для вас и близкого человека. Полный комплект к каждой паре + бесплатная доставка по Ташкенту.",
-      'prod.guarantee':"Примерка перед оплатой · Доставка в день заказа",
+      'prod.guarantee':"Доставка в день заказа · Есть возможность возврата",
       'guide.eyebrow':"Бесплатный подарок к заказу",
       'guide.title':"Гид по сну Nox Sleep Protocol",
       'guide.desc':"Очки — мощный оптический инструмент, но системный результат строится на привычках. К каждой паре очков мы дарим авторский PDF-протокол вечерней гигиены:",
@@ -992,8 +990,8 @@ a{ color:inherit; text-decoration:none; }
       'how.s1.d':"Напишите нам в чат в пару кликов без предоплаты. Менеджер свяжется с вами за 2–5 минут и согласует адрес.",
       'how.s2.t':"2. Доставка день в день",
       'how.s2.d':"Отправляем курьером через сервис Yandex Go по всему Ташкенту — очки приедут уже через 1–2 часа.",
-      'how.s3.t':"3. Примерка и оплата",
-      'how.s3.d':"Распакуйте коробку, примерьте очки. Убедитесь в идеальной посадке и оплатите через Click, Payme или наличными.",
+      'how.s3.t':"3. Оплата при получении",
+      'how.s3.d':"Оплатите курьеру через Click, Payme или наличными. Если очки вам не подойдут, есть возможность возврата.",
       'faq.eyebrow':"Вопросы и ответы",
       'faq.title':"Всё, что важно знать о Nox.",
       'faq.q1':"Почему линзы именно красные, а не прозрачные или жёлтые?",
@@ -1003,7 +1001,7 @@ a{ color:inherit; text-decoration:none; }
       'faq.q3':"Подойдет ли оправа The Diamond под мою форму лица?",
       'faq.a3':"Да, The Diamond имеет универсальную геометрию (unisex), разработанную для большинства типов мужских и женских лиц. Оправа выполнена из швейцарского полимера TR90 с памятью формы — она эластична, весит всего 22 грамма и не сдавливает виски.",
       'faq.q4':"Как работает доставка и оплата в Ташкенте?",
-      'faq.a4':"Мы отправляем заказ через Yandex Go в день оформления. Вы можете открыть фирменную коробку, примерить очки, оценить оптику и только затем оплатить заказ курьеру через Click, Payme или наличными.",
+      'faq.a4':"Мы отправляем заказ через Yandex Go в день оформления. Оплата курьеру при получении через Click, Payme или наличными. Если вам что-то не подойдёт, есть возможность возврата.",
       'cta.eyebrow':"Заказ в Ташкенте",
       'cta.title':"Подарите себе ночь глубокого сна.",
       'cta.desc':"Напишите нам в Telegram, чтобы заказать The Diamond с доставкой в день заказа и получить полный протокол сна.",
@@ -1041,14 +1039,14 @@ a{ color:inherit; text-decoration:none; }
       'prod.view.box':"Quti",
       'prod.view.frame':"Ramka",
       'pricing.single.t':"1 juft — The Diamond",
-      'pricing.single.badge':"Ommabop",
-      'pricing.single.price':"249 000 so'm",
+      'pricing.single.badge':"",
+      'pricing.single.price':"300 000 so'm",
       'pricing.single.d':"The Diamond ko'zoynagi + Nox qattiq g'ilofi + mikrofibra salfetka + PDF «Nox Protocol uyqu qo'llanmasi».",
       'pricing.bundle.t':"2 juftlik to'plam (Ikkala kishi uchun)",
-      'pricing.bundle.badge':"49 000 so'm tejang",
-      'pricing.bundle.price':"449 000 so'm",
+      'pricing.bundle.badge':"50 000 so'm tejang",
+      'pricing.bundle.price':"550 000 so'm",
       'pricing.bundle.d':"Siz va yaqiningiz uchun ikkita juftlik. Har bir juftlik uchun to'liq to'plam + Toshkent bo'ylab bepul yetkazib berish.",
-      'prod.guarantee':"To'lovdan oldin taqib ko'rish · Buyurtma kunida yetkazish",
+      'prod.guarantee':"Buyurtma kunida yetkazish · Qaytarish imkoniyati mavjud",
       'guide.eyebrow':"Har bir buyurtma uchun bepul sovg'a",
       'guide.title':"Nox Sleep Protocol — kechki uyqu bo'yicha qo'llanma",
       'guide.desc':"Ko'zoynak — muhim optik vosita, lekin tizimli odatlar haqiqiy natija keltiradi. Har bir xarid bilan birga maxsus PDF uyqu qo'llanmasiga ega bo'lasiz:",
@@ -1073,8 +1071,8 @@ a{ color:inherit; text-decoration:none; }
       'how.s1.d':"Oldindan to'lovsiz bir necha bosishda yozing. Menejer 2–5 daqiqada javob berib, manzilni aniqlaydi.",
       'how.s2.t':"2. Buyurtma kuni yetkazish",
       'how.s2.d':"Yandex Go orqali Toshkent bo'yicha tez yuboramiz — ko'zoynaklar 1–2 soat ichida yetib boradi.",
-      'how.s3.t':"3. Taqib ko'rish va to'lov",
-      'how.s3.d':"Qutini oching, taqib ko'ring va sifatiga ishonch hosil qiling. To'lovni Click, Payme yoki naqd qiling.",
+      'how.s3.t':"3. Qabul qilganda to'lov",
+      'how.s3.d':"Kuryerga Click, Payme yoki naqd to'lang. Agar ko'zoynak mos kelmasa, qaytarish imkoniyati mavjud.",
       'faq.eyebrow':"Ko'p so'raladigan savollar",
       'faq.title':"Nox haqida barcha muhim savollar.",
       'faq.q1':"Nega linzalar shaffof yoki sariq emas, balki qizil?",
@@ -1083,8 +1081,8 @@ a{ color:inherit; text-decoration:none; }
       'faq.a2':"Rejalashtirilgan uyqudan 2–3 soat oldin, noutbukda ishlaganda, telefon ko'rganda, televizor ko'rganda yoki xona chiroqlari ostida taqing. Yotishdan oldin chiroqni o'chirganda yechib qo'ying.",
       'faq.q3':"The Diamond o'lchami har qanday yuzga to'g'ri keladimi?",
       'faq.a3':"Ha. The Diamond ramkasi universal (unisex) qilib loyihalashtirilgan. Egiluvchan TR90 xotirali materiali tufayli har qanday yuz tuzilishiga qisib qo'ymasdan mukammal o'tiradi.",
-      'faq.q4':"Toshkentda xarid qilishdan oldin taqib ko'rsa bo'ladimi?",
-      'faq.a4':"Albatta! Buyurtma yetib kelganda, qutini ochib taqib ko'rishingiz, qulayligini tekshirishingiz va shundan so'ng Click, Payme yoki naqd to'lashingiz mumkin.",
+      'faq.q4':"Toshkentda yetkazib berish va to'lov qanday ishlaydi?",
+      'faq.a4':"Buyurtmani Yandex Go orqali buyurtma kunida yuboramiz. To'lov kuryerga Click, Payme yoki naqd pulda amalga oshiriladi. Agar mos kelmasa, qaytarish imkoniyati mavjud.",
       'cta.eyebrow':"Toshkentda buyurtma",
       'cta.title':"O'zingizga chuqur uyqu sovg'a qiling.",
       'cta.desc':"The Diamond ko'zoynaklarini buyurtma qilish va to'liq uyqu qo'llanmasiga ega bo'lish uchun Telegram'da yozing.",
@@ -1122,14 +1120,14 @@ a{ color:inherit; text-decoration:none; }
       'prod.view.box':"Unboxing",
       'prod.view.frame':"Frame",
       'pricing.single.t':"1 Pair — The Diamond",
-      'pricing.single.badge':"Bestseller",
-      'pricing.single.price':"249,000 UZS",
+      'pricing.single.badge':"",
+      'pricing.single.price':"300,000 UZS",
       'pricing.single.d':"The Diamond glasses + premium Nox hardshell case + microfiber cleaning cloth + free PDF «Nox Sleep Protocol».",
       'pricing.bundle.t':"2-Pair Set (For Couples)",
-      'pricing.bundle.badge':"Save 49,000 UZS",
-      'pricing.bundle.price':"449,000 UZS",
+      'pricing.bundle.badge':"Save 50,000 UZS",
+      'pricing.bundle.price':"550,000 UZS",
       'pricing.bundle.d':"Two pairs of The Diamond for you and your partner or colleague. Full kit with each pair + free Tashkent courier delivery.",
-      'prod.guarantee':"Try on before paying · Same-day delivery",
+      'prod.guarantee':"Same-day delivery · Return option available",
       'guide.eyebrow':"Complimentary with every order",
       'guide.title':"Nox Sleep Protocol — Evening Ritual Guide",
       'guide.desc':"Glasses are an essential optical tool, but systemic sleep transformation requires habit alignment. With each pair, you receive our comprehensive PDF evening guide:",
@@ -1154,8 +1152,8 @@ a{ color:inherit; text-decoration:none; }
       'how.s1.d':"Message us in a couple of clicks without prepayment. A manager confirms your order and address within 2–5 minutes.",
       'how.s2.t':"2. Same-Day Courier",
       'how.s2.d':"Dispatched via Yandex Go across Tashkent on the same day — usually arrives in 1–2 hours.",
-      'how.s3.t':"3. Try On & Pay",
-      'how.s3.d':"Unbox and try the glasses on. Verify the fit and pay the courier via Click, Payme, or cash.",
+      'how.s3.t':"3. Payment on Delivery",
+      'how.s3.d':"Pay the courier via Click, Payme, or cash. A return option is available if the frame doesn't suit you.",
       'faq.eyebrow':"Frequently Asked Questions",
       'faq.title':"Everything you should know about Nox.",
       'faq.q1':"Why are the lenses deep red rather than clear or yellow?",
@@ -1164,8 +1162,8 @@ a{ color:inherit; text-decoration:none; }
       'faq.a2':"Put them on 2 to 3 hours before your planned bedtime whenever you are using a computer, phone, watching TV, or sitting under indoor lighting. Take them off right before sleeping when turning off all lights.",
       'faq.q3':"Will The Diamond frame fit my face shape?",
       'faq.a3':"Yes. The Diamond features a balanced unisex geometry designed to flatter virtually any facial structure. The Swiss TR90 polymer has shape memory and bends comfortably around your temples without pinching.",
-      'faq.q4':"Can I try them on before paying in Tashkent?",
-      'faq.a4':"Absolutely! Our courier brings the order directly to you. You can unbox the package, try them on, inspect the optical quality, and pay via Click, Payme, or cash on delivery.",
+      'faq.q4':"How does delivery and payment work in Tashkent?",
+      'faq.a4':"We dispatch orders via Yandex Go on the same day. Payment is made to the courier upon delivery via Click, Payme, or cash. A return option is available if needed.",
       'cta.eyebrow':"Order in Tashkent",
       'cta.title':"Give yourself a night of deep, restorative sleep.",
       'cta.desc':"Message us on Telegram to order The Diamond with same-day Tashkent delivery and get the complete Sleep Protocol.",
