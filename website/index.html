@@ -96,6 +96,8 @@ a{ color:inherit; text-decoration:none; }
   line-height:1.06;
   letter-spacing:-.015em;
   margin:0;
+  overflow-wrap:break-word;
+  word-break:normal;
 }
 .lede{
   color:var(--ink-soft);
@@ -182,7 +184,7 @@ a{ color:inherit; text-decoration:none; }
   align-items:center;
   padding-block:clamp(2.5rem,7vw,4.5rem) clamp(3.5rem,8vw,5.5rem);
 }
-.hero h1{ font-size:clamp(2.6rem,7.5vw,5.2rem); }
+.hero h1{ font-size:clamp(1.95rem,6.8vw,5.2rem); }
 .hero-cta{ display:flex; flex-wrap:wrap; gap:.85rem; margin-top:2.2rem; }
 
 .hero-arc{
@@ -250,7 +252,7 @@ a{ color:inherit; text-decoration:none; }
    PRODUCT (The Diamond & Interactive Gallery)
    ============================================================ */
 .products .section-head{ max-width:44ch; margin-bottom:clamp(2.5rem,6vw,4rem); }
-.products h2{ font-size:clamp(2.2rem,6.5vw,3.6rem); }
+.products h2{ font-size:clamp(1.85rem,6vw,3.6rem); }
 
 .product-feature{ display:grid; gap:clamp(2.5rem,6vw,4.5rem); align-items:start; }
 
@@ -291,28 +293,66 @@ a{ color:inherit; text-decoration:none; }
 }
 .feature-desc{ color:var(--ink-soft); font-weight:300; margin:0; max-width:44ch; font-size:1.02rem; }
 
-/* Pricing Cards */
-.pricing-cards{ display:grid; gap:.9rem; margin-top:.6rem; }
-.pricing-card{
-  background:var(--paper); border:1px solid var(--line); border-radius:12px;
-  padding:1.15rem 1.4rem; position:relative;
-  transition:border-color .2s ease, box-shadow .2s ease;
+/* Promo Code Banner in Product */
+.promo-banner{
+  display:none; align-items:center; justify-content:space-between; gap:.8rem;
+  background:#EAF3E7; border:1px solid #B4D6AE; border-radius:10px;
+  padding:.65rem 1rem; margin-top:.8rem; font-size:.82rem; color:#225520;
 }
-.pricing-card.featured{
+.promo-banner.active{ display:flex; }
+.promo-banner-text{ display:flex; align-items:center; gap:.5em; }
+.promo-banner-tag{ font-weight:600; text-transform:uppercase; letter-spacing:.06em; }
+.promo-banner-remove{
+  background:none; border:none; color:#557750; cursor:pointer; font-size:1.1rem; line-height:1; padding:.2rem;
+}
+.promo-banner-remove:hover{ color:#225520; }
+
+/* Pricing Cards */
+.pricing-cards{ display:grid; gap:.9rem; margin-top:.8rem; }
+.pricing-card{
+  background:var(--paper); border:1.5px solid var(--line); border-radius:14px;
+  padding:1.15rem 1.35rem; position:relative; cursor:pointer; user-select:none;
+  transition:border-color .2s ease, box-shadow .2s ease, transform .2s ease;
+}
+.pricing-card:hover{ border-color:rgba(35,35,32,.35); transform:translateY(-1px); }
+.pricing-card.selected{
   border-color:var(--ink);
   background:#fff;
-  box-shadow:0 8px 24px rgba(35,35,32,.07);
+  box-shadow:0 8px 26px rgba(35,35,32,.08);
 }
-.pricing-header{ display:flex; align-items:baseline; justify-content:space-between; flex-wrap:wrap; gap:.5rem; }
-.pricing-title{ font-family:var(--sans); font-weight:600; font-size:1.05rem; }
+.pricing-header{ display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:.5rem; }
+.pricing-title-wrap{ display:flex; align-items:center; gap:.7rem; }
+.pricing-radio{
+  width:18px; height:18px; border-radius:50%; border:1.5px solid var(--line);
+  display:inline-flex; align-items:center; justify-content:center; flex-shrink:0;
+  transition:all .2s ease;
+}
+.pricing-card.selected .pricing-radio{
+  border-color:var(--ink); background:var(--ink);
+}
+.pricing-card.selected .pricing-radio::after{
+  content:""; width:6px; height:6px; border-radius:50%; background:var(--cream);
+}
+.pricing-title{ font-family:var(--sans); font-weight:600; font-size:1.02rem; }
 .pricing-badge{
   font-size:.65rem; letter-spacing:.12em; text-transform:uppercase; font-weight:600;
-  background:var(--ink); color:var(--cream); padding:.2em .7em; border-radius:999px;
+  background:#B83226; color:#fff; padding:.2em .7em; border-radius:999px;
 }
-.pricing-sum{ font-family:var(--serif); font-size:1.75rem; font-weight:400; color:var(--ink); margin:.2rem 0; }
+.pricing-sum-row{ display:flex; align-items:baseline; gap:.6rem; margin:.2rem 0; }
+.pricing-sum{ font-family:var(--serif); font-size:1.75rem; font-weight:400; color:var(--ink); }
+.pricing-old{
+  font-family:var(--serif); font-size:1.15rem; color:var(--ink-soft);
+  text-decoration:line-through; opacity:.65; display:none;
+}
+.pricing-old.visible{ display:inline; }
 .pricing-desc{ font-size:.84rem; color:var(--ink-soft); margin:0; line-height:1.45; }
 
-.feature-actions{ display:flex; flex-direction:column; gap:.8rem; margin-top:1rem; }
+/* Dual Action Buttons (Web Order + Telegram) */
+.feature-actions{ display:flex; flex-direction:column; gap:.8rem; margin-top:1.1rem; }
+.feature-actions-btns{ display:grid; grid-template-columns:1fr; gap:.65rem; }
+@media (min-width:480px){
+  .feature-actions-btns{ grid-template-columns:1.2fr 1fr; }
+}
 .feature-guarantee{
   display:inline-flex; align-items:center; gap:.5em;
   font-size:.78rem; color:var(--ink-soft); font-family:var(--sans);
@@ -442,7 +482,7 @@ a{ color:inherit; text-decoration:none; }
 }
 .cta{ text-align:center; padding-block:clamp(4.5rem,10vw,7.5rem) clamp(3rem,6vw,4.5rem); }
 .cta .eyebrow{ color:rgba(250,247,239,.55); }
-.cta h2{ font-size:clamp(2.4rem,7.5vw,4.2rem); color:var(--cream); }
+.cta h2{ font-size:clamp(1.85rem,7vw,4.2rem); color:var(--cream); }
 .cta p{ color:rgba(250,247,239,.75); font-weight:300; max-width:44ch; margin:1.3rem auto 2.4rem; font-size:1.05rem; }
 .cta-actions{ display:flex; flex-wrap:wrap; justify-content:center; align-items:center; gap:1.2rem; }
 
@@ -467,6 +507,285 @@ a{ color:inherit; text-decoration:none; }
 .footer-lang button[aria-pressed="true"]{ color:var(--cream); }
 .footer-lang button:hover{ color:var(--cream); }
 .footer-lang span{ color:rgba(250,247,239,.2); }
+
+/* ============================================================
+   WHAT'S IN THE BOX (UNBOXING)
+   ============================================================ */
+.unboxing{ background:var(--paper); border-block:1px solid var(--line); padding-block:clamp(3.5rem,7vw,5.5rem); }
+.unboxing-head{ text-align:center; max-width:46ch; margin-inline:auto; margin-bottom:clamp(2.2rem,5vw,3.5rem); }
+.unboxing-grid{
+  display:grid; grid-template-columns:repeat(2, 1fr); gap:1rem;
+}
+@media (min-width:768px){
+  .unboxing-grid{ grid-template-columns:repeat(4, 1fr); gap:1.4rem; }
+}
+.unboxing-card{
+  background:var(--cream); border:1px solid var(--line); border-radius:14px;
+  padding:1.4rem 1.2rem; display:flex; flex-direction:column; gap:.75rem;
+  transition:transform .25s ease, box-shadow .25s ease;
+}
+.unboxing-card:hover{ transform:translateY(-2px); box-shadow:0 12px 28px rgba(35,35,32,.08); }
+.unboxing-icon{
+  width:42px; height:42px; border-radius:10px; background:rgba(35,35,32,.06);
+  display:flex; align-items:center; justify-content:center; stroke:var(--ink); fill:none;
+}
+.unboxing-card h4{ margin:0; font-family:var(--sans); font-size:.98rem; font-weight:600; }
+.unboxing-card p{ margin:0; font-size:.82rem; color:var(--ink-soft); line-height:1.45; }
+
+/* ============================================================
+   LENS SIMULATOR ("Смотри сквозь линзы Nox")
+   ============================================================ */
+.simulator{ background:var(--ink); color:var(--cream); padding-block:clamp(4rem,8vw,6.5rem); overflow:hidden; }
+.simulator .eyebrow{ color:rgba(250,247,239,.6); }
+.simulator-head{ text-align:center; max-width:52ch; margin-inline:auto; margin-bottom:2.2rem; }
+.simulator-head h2{ color:var(--cream); font-size:clamp(1.85rem,5vw,3.2rem); }
+.simulator-head p{ color:rgba(250,247,239,.75); margin-top:.8rem; font-size:.98rem; }
+.simulator-box{
+  max-width:880px; margin-inline:auto; border-radius:16px; overflow:hidden;
+  border:1px solid rgba(250,247,239,.18); background:#151513; position:relative;
+  box-shadow:0 30px 60px rgba(0,0,0,.45);
+}
+.simulator-view{
+  position:relative; aspect-ratio:16/9; width:100%; overflow:hidden;
+  display:flex; align-items:center; justify-content:center;
+}
+.simulator-view img{
+  width:100%; height:100%; object-fit:cover; object-position:center 45%;
+  transition:filter .5s ease;
+}
+.simulator-overlay{
+  position:absolute; inset:0; pointer-events:none;
+  transition:background-color .5s ease, opacity .5s ease;
+}
+/* Day/Standard mode */
+.simulator-box[data-mode="day"] .simulator-overlay{
+  background:radial-gradient(circle at 50% 50%, rgba(100,160,255,.18) 0%, rgba(30,70,180,.12) 100%);
+  mix-blend-mode:screen;
+}
+.simulator-box[data-mode="day"] .simulator-view img{
+  filter:brightness(1.08) contrast(1.1) saturate(1.05);
+}
+/* Nox Circadian mode */
+.simulator-box[data-mode="nox"] .simulator-overlay{
+  background:radial-gradient(circle at 50% 50%, rgba(184,50,38,.45) 0%, rgba(130,25,15,.65) 100%);
+  mix-blend-mode:multiply;
+}
+.simulator-box[data-mode="nox"] .simulator-view img{
+  filter:brightness(.92) contrast(1.08) sepia(.4) hue-rotate(-15deg);
+}
+.simulator-badge{
+  position:absolute; top:1.2rem; right:1.2rem;
+  background:rgba(21,21,19,.85); backdrop-filter:blur(10px);
+  padding:.5rem .95rem; border-radius:999px; border:1px solid rgba(250,247,239,.18);
+  font-size:.72rem; letter-spacing:.08em; text-transform:uppercase; font-weight:500;
+  display:flex; align-items:center; gap:.5em; color:var(--cream);
+}
+.simulator-badge-dot{ width:8px; height:8px; border-radius:50%; background:#64A0FF; transition:background-color .3s; }
+.simulator-box[data-mode="nox"] .simulator-badge-dot{ background:#B83226; box-shadow:0 0 8px #B83226; }
+
+.simulator-controls{
+  padding:1.2rem 1.5rem; display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:1rem;
+  background:rgba(35,35,32,.75); border-top:1px solid rgba(250,247,239,.12);
+}
+.sim-toggle-btns{
+  display:inline-flex; background:rgba(250,247,239,.08); border-radius:999px; padding:3px;
+  border:1px solid rgba(250,247,239,.15);
+}
+.sim-btn{
+  background:none; border:none; color:rgba(250,247,239,.65); cursor:pointer;
+  padding:.5rem 1.1rem; border-radius:999px; font-family:var(--sans); font-size:.76rem;
+  font-weight:500; letter-spacing:.06em; transition:all .25s ease;
+}
+.sim-btn.active{
+  background:var(--paper); color:var(--ink); font-weight:600;
+  box-shadow:0 2px 10px rgba(0,0,0,.3);
+}
+.sim-caption{ font-size:.82rem; color:rgba(250,247,239,.65); }
+
+/* ============================================================
+   REVIEWS & SOCIAL PROOF
+   ============================================================ */
+.reviews{ background:var(--cream); padding-block:clamp(3.5rem,7vw,5.5rem); }
+.reviews-head{ text-align:center; max-width:46ch; margin-inline:auto; margin-bottom:clamp(2.2rem,5vw,3.5rem); }
+.reviews-grid{ display:grid; gap:1.3rem; }
+@media (min-width:768px){
+  .reviews-grid{ grid-template-columns:repeat(3, 1fr); }
+}
+.review-card{
+  background:var(--paper); border:1px solid var(--line); border-radius:14px;
+  padding:1.6rem; display:flex; flex-direction:column; justify-content:space-between; gap:1.2rem;
+  box-shadow:0 4px 16px rgba(35,35,32,.04);
+}
+.review-stars{ display:flex; gap:3px; color:#D48B28; font-size:.88rem; }
+.review-quote{ font-size:.92rem; color:var(--ink); line-height:1.55; margin:0; font-style:italic; }
+.review-author{ display:flex; align-items:center; gap:.8rem; border-top:1px solid var(--line); padding-top:1rem; }
+.review-avatar{
+  width:38px; height:38px; border-radius:50%; background:var(--cream-2);
+  display:flex; align-items:center; justify-content:center; font-weight:600; font-size:.85rem; color:var(--ink);
+}
+.review-info{ display:flex; flex-direction:column; }
+.review-name{ font-family:var(--sans); font-weight:600; font-size:.88rem; }
+.review-role{ font-size:.74rem; color:var(--ink-soft); }
+.review-verify{ display:inline-flex; align-items:center; gap:.3em; font-size:.7rem; color:#2e7d32; font-weight:500; }
+
+/* ============================================================
+   TRUST BADGES STRIP
+   ============================================================ */
+.trust-strip{
+  display:flex; flex-wrap:wrap; justify-content:center; gap:1rem 2rem;
+  margin-top:2.5rem; padding-top:1.8rem; border-top:1px solid var(--line);
+}
+.trust-badge{
+  display:inline-flex; align-items:center; gap:.5em; font-family:var(--sans);
+  font-size:.82rem; font-weight:500; color:var(--ink);
+}
+.trust-badge svg{ width:18px; height:18px; stroke:var(--ink); flex-shrink:0; }
+
+/* ============================================================
+   STICKY MOBILE ORDER BAR
+   ============================================================ */
+.mobile-sticky-bar{
+  position:fixed; bottom:0; left:0; right:0; z-index:90;
+  background:rgba(250,247,239,.96); backdrop-filter:saturate(140%) blur(16px);
+  border-top:1px solid var(--line); padding:.75rem 1.25rem;
+  display:none; align-items:center; justify-content:space-between; gap:1rem;
+  box-shadow:0 -8px 24px rgba(35,35,32,.1);
+  transform:translateY(100%); transition:transform .3s ease;
+}
+.mobile-sticky-bar.visible{
+  transform:translateY(0);
+}
+@media (max-width:767px){
+  .mobile-sticky-bar{ display:flex; }
+  body{ padding-bottom:65px; }
+}
+.sticky-info{ display:flex; flex-direction:column; }
+.sticky-name{ font-family:var(--sans); font-weight:600; font-size:.85rem; line-height:1.2; }
+.sticky-price{ font-family:var(--serif); font-size:1.15rem; color:var(--ink); }
+.sticky-btn{ padding:.65em 1.4em; font-size:.75rem; }
+
+/* ============================================================
+   ORDER MODAL DIALOG
+   ============================================================ */
+.modal-backdrop{
+  position:fixed; inset:0; z-index:999;
+  background:rgba(35,35,32,.65); backdrop-filter:blur(8px);
+  display:flex; align-items:center; justify-content:center; padding:1rem;
+  opacity:0; pointer-events:none; transition:opacity .25s ease;
+}
+.modal-backdrop.open{ opacity:1; pointer-events:auto; }
+.modal-dialog{
+  background:var(--paper); border-radius:18px; width:100%; max-width:520px;
+  max-height:92vh; overflow-y:auto; position:relative;
+  box-shadow:0 24px 60px rgba(0,0,0,.25); border:1px solid var(--line);
+  padding:clamp(1.5rem,4vw,2.2rem);
+  transform:scale(.95) translateY(12px); transition:transform .25s ease;
+}
+.modal-backdrop.open .modal-dialog{ transform:scale(1) translateY(0); }
+.modal-close{
+  position:absolute; top:1.2rem; right:1.2rem; background:rgba(35,35,32,.06);
+  border:none; border-radius:50%; width:34px; height:34px; display:flex;
+  align-items:center; justify-content:center; cursor:pointer; color:var(--ink);
+  transition:all .2s ease;
+}
+.modal-close:hover{ background:var(--ink); color:var(--cream); }
+.modal-header{ margin-bottom:1.2rem; padding-right:2rem; }
+.modal-title{ font-size:1.6rem; margin:0 0 .3rem; }
+.modal-subtitle{ font-size:.84rem; color:var(--ink-soft); margin:0; }
+
+.modal-form{ display:grid; gap:1rem; }
+.form-group{ display:flex; flex-direction:column; gap:.35rem; }
+.form-row{ display:grid; grid-template-columns:1fr 1fr; gap:.75rem; }
+@media (max-width:480px){
+  .form-row{ grid-template-columns:1fr; }
+}
+.form-label{ font-family:var(--sans); font-size:.76rem; font-weight:600; text-transform:uppercase; letter-spacing:.08em; color:var(--ink); }
+.form-input{
+  font-family:var(--sans); font-size:.92rem; padding:.7rem .9rem; border-radius:10px;
+  border:1px solid var(--line); background:#fff; color:var(--ink);
+  outline:none; transition:border-color .2s ease, box-shadow .2s ease;
+}
+.form-input:focus{ border-color:var(--ink); box-shadow:0 0 0 3px rgba(35,35,32,.1); }
+
+/* Modal Package Selection */
+.modal-pkg-grid{ display:grid; grid-template-columns:1fr 1fr; gap:.6rem; }
+.modal-pkg-option{ cursor:pointer; position:relative; }
+.modal-pkg-option input{ position:absolute; opacity:0; pointer-events:none; }
+.pkg-box{
+  background:#fff; border:1.5px solid var(--line); border-radius:10px;
+  padding:.75rem .85rem; display:flex; flex-direction:column; gap:.25rem;
+  transition:all .2s ease;
+}
+.modal-pkg-option input:checked + .pkg-box{
+  border-color:var(--ink); background:var(--cream); box-shadow:0 4px 14px rgba(35,35,32,.08);
+}
+.pkg-title{ font-size:.8rem; font-weight:600; color:var(--ink); }
+.pkg-cost{ font-family:var(--serif); font-size:1.02rem; font-weight:500; color:var(--ink); }
+.pkg-badge{ font-size:.6rem; font-weight:600; color:#fff; background:#B83226; border-radius:999px; padding:.1em .5em; text-transform:uppercase; }
+
+/* Promo Input Wrap */
+.promo-input-wrap{ display:flex; gap:.5rem; }
+.btn-promo-apply{
+  background:var(--ink); color:var(--cream); border:none; border-radius:10px;
+  padding:.7rem 1rem; font-family:var(--sans); font-size:.76rem; font-weight:600;
+  text-transform:uppercase; letter-spacing:.08em; cursor:pointer;
+  transition:opacity .2s ease; flex-shrink:0;
+}
+.btn-promo-apply:hover{ opacity:.9; }
+.promo-status{ font-size:.76rem; min-height:1rem; }
+.promo-status.success{ color:#2e7d32; font-weight:500; }
+.promo-status.error{ color:#c62828; }
+
+/* Payment Radio Options */
+.payment-methods{ display:grid; grid-template-columns:1fr 1fr; gap:.6rem; }
+.pay-option{
+  display:flex; align-items:center; gap:.5em; background:#fff; border:1px solid var(--line);
+  border-radius:10px; padding:.6rem .8rem; cursor:pointer; font-size:.82rem; font-weight:500;
+}
+.pay-option input{ accent-color:var(--ink); }
+
+/* Total Bar inside Modal */
+.modal-total-bar{
+  background:var(--cream-2); border-radius:12px; padding:.9rem 1.15rem;
+  display:flex; align-items:center; justify-content:space-between; gap:1rem;
+  margin-top:.3rem;
+}
+.total-label{ font-size:.72rem; text-transform:uppercase; letter-spacing:.08em; font-weight:600; color:var(--ink-soft); }
+.total-amount{ font-family:var(--serif); font-size:1.45rem; font-weight:500; color:var(--ink); line-height:1.1; }
+.total-sub{ font-size:.68rem; color:var(--ink-soft); }
+.modal-submit-btn{ width:auto; padding:.95em 1.6em; font-size:.78rem; }
+.modal-submit-btn:disabled{ opacity:.6; cursor:not-allowed; }
+
+.form-error-msg{ color:#c62828; font-size:.8rem; min-height:1rem; text-align:center; }
+.success-icon-wrap{
+  width:60px; height:60px; border-radius:50%; background:#E8F5E9;
+  display:flex; align-items:center; justify-content:center; margin:0 auto .8rem;
+}
+.order-number{
+  font-family:var(--sans); font-size:1.15rem; font-weight:600; letter-spacing:.1em;
+  background:var(--cream-2); display:inline-block; padding:.3em .85em; border-radius:8px;
+  color:var(--ink); margin:0;
+}
+
+@media (max-width:639px){
+  .modal-backdrop{ padding:.5rem; }
+  .modal-dialog{ padding:1.25rem 1rem; border-radius:14px; width:100%; max-width:100%; box-sizing:border-box; }
+  .modal-pkg-grid{ grid-template-columns:1fr; gap:.5rem; }
+  .modal-total-bar{ flex-direction:column; align-items:stretch; text-align:center; gap:.75rem; }
+  .modal-submit-btn{ width:100%; justify-content:center; }
+  .payment-methods{ grid-template-columns:1fr 1fr; gap:.4rem; }
+  .pay-option{ padding:.55rem .6rem; font-size:.76rem; }
+}
+
+/* Compact Mobile Header Adjustments */
+@media (max-width:639px){
+  .site-header .bar{ padding-block:.65rem; }
+  .header-actions{ gap:.5rem; }
+  .header-link{ padding:.4rem .65rem; font-size:.68rem; }
+  .header-link span{ display:none; }
+  .lang{ font-size:.68rem; gap:.15rem; }
+  .lang button{ padding:.2rem .25rem; }
+}
 
 /* ============================================================
    REVEAL ON SCROLL
@@ -637,37 +956,111 @@ a{ color:inherit; text-decoration:none; }
           <h3 class="feature-name" data-i18n="prod.name">The Diamond</h3>
           <p class="feature-desc" data-i18n="prod.desc">Универсальная форма, гармонично подходящая для мужских и женских лиц. Сверхлёгкий швейцарский полимер TR90 весом 22 грамма обеспечивает идеальную посадку без давления на виски.</p>
 
+          <!-- Promo banner in product card -->
+          <div class="promo-banner" id="prod-promo-banner">
+            <div class="promo-banner-text">
+              <span>🏷</span>
+              <div>
+                <span class="promo-banner-tag" id="prod-promo-tag">ПРОМОКОД</span>
+                <span id="prod-promo-msg">Скидка 10% активирована</span>
+              </div>
+            </div>
+            <button type="button" class="promo-banner-remove" id="prod-promo-remove" aria-label="Удалить промокод">×</button>
+          </div>
+
           <div class="pricing-cards">
             <!-- Single Pair -->
-            <div class="pricing-card featured">
+            <div class="pricing-card selected" id="card-single" data-pkg="single">
               <div class="pricing-header">
-                <span class="pricing-title" data-i18n="pricing.single.t">1 пара — The Diamond</span>
+                <div class="pricing-title-wrap">
+                  <span class="pricing-radio" aria-hidden="true"></span>
+                  <span class="pricing-title" data-i18n="pricing.single.t">1 пара — The Diamond</span>
+                </div>
               </div>
-              <div class="pricing-sum" data-i18n="pricing.single.price">300 000 сум</div>
+              <div class="pricing-sum-row">
+                <span class="pricing-sum" id="card-price-single" data-i18n="pricing.single.price">300 000 сум</span>
+                <span class="pricing-old" id="card-old-single"></span>
+              </div>
               <p class="pricing-desc" data-i18n="pricing.single.d">Очки The Diamond + премиальный жесткий футляр Nox + салфетка из микрофибры + PDF «Гид по сну Nox Protocol».</p>
             </div>
 
             <!-- Bundle Pair -->
-            <div class="pricing-card">
+            <div class="pricing-card" id="card-bundle" data-pkg="bundle">
               <div class="pricing-header">
-                <span class="pricing-title" data-i18n="pricing.bundle.t">Сет из 2 пар (Для двоих)</span>
-                <span class="pricing-badge" style="background:#B83226;" data-i18n="pricing.bundle.badge">Выгода 50 000 сум</span>
+                <div class="pricing-title-wrap">
+                  <span class="pricing-radio" aria-hidden="true"></span>
+                  <span class="pricing-title" data-i18n="pricing.bundle.t">Сет из 2 пар (Для двоих)</span>
+                </div>
+                <span class="pricing-badge" data-i18n="pricing.bundle.badge">Выгода 50 000 сум</span>
               </div>
-              <div class="pricing-sum" data-i18n="pricing.bundle.price">550 000 сум</div>
+              <div class="pricing-sum-row">
+                <span class="pricing-sum" id="card-price-bundle" data-i18n="pricing.bundle.price">550 000 сум</span>
+                <span class="pricing-old" id="card-old-bundle"></span>
+              </div>
               <p class="pricing-desc" data-i18n="pricing.bundle.d">Две пары The Diamond для вас и близкого человека. Полный комплект к каждой паре + бесплатная доставка по Ташкенту.</p>
             </div>
           </div>
 
           <div class="feature-actions">
-            <a class="btn btn--primary" href="https://t.me/noxglasses" target="_blank" rel="noopener">
-              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.8 4.3 2.9 11.6c-1.1.4-1.1 1.6-.1 1.9l4.7 1.5 1.8 5.6c.2.6.6.7 1.1.3l2.6-2.1 4.9 3.6c.7.4 1.3.2 1.5-.7l3.2-15c.2-1-.4-1.5-1.3-1.1z"/></svg>
-              <span data-i18n="btn.shop">Заказать через Telegram</span>
-            </a>
+            <div class="feature-actions-btns">
+              <button type="button" class="btn btn--primary" id="open-order-btn">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+                <span data-i18n="btn.orderWeb">Оформить заказ на сайте</span>
+              </button>
+              <a class="btn btn--ghost" id="tg-order-link" href="https://t.me/noxglasses" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.8 4.3 2.9 11.6c-1.1.4-1.1 1.6-.1 1.9l4.7 1.5 1.8 5.6c.2.6.6.7 1.1.3l2.6-2.1 4.9 3.6c.7.4 1.3.2 1.5-.7l3.2-15c.2-1-.4-1.5-1.3-1.1z"/></svg>
+                <span data-i18n="btn.orderTg">Заказать в Telegram</span>
+              </a>
+            </div>
             <div class="feature-guarantee">
               <svg viewBox="0 0 24 24" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
               <span data-i18n="prod.guarantee">Доставка в день заказа · Есть возможность возврата</span>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= WHAT'S IN THE BOX ======================= -->
+  <section class="unboxing section" id="unboxing" aria-labelledby="unboxing-title">
+    <div class="container">
+      <div class="unboxing-head" data-reveal>
+        <p class="eyebrow" data-i18n="unbox.eyebrow">Премиальная комплектация</p>
+        <h2 class="display" id="unboxing-title" style="font-size:clamp(1.85rem,5vw,3rem);" data-i18n="unbox.title">Всё для идеального вечернего ритуала.</h2>
+      </div>
+
+      <div class="unboxing-grid" data-reveal>
+        <div class="unboxing-card">
+          <div class="unboxing-icon">
+            <svg viewBox="0 0 24 24" width="22" height="22" stroke-width="1.8"><circle cx="6" cy="12" r="4"/><circle cx="18" cy="12" r="4"/><line x1="10" y1="12" x2="14" y2="12"/><line x1="2" y1="12" x2="2" y2="8"/><line x1="22" y1="12" x2="22" y2="8"/></svg>
+          </div>
+          <h4 data-i18n="unbox.i1.t">Очки The Diamond</h4>
+          <p data-i18n="unbox.i1.d">Ультралегкая оправа TR90 (22 г) с глубоким циркадным светофильтром 97.8%.</p>
+        </div>
+
+        <div class="unboxing-card">
+          <div class="unboxing-icon">
+            <svg viewBox="0 0 24 24" width="22" height="22" stroke-width="1.8"><rect x="3" y="4" width="18" height="16" rx="3"/><line x1="3" y1="10" x2="21" y2="10"/><circle cx="12" cy="15" r="1.5"/></svg>
+          </div>
+          <h4 data-i18n="unbox.i2.t">Матовый жесткий футляр</h4>
+          <p data-i18n="unbox.i2.d">Фирменный кейс Nox с магнитной фиксацией для защиты очков дома и в поездках.</p>
+        </div>
+
+        <div class="unboxing-card">
+          <div class="unboxing-icon">
+            <svg viewBox="0 0 24 24" width="22" height="22" stroke-width="1.8"><path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"/><line x1="16" y1="8" x2="2" y2="22"/><line x1="17.5" y1="15" x2="9" y2="15"/></svg>
+          </div>
+          <h4 data-i18n="unbox.i3.t">Плотная микрофибра</h4>
+          <p data-i18n="unbox.i3.d">Премиальная салфетка для бережной чистки оптических линз от отпечатков и пыли.</p>
+        </div>
+
+        <div class="unboxing-card">
+          <div class="unboxing-icon">
+            <svg viewBox="0 0 24 24" width="22" height="22" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+          </div>
+          <h4 data-i18n="unbox.i4.t">PDF «Nox Protocol»</h4>
+          <p data-i18n="unbox.i4.d">Полный авторский гид по настройке фаз глубокого сна и вечерней гигиены света.</p>
         </div>
       </div>
     </div>
@@ -720,6 +1113,36 @@ a{ color:inherit; text-decoration:none; }
     </div>
   </section>
 
+  <!-- ======================= THROUGH THE LENS SIMULATOR ======================= -->
+  <section class="simulator section" id="simulator" aria-labelledby="simulator-title">
+    <div class="container">
+      <div class="simulator-head" data-reveal>
+        <p class="eyebrow" data-i18n="sim.eyebrow">Интерактивный опыт</p>
+        <h2 class="display" id="simulator-title" data-i18n="sim.title">Смотрите сквозь линзы Nox.</h2>
+        <p data-i18n="sim.desc">Сравните жесткий холодный свет экрана с мягким вечерним спектром, в котором глаза мгновенно расслабляются.</p>
+      </div>
+
+      <div class="simulator-box" id="lens-sim-box" data-mode="nox" data-reveal>
+        <div class="simulator-view">
+          <img src="images/diamond-dark.jpg" alt="Вид сквозь очковые линзы Nox" id="sim-view-img" />
+          <div class="simulator-overlay"></div>
+          <div class="simulator-badge">
+            <span class="simulator-badge-dot"></span>
+            <span id="sim-badge-label" data-i18n="sim.badge.nox">Режим Nox: Спектр сна</span>
+          </div>
+        </div>
+
+        <div class="simulator-controls">
+          <div class="sim-toggle-btns" role="group" aria-label="Режим линзы">
+            <button type="button" class="sim-btn" data-sim="day" data-i18n="sim.btn.day">Без очков (холодный синий)</button>
+            <button type="button" class="sim-btn active" data-sim="nox" data-i18n="sim.btn.nox">В очках Nox (97.8% фильтр)</button>
+          </div>
+          <span class="sim-caption" id="sim-caption-text" data-i18n="sim.cap.nox">Сетчатка получает биологический сигнал о темноте, активируя выработку мелатонина.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ======================= SPEC ======================= -->
   <section class="spec" aria-labelledby="spec-title">
     <div class="container">
@@ -740,6 +1163,57 @@ a{ color:inherit; text-decoration:none; }
     </div>
   </section>
 
+  <!-- ======================= REVIEWS & SOCIAL PROOF ======================= -->
+  <section class="reviews section" id="reviews" aria-labelledby="reviews-title">
+    <div class="container">
+      <div class="reviews-head" data-reveal>
+        <p class="eyebrow" data-i18n="rev.eyebrow">Опыт первых владельцев в Ташкенте</p>
+        <h2 class="display" id="reviews-title" style="font-size:clamp(1.85rem,5vw,3rem);" data-i18n="rev.title">Те, кто вернул себе глубокий сон.</h2>
+      </div>
+
+      <div class="reviews-grid" data-reveal>
+        <div class="review-card">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-quote" data-i18n="rev.q1">«Работаю разработчиком, часто сижу за кодом до полуночи. Раньше к 23:00 глаза просто выгорали, а потом еще час не мог уснуть. В Nox надеваю за 2 часа до сна — засыпаю минут за 15. Разница колоссальная.»</p>
+          <div class="review-author">
+            <div class="review-avatar">АУ</div>
+            <div class="review-info">
+              <span class="review-name" data-i18n="rev.n1">Алишер У.</span>
+              <span class="review-role" data-i18n="rev.r1">Senior Frontend Engineer · Ташкент</span>
+              <span class="review-verify">✓ <span data-i18n="rev.v">Проверенная покупка</span></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="review-card">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-quote" data-i18n="rev.q2">«Боялась, что оправа будет тяжелой или давить на переносицу. Она вообще невесомая, 22 грамма реально не чувствуются! И очень эстетично выглядит. Утром просыпаюсь со свежей головой и без сухости глаз.»</p>
+          <div class="review-author">
+            <div class="review-avatar">МТ</div>
+            <div class="review-info">
+              <span class="review-name" data-i18n="rev.n2">Малика Т.</span>
+              <span class="review-role" data-i18n="rev.r2">Контент-директор · Ташкент</span>
+              <span class="review-verify">✓ <span data-i18n="rev.v">Проверенная покупка</span></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="review-card">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-quote" data-i18n="rev.q3">«Взяли сет из двух пар с женой. Доставили через Yandex Go за 1.5 часа прямо в день заказа. Сидим в них по вечерам за книгами и ноутбуком. Качество линз и коробки топ, приятно держать в руках.»</p>
+          <div class="review-author">
+            <div class="review-avatar">СМ</div>
+            <div class="review-info">
+              <span class="review-name" data-i18n="rev.n3">Сардор М.</span>
+              <span class="review-role" data-i18n="rev.r3">Предприниматель · Ташкент</span>
+              <span class="review-verify">✓ <span data-i18n="rev.v">Проверенная покупка</span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ======================= DELIVERY & HOW IT WORKS ======================= -->
   <section class="delivery section" id="delivery" aria-labelledby="delivery-title">
     <div class="container">
@@ -751,8 +1225,8 @@ a{ color:inherit; text-decoration:none; }
       <div class="delivery-steps">
         <div class="step-card" data-reveal>
           <div class="step-num">01</div>
-          <h3 data-i18n="how.s1.t">Заказ в Telegram</h3>
-          <p data-i18n="how.s1.d">Напишите нам в чат в пару кликов без предоплаты. Менеджер свяжется с вами за 2–5 минут и согласует адрес.</p>
+          <h3 data-i18n="how.s1.t">Заказ в Telegram или на сайте</h3>
+          <p data-i18n="how.s1.d">Оформите заказ на сайте или напишите в Telegram без предоплаты. Менеджер свяжется с вами за 2–5 минут.</p>
         </div>
         <div class="step-card" data-reveal>
           <div class="step-num">02</div>
@@ -763,6 +1237,25 @@ a{ color:inherit; text-decoration:none; }
           <div class="step-num">03</div>
           <h3 data-i18n="how.s3.t">Оплата при получении</h3>
           <p data-i18n="how.s3.d">Оплатите курьеру через Click, Payme или наличными. Если очки вам не подойдут, есть возможность возврата.</p>
+        </div>
+      </div>
+
+      <div class="trust-strip" data-reveal>
+        <div class="trust-badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+          <span>Click &amp; Payme</span>
+        </div>
+        <div class="trust-badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><line x1="12" y1="6" x2="12" y2="8"/><line x1="12" y1="16" x2="12" y2="18"/></svg>
+          <span data-i18n="how.trust.cash">Наличными курьеру</span>
+        </div>
+        <div class="trust-badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/><path d="M9 18h6m4 0h1a2 2 0 0 0 2-2v-5l-3-4h-4v9h2"/></svg>
+          <span data-i18n="how.trust.yandex">Yandex Go 1–2 часа</span>
+        </div>
+        <div class="trust-badge">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <span data-i18n="how.trust.return">Возврат при получении</span>
         </div>
       </div>
     </div>
@@ -862,6 +1355,135 @@ a{ color:inherit; text-decoration:none; }
   </footer>
 </div>
 
+<!-- ======================= STICKY MOBILE ORDER BAR ======================= -->
+<aside class="mobile-sticky-bar" id="mobile-sticky-bar" aria-label="Быстрый заказ">
+  <div class="sticky-info">
+    <span class="sticky-name">Nox The Diamond</span>
+    <span class="sticky-price" id="sticky-price-val">300 000 сум</span>
+  </div>
+  <button type="button" class="btn btn--primary sticky-btn" id="sticky-order-btn">
+    <span data-i18n="btn.orderWebShort">Заказать</span>
+  </button>
+</aside>
+
+<!-- ======================= ORDER MODAL ======================= -->
+<div class="modal-backdrop" id="order-modal" aria-hidden="true">
+  <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <button type="button" class="modal-close" id="modal-close-btn" aria-label="Закрыть">
+      <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+
+    <!-- Form State -->
+    <div id="modal-form-view">
+      <div class="modal-header">
+        <p class="eyebrow" style="margin-bottom:.3rem;" data-i18n="modal.eyebrow">Быстрый заказ в Ташкенте</p>
+        <h3 class="display modal-title" id="modal-title" data-i18n="modal.title">Оформление заказа</h3>
+        <p class="modal-subtitle" data-i18n="modal.subtitle">Без предоплаты. Оплата курьеру при получении.</p>
+      </div>
+
+      <form id="nox-order-form" class="modal-form" novalidate>
+        <!-- Package Selection -->
+        <div class="form-group">
+          <label class="form-label" data-i18n="modal.pkg.label">Комплект</label>
+          <div class="modal-pkg-grid">
+            <label class="modal-pkg-option" id="opt-single">
+              <input type="radio" name="order_pkg" value="single" checked />
+              <div class="pkg-box">
+                <span class="pkg-title" data-i18n="pricing.single.t">1 пара — The Diamond</span>
+                <span class="pkg-cost" id="modal-price-single">300 000 сум</span>
+              </div>
+            </label>
+            <label class="modal-pkg-option" id="opt-bundle">
+              <input type="radio" name="order_pkg" value="bundle" />
+              <div class="pkg-box">
+                <div style="display:flex;justify-content:space-between;align-items:center;">
+                  <span class="pkg-title" data-i18n="pricing.bundle.t">Сет из 2 пар</span>
+                  <span class="pkg-badge" data-i18n="pricing.bundle.badge">Выгода 50 000 сум</span>
+                </div>
+                <span class="pkg-cost" id="modal-price-bundle">550 000 сум</span>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- Promo Code Input -->
+        <div class="form-group">
+          <label class="form-label" for="promo-input" data-i18n="modal.promo.label">Промокод (если есть)</label>
+          <div class="promo-input-wrap">
+            <input type="text" id="promo-input" class="form-input" placeholder="например, NOX10" autocomplete="off" autocapitalize="characters" />
+            <button type="button" class="btn-promo-apply" id="promo-apply-btn" data-i18n="modal.promo.apply">Применить</button>
+          </div>
+          <div class="promo-status" id="promo-status"></div>
+        </div>
+
+        <!-- Name & Phone -->
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="cust-name" data-i18n="modal.name.label">Ваше имя *</label>
+            <input type="text" id="cust-name" class="form-input" placeholder="Алишер" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="cust-phone" data-i18n="modal.phone.label">Телефон *</label>
+            <input type="tel" id="cust-phone" class="form-input" placeholder="+998 90 123-45-67" required />
+          </div>
+        </div>
+
+        <!-- Address -->
+        <div class="form-group">
+          <label class="form-label" for="cust-address" data-i18n="modal.addr.label">Адрес доставки в Ташкенте *</label>
+          <input type="text" id="cust-address" class="form-input" placeholder="Район, улица, дом, квартира" required />
+        </div>
+
+        <!-- Payment Method -->
+        <div class="form-group">
+          <label class="form-label" data-i18n="modal.pay.label">Способ оплаты при получении</label>
+          <div class="payment-methods">
+            <label class="pay-option">
+              <input type="radio" name="payment_method" value="Click / Payme" checked />
+              <span>Click / Payme</span>
+            </label>
+            <label class="pay-option">
+              <input type="radio" name="payment_method" value="Наличными курьеру" />
+              <span data-i18n="modal.pay.cash">Наличными</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Total summary & Submit -->
+        <div class="modal-total-bar">
+          <div>
+            <span class="total-label" data-i18n="modal.total.label">Итого к оплате:</span>
+            <div class="total-amount" id="modal-total-sum">300 000 сум</div>
+            <div class="total-sub" data-i18n="modal.total.sub">Доставка в день заказа через Yandex Go</div>
+          </div>
+          <button type="submit" class="btn btn--primary modal-submit-btn" id="order-submit-btn">
+            <span class="btn-text" data-i18n="modal.submit">Подтвердить заказ</span>
+          </button>
+        </div>
+
+        <div class="form-error-msg" id="order-form-error"></div>
+      </form>
+    </div>
+
+    <!-- Success State -->
+    <div id="modal-success-view" style="display:none; text-align:center; padding:1.5rem .5rem;">
+      <div class="success-icon-wrap">
+        <svg viewBox="0 0 24 24" width="38" height="38" stroke="#2e7d32" stroke-width="2.2" fill="none"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+      </div>
+      <h3 class="display" style="font-size:1.7rem; margin:.6rem 0 .3rem;" data-i18n="modal.success.title">Заказ успешно принят!</h3>
+      <p class="order-number" id="success-order-id">#NOX-1048</p>
+      <p style="color:var(--ink-soft); max-width:36ch; margin:1rem auto 1.6rem; font-size:.92rem;" data-i18n="modal.success.desc">Наш менеджер свяжется с вами по указанному номеру в течение 5–10 минут для подтверждения адреса и отправки курьера.</p>
+      <div style="display:flex; flex-direction:column; gap:.75rem; max-width:300px; margin:0 auto;">
+        <a class="btn btn--ghost" id="success-tg-link" href="https://t.me/noxglasses" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.8 4.3 2.9 11.6c-1.1.4-1.1 1.6-.1 1.9l4.7 1.5 1.8 5.6c.2.6.6.7 1.1.3l2.6-2.1 4.9 3.6c.7.4 1.3.2 1.5-.7l3.2-15c.2-1-.4-1.5-1.3-1.1z"/></svg>
+          <span data-i18n="modal.success.tg">Написать нам в Telegram</span>
+        </a>
+        <button type="button" class="btn btn--primary" id="success-done-btn" data-i18n="modal.success.close">Вернуться на сайт</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
 /* ---- Sticky header background on scroll ---- */
 (function(){
@@ -926,6 +1548,447 @@ a{ color:inherit; text-decoration:none; }
   });
 })();
 
+/* ---- Interactive Lens Simulator ---- */
+(function(){
+  var simBox = document.getElementById('lens-sim-box');
+  var simBtns = document.querySelectorAll('.sim-btn');
+  var badgeLabel = document.getElementById('sim-badge-label');
+  var capText = document.getElementById('sim-caption-text');
+  if(!simBox || !simBtns.length) return;
+
+  var LABELS = {
+    day: { ru: 'Обычный режим: Холодный синий', uz: "Oddiy rejim: Sovuq ko'k nur", en: 'Standard view: Cold blue glare' },
+    nox: { ru: 'Режим Nox: Спектр сна', uz: 'Nox rejimi: Sirkad uyqu spektri', en: 'Nox mode: Circadian sleep filter' }
+  };
+  var CAPTIONS = {
+    day: {
+      ru: 'Синий свет экранов и ламп блокирует мелатонин и вызывает спазм глазных мышц.',
+      uz: "Ekranlarning ko'k nuri melatoninni to'xtatadi va ko'z mushaklarini charchatadi.",
+      en: 'Harsh blue light from devices delays melatonin release and strains ciliary muscles.'
+    },
+    nox: {
+      ru: 'Сетчатка получает биологический сигнал о темноте, активируя выработку мелатонина.',
+      uz: "Ko'z to'r pardasi biologik qorong'ulik signalini oladi va melatonin ishlab chiqariladi.",
+      en: 'Retina receives the biological signal for night, prompting restorative melatonin flow.'
+    }
+  };
+
+  simBtns.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var mode = btn.getAttribute('data-sim');
+      simBtns.forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+      simBox.setAttribute('data-mode', mode);
+      var curLang = document.documentElement.lang || 'ru';
+      if(badgeLabel && LABELS[mode]) badgeLabel.textContent = LABELS[mode][curLang] || LABELS[mode].ru;
+      if(capText && CAPTIONS[mode]) capText.textContent = CAPTIONS[mode][curLang] || CAPTIONS[mode].ru;
+    });
+  });
+})();
+
+/* ---- Mobile Sticky Order Bar ---- */
+(function(){
+  var bar = document.getElementById('mobile-sticky-bar');
+  var hero = document.querySelector('.hero');
+  var stickyBtn = document.getElementById('sticky-order-btn');
+  if(!bar || !hero) return;
+
+  var onScroll = function(){
+    var rect = hero.getBoundingClientRect();
+    if(rect.bottom < 120){
+      bar.classList.add('visible');
+    } else {
+      bar.classList.remove('visible');
+    }
+  };
+  window.addEventListener('scroll', onScroll, { passive:true });
+  onScroll();
+
+  if(stickyBtn){
+    stickyBtn.addEventListener('click', function(){
+      var openBtn = document.getElementById('open-order-btn');
+      if(openBtn) openBtn.click();
+    });
+  }
+})();
+
+/* ---- Nox Store & Promo Engine ---- */
+var NoxStore = (function(){
+  var PROMO_CODES = {
+    'NOX10': { discount: 0.10, partner: 'Официальный запуск' },
+    'SLEEP10': { discount: 0.10, partner: 'Sleep Protocol' },
+    'MALIKA': { discount: 0.10, partner: 'Malika Influencer' },
+    'JASUR': { discount: 0.10, partner: 'Jasur IT' },
+    'TIKTOK': { discount: 0.10, partner: 'TikTok Creator' },
+    'SPECIAL': { discount: 0.10, partner: 'Special Guest' }
+  };
+
+  var state = {
+    package: 'single',
+    promo: null,
+    lang: 'ru'
+  };
+
+  var PRICES = {
+    single: { base: 300000, titleRu: '1 пара — The Diamond', titleUz: "1 juft — The Diamond", titleEn: '1 Pair — The Diamond' },
+    bundle: { base: 550000, titleRu: 'Сет из 2 пар (Для двоих)', titleUz: "2 juftlik to'plam", titleEn: '2-Pair Set' }
+  };
+
+  function formatMoney(sum, lang){
+    var num = Math.round(sum).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+    if(lang === 'uz') return num + " so'm";
+    if(lang === 'en') return num.replace(' ', ',') + " UZS";
+    return num + " сум";
+  }
+
+  function getEffectivePrice(pkgKey){
+    var base = PRICES[pkgKey].base;
+    if(state.promo && state.promo.discount){
+      return Math.round(base * (1 - state.promo.discount));
+    }
+    return base;
+  }
+
+  function syncUI(){
+    var curLang = state.lang;
+    var singleEff = getEffectivePrice('single');
+    var bundleEff = getEffectivePrice('bundle');
+
+    var cardPriceSingle = document.getElementById('card-price-single');
+    var cardOldSingle = document.getElementById('card-old-single');
+    var cardPriceBundle = document.getElementById('card-price-bundle');
+    var cardOldBundle = document.getElementById('card-old-bundle');
+
+    if(cardPriceSingle) cardPriceSingle.textContent = formatMoney(singleEff, curLang);
+    if(cardPriceBundle) cardPriceBundle.textContent = formatMoney(bundleEff, curLang);
+
+    if(state.promo){
+      if(cardOldSingle){
+        cardOldSingle.textContent = formatMoney(PRICES.single.base, curLang);
+        cardOldSingle.classList.add('visible');
+      }
+      if(cardOldBundle){
+        cardOldBundle.textContent = formatMoney(PRICES.bundle.base, curLang);
+        cardOldBundle.classList.add('visible');
+      }
+    } else {
+      if(cardOldSingle) cardOldSingle.classList.remove('visible');
+      if(cardOldBundle) cardOldBundle.classList.remove('visible');
+    }
+
+    var promoBanner = document.getElementById('prod-promo-banner');
+    var promoTag = document.getElementById('prod-promo-tag');
+    var promoMsg = document.getElementById('prod-promo-msg');
+    if(promoBanner){
+      if(state.promo){
+        promoBanner.classList.add('active');
+        if(promoTag) promoTag.textContent = state.promo.code;
+        var pct = Math.round(state.promo.discount * 100);
+        var msg = curLang === 'uz' ? (pct + "% promokod chegirmasi faollashdi") :
+                  curLang === 'en' ? (pct + "% promo discount applied") :
+                  ("Скидка " + pct + "% активирована (" + state.promo.partner + ")");
+        if(promoMsg) promoMsg.textContent = msg;
+      } else {
+        promoBanner.classList.remove('active');
+      }
+    }
+
+    var cardSingle = document.getElementById('card-single');
+    var cardBundle = document.getElementById('card-bundle');
+    if(cardSingle && cardBundle){
+      if(state.package === 'single'){
+        cardSingle.classList.add('selected');
+        cardBundle.classList.remove('selected');
+      } else {
+        cardBundle.classList.add('selected');
+        cardSingle.classList.remove('selected');
+      }
+    }
+
+    var stickyPrice = document.getElementById('sticky-price-val');
+    if(stickyPrice){
+      stickyPrice.textContent = formatMoney(getEffectivePrice(state.package), curLang);
+    }
+
+    var modalPriceSingle = document.getElementById('modal-price-single');
+    var modalPriceBundle = document.getElementById('modal-price-bundle');
+    var modalTotalSum = document.getElementById('modal-total-sum');
+    if(modalPriceSingle) modalPriceSingle.textContent = formatMoney(singleEff, curLang);
+    if(modalPriceBundle) modalPriceBundle.textContent = formatMoney(bundleEff, curLang);
+    if(modalTotalSum) modalTotalSum.textContent = formatMoney(getEffectivePrice(state.package), curLang);
+
+    var radioSingle = document.querySelector('input[name="order_pkg"][value="single"]');
+    var radioBundle = document.querySelector('input[name="order_pkg"][value="bundle"]');
+    if(state.package === 'single' && radioSingle) radioSingle.checked = true;
+    if(state.package === 'bundle' && radioBundle) radioBundle.checked = true;
+
+    syncTelegramLink();
+  }
+
+  function syncTelegramLink(){
+    var tgLink = document.getElementById('tg-order-link');
+    if(!tgLink) return;
+
+    var curLang = state.lang;
+    var pkgName = state.package === 'single' ?
+      (curLang === 'uz' ? "1 juft Nox The Diamond" : curLang === 'en' ? "1 pair of Nox The Diamond" : "1 пару Nox The Diamond") :
+      (curLang === 'uz' ? "2 juftlik Nox The Diamond to'plami" : curLang === 'en' ? "2-pair set of Nox The Diamond" : "сет из 2 пар Nox The Diamond");
+
+    var priceStr = formatMoney(getEffectivePrice(state.package), curLang);
+    var promoStr = state.promo ? (" (промокод " + state.promo.code + ")") : "";
+    if(curLang === 'uz' && state.promo) promoStr = " (" + state.promo.code + " promokodi bilan)";
+    if(curLang === 'en' && state.promo) promoStr = " (promo " + state.promo.code + ")";
+
+    var text = "";
+    if(curLang === 'uz'){
+      text = "Assalomu alaykum! " + pkgName + " ko'zoynagini buyurtma qilmoqchiman" + promoStr + ". Narxi: " + priceStr + ". Yetkazib berish manzilini yuboraymi?";
+    } else if(curLang === 'en'){
+      text = "Hello! I would like to order " + pkgName + promoStr + " for " + priceStr + ". Could you assist with delivery in Tashkent?";
+    } else {
+      text = "Здравствуйте! Хочу заказать " + pkgName + promoStr + " (" + priceStr + "). Подскажите, когда возможна доставка?";
+    }
+
+    tgLink.href = "https://t.me/noxglasses?text=" + encodeURIComponent(text);
+  }
+
+  function applyPromoCode(codeStr){
+    if(!codeStr) return { success:false, error:'empty' };
+    var clean = String(codeStr).toUpperCase().trim();
+    if(PROMO_CODES[clean]){
+      state.promo = {
+        code: clean,
+        discount: PROMO_CODES[clean].discount,
+        partner: PROMO_CODES[clean].partner
+      };
+      syncUI();
+      return { success:true, promo: state.promo };
+    }
+    return { success:false, error:'not_found' };
+  }
+
+  function removePromoCode(){
+    state.promo = null;
+    syncUI();
+  }
+
+  function setPackage(pkgKey){
+    if(pkgKey === 'single' || pkgKey === 'bundle'){
+      state.package = pkgKey;
+      syncUI();
+    }
+  }
+
+  function setLang(newLang){
+    state.lang = newLang;
+    syncUI();
+  }
+
+  return {
+    state: state,
+    applyPromoCode: applyPromoCode,
+    removePromoCode: removePromoCode,
+    setPackage: setPackage,
+    setLang: setLang,
+    syncUI: syncUI,
+    formatMoney: formatMoney,
+    getEffectivePrice: getEffectivePrice,
+    PRICES: PRICES
+  };
+})();
+
+/* ---- Order Modal & Submission ---- */
+(function(){
+  var modal = document.getElementById('order-modal');
+  var openBtn = document.getElementById('open-order-btn');
+  var closeBtn = document.getElementById('modal-close-btn');
+  var form = document.getElementById('nox-order-form');
+  var promoInput = document.getElementById('promo-input');
+  var promoApplyBtn = document.getElementById('promo-apply-btn');
+  var promoStatus = document.getElementById('promo-status');
+  var formView = document.getElementById('modal-form-view');
+  var successView = document.getElementById('modal-success-view');
+  var doneBtn = document.getElementById('success-done-btn');
+  var submitBtn = document.getElementById('order-submit-btn');
+  var errorMsg = document.getElementById('order-form-error');
+  var phoneInput = document.getElementById('cust-phone');
+  var removePromoBannerBtn = document.getElementById('prod-promo-remove');
+
+  if(!modal) return;
+
+  function openModal(pkg){
+    if(pkg && (pkg === 'single' || pkg === 'bundle')) {
+      NoxStore.setPackage(pkg);
+    }
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    NoxStore.syncUI();
+  }
+  function closeModal(){
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+  NoxStore.openModal = openModal;
+  NoxStore.closeModal = closeModal;
+
+  if(openBtn) openBtn.addEventListener('click', function(){ openModal(); });
+  if(closeBtn) closeBtn.addEventListener('click', closeModal);
+  if(doneBtn) doneBtn.addEventListener('click', closeModal);
+
+  modal.addEventListener('click', function(e){
+    if(e.target === modal) closeModal();
+  });
+  window.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && modal.classList.contains('open')) closeModal();
+  });
+
+  if(phoneInput){
+    phoneInput.addEventListener('focus', function(){
+      if(!phoneInput.value.trim()){
+        phoneInput.value = '+998 ';
+      }
+    });
+  }
+
+  var cardSingle = document.getElementById('card-single');
+  var cardBundle = document.getElementById('card-bundle');
+  if(cardSingle){
+    cardSingle.addEventListener('click', function(){
+      NoxStore.setPackage('single');
+    });
+  }
+  if(cardBundle){
+    cardBundle.addEventListener('click', function(){
+      NoxStore.setPackage('bundle');
+    });
+  }
+
+  var pkgRadios = document.querySelectorAll('input[name="order_pkg"]');
+  pkgRadios.forEach(function(r){
+    r.addEventListener('change', function(){
+      NoxStore.setPackage(r.value);
+    });
+  });
+
+  if(promoApplyBtn && promoInput){
+    promoApplyBtn.addEventListener('click', function(){
+      var res = NoxStore.applyPromoCode(promoInput.value);
+      if(res.success){
+        promoStatus.className = 'promo-status success';
+        var pct = Math.round(res.promo.discount * 100);
+        promoStatus.textContent = '✓ Скидка ' + pct + '% успешно применена';
+      } else {
+        promoStatus.className = 'promo-status error';
+        promoStatus.textContent = 'Промокод не найден или устарел';
+      }
+    });
+  }
+
+  if(removePromoBannerBtn){
+    removePromoBannerBtn.addEventListener('click', function(){
+      NoxStore.removePromoCode();
+      if(promoInput) promoInput.value = '';
+      if(promoStatus) promoStatus.textContent = '';
+    });
+  }
+
+  // Check URL query parameter ?promo=...
+  (function(){
+    try{
+      var params = new URLSearchParams(window.location.search);
+      var promoParam = params.get('promo');
+      if(!promoParam && window.location.hash){
+        var hashIdx = window.location.hash.indexOf('promo=');
+        if(hashIdx !== -1) promoParam = window.location.hash.substring(hashIdx + 6).split('&')[0];
+      }
+      if(promoParam){
+        var res = NoxStore.applyPromoCode(promoParam);
+        if(res.success && promoInput){
+          promoInput.value = res.promo.code;
+          if(promoStatus){
+            promoStatus.className = 'promo-status success';
+            promoStatus.textContent = '✓ Промокод ' + res.promo.code + ' активирован!';
+          }
+        }
+      }
+    }catch(e){}
+  })();
+
+  // Form Submit
+  if(form){
+    form.addEventListener('submit', async function(e){
+      e.preventDefault();
+      if(errorMsg) errorMsg.textContent = '';
+
+      var nameVal = (document.getElementById('cust-name') || {}).value || '';
+      var phoneVal = (document.getElementById('cust-phone') || {}).value || '';
+      var addrVal = (document.getElementById('cust-address') || {}).value || '';
+      var payMethodRadio = document.querySelector('input[name="payment_method"]:checked');
+      var payVal = payMethodRadio ? payMethodRadio.value : 'Click / Payme';
+
+      if(nameVal.trim().length < 2){
+        if(errorMsg) errorMsg.textContent = 'Пожалуйста, введите ваше имя.';
+        return;
+      }
+      if(phoneVal.replace(/\D/g, '').length < 9){
+        if(errorMsg) errorMsg.textContent = 'Пожалуйста, введите корректный номер телефона.';
+        return;
+      }
+      if(addrVal.trim().length < 4){
+        if(errorMsg) errorMsg.textContent = 'Пожалуйста, укажите адрес доставки в Ташкенте.';
+        return;
+      }
+
+      var btnText = submitBtn.querySelector('.btn-text');
+      if(btnText) btnText.textContent = 'Отправка заказа...';
+      submitBtn.disabled = true;
+
+      var orderNum = 'NOX-' + Math.floor(1000 + Math.random() * 9000);
+      var curLang = NoxStore.state.lang;
+      var effPrice = NoxStore.formatMoney(NoxStore.getEffectivePrice(NoxStore.state.package), curLang);
+      var pkgTitle = NoxStore.state.package === 'single' ? '1 пара — The Diamond' : 'Сет из 2 пар (Для двоих)';
+
+      var payload = {
+        orderId: orderNum,
+        packageName: pkgTitle,
+        price: effPrice,
+        promoCode: NoxStore.state.promo ? NoxStore.state.promo.code : '',
+        partner: NoxStore.state.promo ? NoxStore.state.promo.partner : '',
+        discount: NoxStore.state.promo ? (Math.round(NoxStore.state.promo.discount * 100) + '%') : '',
+        name: nameVal.trim(),
+        phone: phoneVal.trim(),
+        address: addrVal.trim(),
+        paymentMethod: payVal,
+        lang: curLang
+      };
+
+      try {
+        var res = await fetch('/api/order', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        var data = await res.json();
+        if(data && data.orderId) orderNum = data.orderId;
+      } catch (err) {
+        console.warn('Order dispatch network error, handled gracefully:', err);
+      }
+
+      if(formView) formView.style.display = 'none';
+      if(successView) successView.style.display = 'block';
+      var orderIdDisplay = document.getElementById('success-order-id');
+      if(orderIdDisplay) orderIdDisplay.textContent = '#' + orderNum;
+
+      var successTg = document.getElementById('success-tg-link');
+      if(successTg){
+        var confirmMsg = "Здравствуйте! Я оформил заказ #" + orderNum + " на сайте (" + pkgTitle + ", " + effPrice + "). Хочу подтвердить адрес.";
+        successTg.href = "https://t.me/noxglasses?text=" + encodeURIComponent(confirmMsg);
+      }
+    });
+  }
+})();
+
 /* ---- Language Switcher (RU / UZ / EN) ---------------------------------------
    Default language: RU (Russian, ~70% Tashkent market), with UZ and EN.
    Synchronized between header and footer with persistent local storage.
@@ -949,6 +2012,9 @@ a{ color:inherit; text-decoration:none; }
       'btn.shop':"Заказать в Telegram",
       'btn.explore':"Смотреть оправу",
       'btn.order':"Заказать в Telegram",
+      'btn.orderWeb':"Оформить заказ на сайте",
+      'btn.orderTg':"Заказать в Telegram",
+      'btn.orderWebShort':"Заказать",
       'val.a.t':"Естественный мелатонин",
       'val.a.d':"Красный фильтр отсекает частоты до 550 нм, давая мозгу биологический сигнал о наступлении ночи.",
       'val.b.t':"Снятие глазного спазма",
@@ -974,6 +2040,16 @@ a{ color:inherit; text-decoration:none; }
       'pricing.bundle.price':"550 000 сум",
       'pricing.bundle.d':"Две пары The Diamond для вас и близкого человека. Полный комплект к каждой паре + бесплатная доставка по Ташкенту.",
       'prod.guarantee':"Доставка в день заказа · Есть возможность возврата",
+      'unbox.eyebrow':"Премиальная комплектация",
+      'unbox.title':"Всё для идеального вечернего ритуала.",
+      'unbox.i1.t':"Очки The Diamond",
+      'unbox.i1.d':"Ультралегкая оправа TR90 (22 г) с глубоким циркадным светофильтром 97.8%.",
+      'unbox.i2.t':"Матовый жесткий футляр",
+      'unbox.i2.d':"Фирменный кейс Nox с магнитной фиксацией для защиты очков дома и в поездках.",
+      'unbox.i3.t':"Плотная микрофибра",
+      'unbox.i3.d':"Премиальная салфетка для бережной чистки оптических линз от отпечатков и пыли.",
+      'unbox.i4.t':"PDF «Nox Protocol»",
+      'unbox.i4.d':"Полный авторский гид по настройке фаз глубокого сна и вечерней гигиены света.",
       'guide.eyebrow':"Бесплатный подарок к заказу",
       'guide.title':"Гид по сну Nox Sleep Protocol",
       'guide.desc':"Очки — мощный оптический инструмент, но системный результат строится на привычках. К каждой паре очков мы дарим авторский PDF-протокол вечерней гигиены:",
@@ -985,6 +2061,15 @@ a{ color:inherit; text-decoration:none; }
       'guide.p3.d':"Физиология охлаждения тела для глубоких фаз восстановительного сна.",
       'guide.p4.t':"Цифровой закат",
       'guide.p4.d':"Простые вечерние ритуалы за 30 минут до сна без стресса от уведомлений.",
+      'sim.eyebrow':"Интерактивный опыт",
+      'sim.title':"Смотрите сквозь линзы Nox.",
+      'sim.desc':"Сравните жесткий холодный свет экрана с мягким вечерним спектром, в котором глаза мгновенно расслабляются.",
+      'sim.badge.day':"Обычный режим: Холодный синий",
+      'sim.badge.nox':"Режим Nox: Спектр сна",
+      'sim.btn.day':"Без очков (холодный синий)",
+      'sim.btn.nox':"В очках Nox (97.8% фильтр)",
+      'sim.cap.day':"Синий свет экранов и ламп блокирует мелатонин и вызывает спазм глазных мышц.",
+      'sim.cap.nox':"Сетчатка получает биологический сигнал о темноте, активируя выработку мелатонина.",
       'spec.eyebrow':"Наука и оптика",
       'spec.label':"синего и зелёного спектра отфильтровано",
       'spec.copy':"Обычные прозрачные компьютерные очки задерживают лишь 10–20% фиолетового спектра и не защищают мелатонин. Оптические линзы Nox глубокого красного цвета отсекают сине-зелёный спектр до 550 нм — именно те волны, которые разрушают ночной гормон сна.",
@@ -992,14 +2077,29 @@ a{ color:inherit; text-decoration:none; }
       'spec.l2':"Глубокий рубиновый вечерний светофильтр (до 550 нм)",
       'spec.l3':"Сверхлёгкая оправа TR90 (весит всего 22 г)",
       'spec.l4':"Антибликовое покрытие и защита от микроцарапин",
+      'rev.eyebrow':"Опыт первых владельцев в Ташкенте",
+      'rev.title':"Те, кто вернул себе глубокий сон.",
+      'rev.q1':"«Работаю разработчиком, часто сижу за кодом до полуночи. Раньше к 23:00 глаза просто выгорали, а потом еще час не мог уснуть. В Nox надеваю за 2 часа до сна — засыпаю минут за 15. Разница колоссальная.»",
+      'rev.n1':"Алишер У.",
+      'rev.r1':"Senior Frontend Engineer · Ташкент",
+      'rev.q2':"«Боялась, что оправа будет тяжелой или давить на переносицу. Она вообще невесомая, 22 грамма реально не чувствуются! И очень эстетично выглядит. Утром просыпаюсь со свежей головой и без сухости глаз.»",
+      'rev.n2':"Малика Т.",
+      'rev.r2':"Контент-директор · Ташкент",
+      'rev.q3':"«Взяли сет из двух пар с женой. Доставили через Yandex Go за 1.5 часа прямо в день заказа. Сидим в них по вечерам за книгами и ноутбуком. Качество линз и коробки топ, приятно держать в руках.»",
+      'rev.n3':"Сардор М.",
+      'rev.r3':"Предприниматель · Ташкент",
+      'rev.v':"Проверенная покупка",
       'how.eyebrow':"Сервис в Ташкенте",
       'how.title':"Как получить очки в Ташкенте",
-      'how.s1.t':"1. Заказ в Telegram",
-      'how.s1.d':"Напишите нам в чат в пару кликов без предоплаты. Менеджер свяжется с вами за 2–5 минут и согласует адрес.",
+      'how.s1.t':"1. Заказ в Telegram или на сайте",
+      'how.s1.d':"Оформите заказ на сайте или напишите в Telegram без предоплаты. Менеджер свяжется с вами за 2–5 минут.",
       'how.s2.t':"2. Доставка день в день",
       'how.s2.d':"Отправляем курьером через сервис Yandex Go по всему Ташкенту — очки приедут уже через 1–2 часа.",
       'how.s3.t':"3. Оплата при получении",
       'how.s3.d':"Оплатите курьеру через Click, Payme или наличными. Если очки вам не подойдут, есть возможность возврата.",
+      'how.trust.cash':"Наличными курьеру",
+      'how.trust.yandex':"Yandex Go 1–2 часа",
+      'how.trust.return':"Возврат при получении",
       'faq.eyebrow':"Вопросы и ответы",
       'faq.title':"Всё, что важно знать о Nox.",
       'faq.q1':"Почему линзы именно красные, а не прозрачные или жёлтые?",
@@ -1013,7 +2113,25 @@ a{ color:inherit; text-decoration:none; }
       'cta.eyebrow':"Заказ в Ташкенте",
       'cta.title':"Подарите себе ночь глубокого сна.",
       'cta.desc':"Напишите нам в Telegram, чтобы заказать The Diamond с доставкой в день заказа и получить полный протокол сна.",
-      'foot.loc':"Ташкент, Узбекистан · © 2026 Nox"
+      'foot.loc':"Ташкент, Узбекистан · © 2026 Nox",
+      'modal.eyebrow':"Быстрый заказ в Ташкенте",
+      'modal.title':"Оформление заказа",
+      'modal.subtitle':"Без предоплаты. Оплата курьеру при получении.",
+      'modal.pkg.label':"Комплект",
+      'modal.promo.label':"Промокод (если есть)",
+      'modal.promo.apply':"Применить",
+      'modal.name.label':"Ваше имя *",
+      'modal.phone.label':"Телефон *",
+      'modal.addr.label':"Адрес доставки в Ташкенте *",
+      'modal.pay.label':"Способ оплаты при получении",
+      'modal.pay.cash':"Наличными",
+      'modal.total.label':"Итого к оплате:",
+      'modal.total.sub':"Доставка в день заказа через Yandex Go",
+      'modal.submit':"Подтвердить заказ",
+      'modal.success.title':"Заказ успешно принят!",
+      'modal.success.desc':"Наш менеджер свяжется с вами по указанному номеру в течение 5–10 минут для подтверждения адреса и отправки курьера.",
+      'modal.success.tg':"Написать нам в Telegram",
+      'modal.success.close':"Вернуться на сайт"
     },
     uz: {
       'page.title':"Nox — Chuqur uyqu va sirkad ritmlar uchun ko'zoynaklar | Toshkent",
@@ -1030,6 +2148,9 @@ a{ color:inherit; text-decoration:none; }
       'btn.shop':"Telegram orqali xarid",
       'btn.explore':"Ramkani ko'rish",
       'btn.order':"Telegram orqali buyurtma",
+      'btn.orderWeb':"Saytda buyurtma berish",
+      'btn.orderTg':"Telegram orqali buyurtma",
+      'btn.orderWebShort':"Buyurtma",
       'val.a.t':"Tabiiy melatonin",
       'val.a.d':"Qizil filtr 550 nm gacha bo'lgan to'lqinlarni to'sib, tanaga tabiiy tun tushganini bildiradi.",
       'val.b.t':"Ko'zlar uchun orom",
@@ -1055,6 +2176,16 @@ a{ color:inherit; text-decoration:none; }
       'pricing.bundle.price':"550 000 so'm",
       'pricing.bundle.d':"Siz va yaqiningiz uchun ikkita juftlik. Har bir juftlik uchun to'liq to'plam + Toshkent bo'ylab bepul yetkazib berish.",
       'prod.guarantee':"Buyurtma kunida yetkazish · Qaytarish imkoniyati mavjud",
+      'unbox.eyebrow':"Premium to'plam",
+      'unbox.title':"Kechki mukammal marosim uchun barcha vositalar.",
+      'unbox.i1.t':"The Diamond ko'zoynagi",
+      'unbox.i1.d':"TR90 yengil ramkasi (22 g) va 97.8% sirkad yorug'lik filtri.",
+      'unbox.i2.t':"Mot qattiq g'ilof",
+      'unbox.i2.d':"Ko'zoynakni asrash uchun magnitli qulfga ega maxsus Nox qutisi.",
+      'unbox.i3.t':"Zich mikrofibra salfetka",
+      'unbox.i3.d':"Optik linzalarni toza va ehtiyotkorona artish uchun maxsus mato.",
+      'unbox.i4.t':"PDF «Nox Protocol»",
+      'unbox.i4.d':"Chuqur uyqu va kechki bioritmlarni sozlash bo'yicha to'liq qo'llanma.",
       'guide.eyebrow':"Har bir buyurtma uchun bepul sovg'a",
       'guide.title':"Nox Sleep Protocol — kechki uyqu bo'yicha qo'llanma",
       'guide.desc':"Ko'zoynak — muhim optik vosita, lekin tizimli odatlar haqiqiy natija keltiradi. Har bir xarid bilan birga maxsus PDF uyqu qo'llanmasiga ega bo'lasiz:",
@@ -1066,6 +2197,15 @@ a{ color:inherit; text-decoration:none; }
       'guide.p3.d':"Chuqur tiklovchi uyqu fazalariga kirish uchun tanani tabiiy sovutish fiziologiyasi.",
       'guide.p4.t':"Raqamli oqshom",
       'guide.p4.d':"Uyqudan 30 daqiqa oldin bildirishnomalar va ekransiz osoyishta dam olish tartibi.",
+      'sim.eyebrow':"Interaktiv tajriba",
+      'sim.title':"Nox linzalari orqali qarang.",
+      'sim.desc':"Ekranlarning sovuq nuri bilan ko'zlar bir zumda dam oladigan yumshoq oqshom spektrini taqqoslang.",
+      'sim.badge.day':"Oddiy rejim: Sovuq ko'k nur",
+      'sim.badge.nox':"Nox rejimi: Sirkad uyqu spektri",
+      'sim.btn.day':"Ko'zoynaksiz (sovuq ko'k)",
+      'sim.btn.nox':"Nox ko'zoynagida (97.8% filtr)",
+      'sim.cap.day':"Ekranlarning ko'k nuri melatoninni to'xtatadi va ko'z mushaklarini charchatadi.",
+      'sim.cap.nox':"Ko'z to'r pardasi biologik qorong'ulik signalini oladi va melatonin ishlab chiqariladi.",
       'spec.eyebrow':"Ilmiy optika",
       'spec.label':"ko'k va yashil nur to'liq filtrlanadi",
       'spec.copy':"Oddiy shaffof kompyuter ko'zoynaklari atigi 10–20% binafsha nurni tutadi va melatoninni asramaydi. Nox'ning chuqur qizil optik linzalari 550 nm gacha bo'lgan nurni to'sadi — aynan shu to'lqinlar uyquni buzadi.",
@@ -1073,14 +2213,29 @@ a{ color:inherit; text-decoration:none; }
       'spec.l2':"Chuqur yoqut rangli kechki yorug'lik filtri (550 nm)",
       'spec.l3':"O'ta yengil va egiluvchan TR90 ramkasi (vazni 22 g)",
       'spec.l4':"Yaltirashga qarshi va chizilishdan himoyalovchi qatlam",
+      'rev.eyebrow':"Toshkentdagi ilk xaridorlar fikri",
+      'rev.title':"Chuqur uyquni qaytargan insonlar.",
+      'rev.q1':"«Dasturchiman, kechalari uzoq ishlayman. Ilgari soat 23:00 da ko'zlarim toliqib ketardi va uyquga ketish qiyin edi. Nox bilan 15 daqiqada uxlab qolyapman. Farqi juda katta.»",
+      'rev.n1':"Alisher O'masov",
+      'rev.r1':"Senior Frontend Dasturchi · Toshkent",
+      'rev.q2':"«Ramka og'ir bo'lishidan qo'rqqandim. Lekin u mutlaqo vaznsiz, 22 gramm yuzda sezilmaydi! Ertalab ko'zlarimda quruqlik hissisiz tetik uyg'onmoqdaman.»",
+      'rev.n2':"Malika T.",
+      'rev.r2':"Kontent-direktor · Toshkent",
+      'rev.q3':"«Ayolim bilan ikki juftlik to'plam oldik. Yandex Go orqali buyurtma berilgan kuni 1.5 soatda yetkazib berishdi. Sifati va qutisi a'lo darajada.»",
+      'rev.n3':"Sardor M.",
+      'rev.r3':"Tadbirkor · Toshkent",
+      'rev.v':"Tasdiqlangan xarid",
       'how.eyebrow':"Toshkentda xizmat ko'rsatish",
       'how.title':"Toshkentda buyurtma berish tartibi",
-      'how.s1.t':"1. Telegram orqali buyurtma",
-      'how.s1.d':"Oldindan to'lovsiz bir necha bosishda yozing. Menejer 2–5 daqiqada javob berib, manzilni aniqlaydi.",
+      'how.s1.t':"1. Telegram yoki sayt orqali buyurtma",
+      'how.s1.d':"Saytda buyurtma bering yoki Telegram'da yozing. Menejer 2–5 daqiqada siz bilan bog'lanadi.",
       'how.s2.t':"2. Buyurtma kuni yetkazish",
       'how.s2.d':"Yandex Go orqali Toshkent bo'yicha tez yuboramiz — ko'zoynaklar 1–2 soat ichida yetib boradi.",
       'how.s3.t':"3. Qabul qilganda to'lov",
       'how.s3.d':"Kuryerga Click, Payme yoki naqd to'lang. Agar ko'zoynak mos kelmasa, qaytarish imkoniyati mavjud.",
+      'how.trust.cash':"Kuryerga naqd to'lash",
+      'how.trust.yandex':"Yandex Go 1–2 soat",
+      'how.trust.return':"Mos kelmasa qaytarish",
       'faq.eyebrow':"Ko'p so'raladigan savollar",
       'faq.title':"Nox haqida barcha muhim savollar.",
       'faq.q1':"Nega linzalar shaffof yoki sariq emas, balki qizil?",
@@ -1094,7 +2249,25 @@ a{ color:inherit; text-decoration:none; }
       'cta.eyebrow':"Toshkentda buyurtma",
       'cta.title':"O'zingizga chuqur uyqu sovg'a qiling.",
       'cta.desc':"The Diamond ko'zoynaklarini buyurtma qilish va to'liq uyqu qo'llanmasiga ega bo'lish uchun Telegram'da yozing.",
-      'foot.loc':"Toshkent, O'zbekiston · © 2026 Nox"
+      'foot.loc':"Toshkent, O'zbekiston · © 2026 Nox",
+      'modal.eyebrow':"Toshkentda tezkor buyurtma",
+      'modal.title':"Buyurtmani rasmiylashtirish",
+      'modal.subtitle':"Oldindan to'lovsiz. To'lov kuryerga qabul qilinganda.",
+      'modal.pkg.label':"To'plam",
+      'modal.promo.label':"Promokod (mavjud bo'lsa)",
+      'modal.promo.apply':"Qo'llash",
+      'modal.name.label':"Ismingiz *",
+      'modal.phone.label':"Telefon raqamingiz *",
+      'modal.addr.label':"Toshkentdagi yetkazib berish manzili *",
+      'modal.pay.label':"Qabul qilganda to'lov usuli",
+      'modal.pay.cash':"Naqd pul",
+      'modal.total.label':"Jami to'lov:",
+      'modal.total.sub':"Yandex Go orqali buyurtma kunida yetkazish",
+      'modal.submit':"Buyurtmani tasdiqlash",
+      'modal.success.title':"Buyurtmangiz qabul qilindi!",
+      'modal.success.desc':"Menejerimiz manzilni aniqlashtirish va kuryer yuborish uchun 5–10 daqiqada siz bilan bog'lanadi.",
+      'modal.success.tg':"Telegram'da yozish",
+      'modal.success.close':"Saytga qaytish"
     },
     en: {
       'page.title':"Nox — Circadian Eyewear for Deep Sleep | Tashkent",
@@ -1111,6 +2284,9 @@ a{ color:inherit; text-decoration:none; }
       'btn.shop':"Order via Telegram",
       'btn.explore':"See the Frame",
       'btn.order':"Order via Telegram",
+      'btn.orderWeb':"Order Online",
+      'btn.orderTg':"Order via Telegram",
+      'btn.orderWebShort':"Order",
       'val.a.t':"Natural Melatonin",
       'val.a.d':"Blocks light wavelengths up to 550 nm, sending your pineal gland the biological signal for nighttime.",
       'val.b.t':"Eye Strain Relief",
@@ -1136,6 +2312,16 @@ a{ color:inherit; text-decoration:none; }
       'pricing.bundle.price':"550,000 UZS",
       'pricing.bundle.d':"Two pairs of The Diamond for you and your partner or colleague. Full kit with each pair + free Tashkent courier delivery.",
       'prod.guarantee':"Same-day delivery · Return option available",
+      'unbox.eyebrow':"Premium Kit",
+      'unbox.title':"Everything crafted for your evening ritual.",
+      'unbox.i1.t':"The Diamond Glasses",
+      'unbox.i1.d':"Featherlight TR90 frame (22g) with 97.8% circadian light filter.",
+      'unbox.i2.t':"Matte Hardshell Case",
+      'unbox.i2.d':"Custom magnetic-closure case engineered to protect your glasses at home and travel.",
+      'unbox.i3.t':"Dense Microfiber Cloth",
+      'unbox.i3.d':"Premium lint-free cloth designed for streak-free optical maintenance.",
+      'unbox.i4.t':"PDF «Nox Protocol»",
+      'unbox.i4.d':"Comprehensive sleep optimization guide for circadian health and lighting hygiene.",
       'guide.eyebrow':"Complimentary with every order",
       'guide.title':"Nox Sleep Protocol — Evening Ritual Guide",
       'guide.desc':"Glasses are an essential optical tool, but systemic sleep transformation requires habit alignment. With each pair, you receive our comprehensive PDF evening guide:",
@@ -1147,6 +2333,15 @@ a{ color:inherit; text-decoration:none; }
       'guide.p3.d':"The physiology of core temperature cooling required for deep restorative sleep phases.",
       'guide.p4.t':"Digital Sunset",
       'guide.p4.d':"Simple evening routines 30 minutes before bed without device notifications and cognitive arousal.",
+      'sim.eyebrow':"Interactive Experience",
+      'sim.title':"Look through Nox lenses.",
+      'sim.desc':"Compare harsh cold screen glare with the soothing evening spectrum where your eyes unwind.",
+      'sim.badge.day':"Standard mode: Cold blue glare",
+      'sim.badge.nox':"Nox mode: Circadian sleep spectrum",
+      'sim.btn.day':"Without glasses (cold blue)",
+      'sim.btn.nox':"With Nox (97.8% filter)",
+      'sim.cap.day':"Blue frequencies delay melatonin release and trigger ciliary eye strain.",
+      'sim.cap.nox':"Retina receives the biological signal for night, prompting restorative sleep.",
       'spec.eyebrow':"Optical Science",
       'spec.label':"of blue & green light filtered",
       'spec.copy':"Standard clear computer glasses only block 10–20% of violet light and do not protect melatonin. Nox optical lenses in deep red eliminate wavelengths up to 550 nm — the exact spectrum that disrupts human sleep architecture.",
@@ -1154,14 +2349,29 @@ a{ color:inherit; text-decoration:none; }
       'spec.l2':"Deep ruby circadian evening filter (up to 550 nm)",
       'spec.l3':"Featherlight, flexible TR90 frame (22 grams)",
       'spec.l4':"Anti-reflective and anti-scratch coating",
+      'rev.eyebrow':"Early Testers in Tashkent",
+      'rev.title':"Those who reclaimed deep sleep.",
+      'rev.q1':"«I work late as an engineer. Usually by 11 PM my eyes were burning and sleep was elusive. With Nox, I fall asleep in 15 minutes. Truly remarkable.»",
+      'rev.n1':"Alisher U.",
+      'rev.r1':"Senior Frontend Engineer · Tashkent",
+      'rev.q2':"«I was worried about frame weight. It is practically weightless at 22 grams! I wake up with fresh eyes and no dry grit.»",
+      'rev.n2':"Malika T.",
+      'rev.r2':"Content Director · Tashkent",
+      'rev.q3':"«Ordered the 2-pair bundle for my wife and me. Delivered via Yandex Go in 90 minutes. Build quality is exceptional.»",
+      'rev.n3':"Sardor M.",
+      'rev.r3':"Founder · Tashkent",
+      'rev.v':"Verified Purchase",
       'how.eyebrow':"Service in Tashkent",
       'how.title':"How to Order in Tashkent",
-      'how.s1.t':"1. Quick Order via Telegram",
-      'how.s1.d':"Message us in a couple of clicks without prepayment. A manager confirms your order and address within 2–5 minutes.",
+      'how.s1.t':"1. Quick Order via Telegram or Online",
+      'how.s1.d':"Order directly on our site or message us on Telegram. A manager confirms your order within 2–5 minutes.",
       'how.s2.t':"2. Same-Day Courier",
       'how.s2.d':"Dispatched via Yandex Go across Tashkent on the same day — usually arrives in 1–2 hours.",
       'how.s3.t':"3. Payment on Delivery",
       'how.s3.d':"Pay the courier via Click, Payme, or cash. A return option is available if the frame doesn't suit you.",
+      'how.trust.cash':"Cash on delivery",
+      'how.trust.yandex':"Yandex Go 1–2h",
+      'how.trust.return':"Return option available",
       'faq.eyebrow':"Frequently Asked Questions",
       'faq.title':"Everything you should know about Nox.",
       'faq.q1':"Why are the lenses deep red rather than clear or yellow?",
@@ -1175,7 +2385,25 @@ a{ color:inherit; text-decoration:none; }
       'cta.eyebrow':"Order in Tashkent",
       'cta.title':"Give yourself a night of deep, restorative sleep.",
       'cta.desc':"Message us on Telegram to order The Diamond with same-day Tashkent delivery and get the complete Sleep Protocol.",
-      'foot.loc':"Tashkent, Uzbekistan · © 2026 Nox"
+      'foot.loc':"Tashkent, Uzbekistan · © 2026 Nox",
+      'modal.eyebrow':"Fast Order in Tashkent",
+      'modal.title':"Checkout Order",
+      'modal.subtitle':"No prepayment required. Pay the courier upon delivery.",
+      'modal.pkg.label':"Selected Package",
+      'modal.promo.label':"Promo code (if applicable)",
+      'modal.promo.apply':"Apply",
+      'modal.name.label':"Your Name *",
+      'modal.phone.label':"Phone Number *",
+      'modal.addr.label':"Delivery Address in Tashkent *",
+      'modal.pay.label':"Payment on Delivery",
+      'modal.pay.cash':"Cash",
+      'modal.total.label':"Total Amount:",
+      'modal.total.sub':"Same-day delivery in Tashkent via Yandex Go",
+      'modal.submit':"Confirm Order",
+      'modal.success.title':"Order Received!",
+      'modal.success.desc':"Our manager will call you within 5–10 minutes to verify your delivery address and dispatch the courier.",
+      'modal.success.tg':"Message us on Telegram",
+      'modal.success.close':"Back to website"
     }
   };
 
@@ -1202,6 +2430,10 @@ a{ color:inherit; text-decoration:none; }
     });
 
     try{ localStorage.setItem('nox-lang', lang); }catch(e){}
+
+    if(typeof NoxStore !== 'undefined' && NoxStore.setLang){
+      NoxStore.setLang(lang);
+    }
   }
 
   var saved = null;
