@@ -2099,6 +2099,7 @@ var NoxStore = (function(){
       var payload = {
         orderId: orderNum,
         packageName: pkgTitle,
+        packageType: NoxStore.state.package || 'single',
         price: effPrice,
         promoCode: NoxStore.state.promo ? NoxStore.state.promo.code : '',
         partner: NoxStore.state.promo ? NoxStore.state.promo.partner : '',

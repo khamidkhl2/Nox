@@ -1,7 +1,7 @@
 // Vercel Serverless Function: /api/order
-// Dispatches order notifications to Telegram Bot
+// Dispatches order notifications with inline completion buttons to Telegram Bot
 
-import { incrementPromoUses } from './lib/storage.js';
+import { incrementPromoUses, COMMISSION_SINGLE, COMMISSION_DUO } from './lib/storage.js';
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Credentials', 'true');
@@ -26,6 +26,7 @@ export default async function handler(req, res) {
     const {
       orderId = 'NOX-' + Math.floor(1000 + Math.random() * 9000),
       packageName = '1 пара — The Diamond',
+      packageType = '',
       price = '300 000 сум',
       promoCode = '',
       partner = '',
@@ -41,6 +42,15 @@ export default async function handler(req, res) {
     if (!name || !phone) {
       return res.status(400).json({ error: 'Name and phone are required.' });
     }
+
+    const cleanPromo = promoCode ? String(promoCode).trim().toUpperCase() : '';
+    const isDuo = String(packageType).toLowerCase() === 'duo' ||
+                  String(packageName).toLowerCase().includes('сет') ||
+                  String(packageName).toLowerCase().includes('2') ||
+                  String(packageName).toLowerCase().includes('двоих');
+    const itemType = isDuo ? 'duo' : 'single';
+    const commission = isDuo ? COMMISSION_DUO : COMMISSION_SINGLE;
+    const commissionFormatted = commission.toLocaleString('ru-RU') + ' сум';
 
     const now = new Date();
     // Tashkent time UTC+5
@@ -60,11 +70,12 @@ export default async function handler(req, res) {
     let text = `🌙 <b>НОВЫЙ ЗАКАЗ NOX</b> (#${orderId})\n`;
     text += `━━━━━━━━━━━━━━━━━━━━━\n`;
     text += `📦 <b>Комплект:</b> ${escapeHtml(packageName)}\n`;
-    if (promoCode) {
-      text += `🏷 <b>Промокод:</b> <code>${escapeHtml(promoCode)}</code>`;
+    if (cleanPromo) {
+      text += `🏷 <b>Промокод:</b> <code>${escapeHtml(cleanPromo)}</code>`;
       if (partner) text += ` (${escapeHtml(partner)})`;
       if (discount) text += ` · Скидка: ${escapeHtml(discount)}`;
       text += `\n`;
+      text += `💵 <b>Комиссия блогеру при выполнении:</b> ${commissionFormatted}\n`;
     }
     text += `💰 <b>Сумма к оплате:</b> <b>${escapeHtml(price)}</b>\n\n`;
     text += `👤 <b>Клиент:</b> ${escapeHtml(name)}\n`;
@@ -77,6 +88,19 @@ export default async function handler(req, res) {
     text += `\n🌐 <b>Язык сайта:</b> ${String(lang).toUpperCase()}\n`;
     text += `⏱ <b>Время:</b> ${timeFormatted} (Ташкент)`;
 
+    const inlineBtnText = cleanPromo
+      ? `✅ Отметить выполненным (+${commissionFormatted})`
+      : `✅ Отметить выполненным`;
+
+    const inlineKeyboard = [
+      [
+        {
+          text: inlineBtnText,
+          callback_data: `ord_comp:${orderId}:${cleanPromo || 'none'}:${itemType}`
+        }
+      ]
+    ];
+
     let telegramSent = false;
     if (botToken && chatId) {
       const tgRes = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
@@ -86,7 +110,10 @@ export default async function handler(req, res) {
           chat_id: chatId,
           text: text,
           parse_mode: 'HTML',
-          disable_web_page_preview: true
+          disable_web_page_preview: true,
+          reply_markup: {
+            inline_keyboard: inlineKeyboard
+          }
         })
       });
       const tgData = await tgRes.json();
@@ -98,9 +125,9 @@ export default async function handler(req, res) {
       console.log('Order received (Telegram env not configured):', { orderId, name, phone, price });
     }
 
-    if (promoCode) {
+    if (cleanPromo) {
       try {
-        await incrementPromoUses(promoCode);
+        await incrementPromoUses(cleanPromo);
       } catch (e) {
         console.warn('Could not increment promo uses:', e);
       }

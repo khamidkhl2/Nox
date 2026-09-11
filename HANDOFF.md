@@ -52,15 +52,20 @@ Set these in **Vercel Dashboard** → **Project Settings** → **Environment Var
 | :--- | :--- | :--- | :--- |
 | `TELEGRAM_BOT_TOKEN` | **Yes** | HTTP API Bot token from [@BotFather](https://t.me/BotFather) | `7981234567:AAH...` |
 | `TELEGRAM_CHAT_ID` | **Yes** | Numeric Chat ID of the store owner or admin group | `567812345` or `-100...` |
+| `INFLUENCERS` | **Recommended** | Influencer Telegram IDs mapped to promo codes | `123456789:MALIKA, 987654321:FITNESS` |
 | `KV_REST_API_URL` | *Optional* | Vercel KV Redis REST URL (if using Upstash/KV) | `https://...upstash.io` |
 | `KV_REST_API_TOKEN`| *Optional* | Vercel KV Redis REST Bearer Token | `AX12...` |
 
-> [!NOTE]
-> **Zero-Config Database:** Even without Vercel KV, the storage engine in `api/lib/storage.js` automatically uses a pinned sync message inside your private Telegram chat with the bot to persist promo codes and order counts permanently for free.
+> [!TIP]
+> **How to add Influencer Telegram IDs in Vercel:**
+> - Set `INFLUENCERS` = `USER_ID:PROMOCODE` (e.g. `123456789:MALIKA`).
+> - For multiple influencers, separate by comma: `123456789:MALIKA, 987654321:FITNESS`.
+> - Alternatively, paste JSON: `{"123456789": "MALIKA"}`.
+> - Or link on the fly via the Telegram bot command: `/setinfluencer MALIKA 123456789`.
 
 ---
 
-## 🤖 4. Telegram Bot Promo Code Management System
+## 🤖 4. Telegram Bot Promo Code & Influencer Partner System
 
 ### One-Click Webhook Activation
 After deploying to Vercel, activate the Telegram webhook with a single click:
@@ -68,24 +73,45 @@ After deploying to Vercel, activate the Telegram webhook with a single click:
 
 This registers the webhook with Telegram (`setWebhook`) and installs the command menu in Telegram (`setMyCommands`).
 
-### Available Bot Commands (Admin-Only)
-The bot checks `from.id === process.env.TELEGRAM_CHAT_ID`. Only authorized admins can manage codes.
+### ✨ Influencer Experience (Personalized Dashboard)
+When a registered influencer opens `@noxbusinessbot` and presses `/start`:
+1. **Personalized Greeting:** Recognizes them by their Telegram user ID.
+2. **Attribution & Referral Link:** Shows their unique promo code (e.g. `MALIKA` - 10% off) and clickable referral link (`https://noxglasses.uz/?promo=MALIKA`).
+3. **Usage vs Completed Orders:**
+   - **Применили промокод:** Total people who applied their code and placed an order.
+   - **Завершённых заказов:** Completed / delivered orders confirmed by the store.
+   - **Breakdown:** Number of 1-pair orders vs Set of 2 orders.
+   - **В процессе доставки:** Orders currently pending fulfillment.
+4. **Accrued Earnings (Commission):**
+   - **20 000 сум** per completed 1-pair order (The Diamond)
+   - **30 000 сум** per completed Set of 2 (Для двоих)
+   - **ИТОГО К ВЫПЛАТЕ:** Total calculated earnings in UZS.
+5. **Interactive Buttons:** `[ 🔄 Обновить статистику ]`, `[ 🔗 Моя ссылка ]`, `[ ℹ️ Условия и выплаты ]`.
+
+### 🛡 Admin Commands & Order Completion Workflow
+The store owner (`TELEGRAM_CHAT_ID`) has full management tools:
 
 | Command | Description | Example Syntax |
 | :--- | :--- | :--- |
-| **`/start`** or **`/menu`** | Displays the interactive control panel with quick action buttons | `/start` |
-| **`/list`** | Lists all promo codes, discounts, partners, order counts, and referral links | `/list` |
-| **`/addpromo`** | Creates or updates a promo code with custom discount and partner name | `/addpromo MALIKA 15 Малика Блогер` |
-| **`/delpromo`** | Deletes or deactivates a promo code instantly | `/delpromo MALIKA` |
-| **`/link`** | Generates a shareable copy-paste referral link for the influencer | `/link MALIKA` |
+| **`/start`** or **`/menu`** | Admin control panel with quick action buttons | `/start` |
+| **`/influencers`** | Overview of all registered partners, their orders, and payout balances | `/influencers` |
+| **`/list`** | Lists all promo codes, discounts, usage, and completions | `/list` |
+| **`/addpromo`** | Creates or updates a promo code (optionally with Telegram ID) | `/addpromo MALIKA 10 Малика 123456789` |
+| **`/setinfluencer`**| Links an influencer's Telegram ID to an existing promo code | `/setinfluencer MALIKA 123456789` |
+| **`/complete`** | Manually marks an order as completed | `/complete NOX-4912 MALIKA single` |
+| **`/addcompleted`**| Credits an offline or Instagram DM order to an influencer | `/addcompleted MALIKA duo` |
+| **`/delpromo`** | Deactivates or removes a promo code | `/delpromo MALIKA` |
+| **`/link`** | Generates shareable referral link for a promo code | `/link MALIKA` |
 
-### Influencer Attribution & Commission Tracking
-1. You run `/addpromo FITNESS 15 Азиз Фитнес`.
-2. The bot generates: `https://noxglasses.uz/?promo=FITNESS`.
-3. The influencer shares the link with their followers.
-4. When followers click, the site instantly applies **15% off** and displays `✓ Скидка 15% активирована (Азиз Фитнес)`.
-5. When followers order, your Telegram notification attributes the order to **Азиз Фитнес**.
-6. The bot automatically increments `uses: +1`. Running `/list` shows the exact total orders driven by that partner.
+#### One-Click Order Completion:
+When a new order notification arrives in your Telegram chat:
+- An inline button is attached: `[ ✅ Отметить выполненным (+20 000 сум блогеру) ]`
+- Tapping the button immediately marks the order as fulfilled, credits the influencer, prevents duplicate counting, and updates the message card in your chat.
+
+### 🔎 Auto-Discovery for Unregistered Users:
+If a partner messages the bot before being registered, the bot replies with their exact numeric Telegram user ID in copyable form:
+> 🆔 **Ваш Telegram ID:** `123456789`
+The partner can tap to copy and send it to you.
 
 ---
 
