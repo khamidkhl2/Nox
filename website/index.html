@@ -708,20 +708,31 @@ a{ color:inherit; text-decoration:none; }
 .form-input:focus{ border-color:var(--ink); box-shadow:0 0 0 3px rgba(35,35,32,.1); }
 
 /* Modal Package Selection */
-.modal-pkg-grid{ display:grid; grid-template-columns:1fr 1fr; gap:.6rem; }
-.modal-pkg-option{ cursor:pointer; position:relative; }
+.modal-pkg-grid{ display:grid; grid-template-columns:1fr 1fr; gap:.75rem; align-items:stretch; }
+.modal-pkg-option{ cursor:pointer; position:relative; display:flex; flex-direction:column; }
 .modal-pkg-option input{ position:absolute; opacity:0; pointer-events:none; }
 .pkg-box{
-  background:#fff; border:1.5px solid var(--line); border-radius:10px;
-  padding:.75rem .85rem; display:flex; flex-direction:column; gap:.25rem;
+  background:#fff; border:1.5px solid var(--line); border-radius:12px;
+  padding:.85rem .95rem; display:flex; flex-direction:column; justify-content:space-between;
+  gap:.35rem; height:100%; min-height:82px; box-sizing:border-box;
   transition:all .2s ease;
 }
-.modal-pkg-option input:checked + .pkg-box{
+.modal-pkg-option input:checked ~ .pkg-box{
   border-color:var(--ink); background:var(--cream); box-shadow:0 4px 14px rgba(35,35,32,.08);
 }
-.pkg-title{ font-size:.8rem; font-weight:600; color:var(--ink); }
-.pkg-cost{ font-family:var(--serif); font-size:1.02rem; font-weight:500; color:var(--ink); }
-.pkg-badge{ font-size:.6rem; font-weight:600; color:#fff; background:#B83226; border-radius:999px; padding:.1em .5em; text-transform:uppercase; }
+.pkg-title{
+  font-size:.82rem; font-weight:600; color:var(--ink);
+  line-height:1.25; min-height:2.4em; display:flex; align-items:center;
+}
+.pkg-cost{ font-family:var(--serif); font-size:1.05rem; font-weight:500; color:var(--ink); }
+.pkg-badge{
+  position:absolute; top:-9px; right:10px; z-index:2;
+  font-size:.62rem; font-weight:600; color:#fff;
+  background:#B83226; border-radius:999px; padding:.22em .65em;
+  text-transform:uppercase; letter-spacing:.04em; white-space:nowrap;
+  box-shadow:0 2px 6px rgba(184,50,38,.28);
+  pointer-events:none;
+}
 
 /* Promo Input Wrap */
 .promo-input-wrap{ display:flex; gap:.5rem; }
@@ -1395,11 +1406,9 @@ a{ color:inherit; text-decoration:none; }
             </label>
             <label class="modal-pkg-option" id="opt-bundle">
               <input type="radio" name="order_pkg" value="bundle" />
+              <span class="pkg-badge" data-i18n="pricing.bundle.badge">Выгода 50 000 сум</span>
               <div class="pkg-box">
-                <div style="display:flex;justify-content:space-between;align-items:center;">
-                  <span class="pkg-title" data-i18n="pricing.bundle.t">Сет из 2 пар</span>
-                  <span class="pkg-badge" data-i18n="pricing.bundle.badge">Выгода 50 000 сум</span>
-                </div>
+                <span class="pkg-title" data-i18n="pricing.bundle.t">Сет из 2 пар (Для двоих)</span>
                 <span class="pkg-cost" id="modal-price-bundle">550 000 сум</span>
               </div>
             </label>
