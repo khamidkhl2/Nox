@@ -1,6 +1,8 @@
 // Vercel Serverless Function: /api/order
 // Dispatches order notifications to Telegram Bot
 
+import { incrementPromoUses } from './lib/storage.js';
+
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Credentials', 'true');
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -94,6 +96,14 @@ export default async function handler(req, res) {
       }
     } else {
       console.log('Order received (Telegram env not configured):', { orderId, name, phone, price });
+    }
+
+    if (promoCode) {
+      try {
+        await incrementPromoUses(promoCode);
+      } catch (e) {
+        console.warn('Could not increment promo uses:', e);
+      }
     }
 
     return res.status(200).json({

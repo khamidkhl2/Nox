@@ -1840,8 +1840,11 @@ var NoxStore = (function(){
     tgLink.href = "https://t.me/noxglasses?text=" + encodeURIComponent(text);
   }
 
-  function applyPromoCode(codeStr){
-    if(!codeStr) return { success:false, error:'empty' };
+  function applyPromoCode(codeStr, callback){
+    if(!codeStr) {
+      if(callback) callback({ success:false, error:'empty' });
+      return { success:false, error:'empty' };
+    }
     var clean = String(codeStr).toUpperCase().trim();
     if(PROMO_CODES[clean]){
       state.promo = {
@@ -1850,9 +1853,31 @@ var NoxStore = (function(){
         partner: PROMO_CODES[clean].partner
       };
       syncUI();
+      if(callback) callback({ success:true, promo: state.promo });
       return { success:true, promo: state.promo };
     }
-    return { success:false, error:'not_found' };
+
+    fetch('/api/promo?code=' + encodeURIComponent(clean))
+      .then(function(r){ return r.json(); })
+      .then(function(data){
+        if(data && data.valid){
+          PROMO_CODES[clean] = { discount: data.discount, partner: data.partner };
+          state.promo = {
+            code: clean,
+            discount: data.discount,
+            partner: data.partner
+          };
+          syncUI();
+          if(callback) callback({ success:true, promo: state.promo });
+        } else {
+          if(callback) callback({ success:false, error:'not_found' });
+        }
+      })
+      .catch(function(){
+        if(callback) callback({ success:false, error:'network' });
+      });
+
+    return { pending: true };
   }
 
   function removePromoCode(){
@@ -1962,15 +1987,44 @@ var NoxStore = (function(){
 
   if(promoApplyBtn && promoInput){
     promoApplyBtn.addEventListener('click', function(){
-      var res = NoxStore.applyPromoCode(promoInput.value);
-      if(res.success){
-        promoStatus.className = 'promo-status success';
-        var pct = Math.round(res.promo.discount * 100);
-        promoStatus.textContent = '✓ Скидка ' + pct + '% успешно применена';
-      } else {
-        promoStatus.className = 'promo-status error';
-        promoStatus.textContent = 'Промокод не найден или устарел';
+      var clean = (promoInput.value || '').trim();
+      var curLang = NoxStore.state.lang;
+      if(!clean){
+        if(promoStatus){
+          promoStatus.className = 'promo-status error';
+          promoStatus.textContent = curLang === 'uz' ? 'Promokodni kiriting' : curLang === 'en' ? 'Enter promo code' : 'Введите промокод';
+        }
+        return;
       }
+      var origBtnText = promoApplyBtn.textContent;
+      promoApplyBtn.textContent = '...';
+      promoApplyBtn.disabled = true;
+      if(promoStatus){
+        promoStatus.className = 'promo-status';
+        promoStatus.textContent = curLang === 'uz' ? 'Tekshirilmoqda...' : curLang === 'en' ? 'Checking...' : 'Проверка...';
+      }
+
+      NoxStore.applyPromoCode(clean, function(res){
+        promoApplyBtn.disabled = false;
+        promoApplyBtn.textContent = origBtnText;
+        var lang = NoxStore.state.lang;
+        if(res && res.success){
+          if(promoStatus){
+            promoStatus.className = 'promo-status success';
+            var pct = Math.round(res.promo.discount * 100);
+            promoStatus.textContent = lang === 'uz' ? ('✓ ' + pct + '% chegirma qo‘llandi') :
+                                      lang === 'en' ? ('✓ ' + pct + '% discount applied') :
+                                      ('✓ Скидка ' + pct + '% успешно применена');
+          }
+        } else {
+          if(promoStatus){
+            promoStatus.className = 'promo-status error';
+            promoStatus.textContent = lang === 'uz' ? 'Promokod topilmadi yoki eskirgan' :
+                                      lang === 'en' ? 'Promo code not found or expired' :
+                                      'Промокод не найден или устарел';
+          }
+        }
+      });
     });
   }
 
@@ -1992,14 +2046,18 @@ var NoxStore = (function(){
         if(hashIdx !== -1) promoParam = window.location.hash.substring(hashIdx + 6).split('&')[0];
       }
       if(promoParam){
-        var res = NoxStore.applyPromoCode(promoParam);
-        if(res.success && promoInput){
-          promoInput.value = res.promo.code;
-          if(promoStatus){
-            promoStatus.className = 'promo-status success';
-            promoStatus.textContent = '✓ Промокод ' + res.promo.code + ' активирован!';
+        NoxStore.applyPromoCode(promoParam, function(res){
+          if(res && res.success && promoInput){
+            promoInput.value = res.promo.code;
+            if(promoStatus){
+              promoStatus.className = 'promo-status success';
+              var lang = NoxStore.state.lang;
+              promoStatus.textContent = lang === 'uz' ? ('✓ ' + res.promo.code + ' promokodi faollashtirildi!') :
+                                        lang === 'en' ? ('✓ Promo code ' + res.promo.code + ' activated!') :
+                                        ('✓ Промокод ' + res.promo.code + ' активирован!');
+            }
           }
-        }
+        });
       }
     }catch(e){}
   })();
