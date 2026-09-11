@@ -359,26 +359,51 @@ export default async function handler(req, res) {
             botToken,
             chatId,
             `⚠️ <b>Укажите промокод и Telegram ID</b>\n\n` +
-            `Пример:\n<code>/setinfluencer MALIKA 123456789</code>`
+            `Пример:\n<code>/setinfluencer MALIKA 123456789</code>\n` +
+            `Или с именем:\n<code>/setinfluencer MALIKA 123456789 Малика</code>`
           );
         } else {
-          const code = parts[1].toUpperCase();
-          const targetId = parts[2].trim();
+          let code = parts[1].toUpperCase();
+          let targetId = parts[2].trim();
+          let partnerName = parts.slice(3).join(' ') || '';
+
+          // Auto-swap if user entered ID first, then code: e.g. /setinfluencer 123456789 MALIKA
+          if (/^\d{5,15}$/.test(code) && !/^\d+$/.test(targetId)) {
+            const temp = code;
+            code = targetId.toUpperCase();
+            targetId = temp;
+          }
+
           try {
-            const updated = await setPromoTelegramId(code, targetId);
+            const updated = await setPromoTelegramId(code, targetId, partnerName);
             await sendTg(
               botToken,
               chatId,
               `✅ <b>Telegram ID успешно привязан!</b>\n\n` +
-              `🏷 <b>Промокод:</b> ${code}\n` +
+              `🏷 <b>Промокод:</b> <code>${code}</code>\n` +
               `👤 <b>Партнер:</b> ${escapeHtml(updated.partner)}\n` +
               `🆔 <b>Telegram ID:</b> <code>${targetId}</code>\n\n` +
-              `Теперь этот блогер при открытии бота будет видеть свой партнерский кабинет и заработок.`
+              `Теперь этот блогер при открытии бота будет видеть свой персональный кабинет и заработок.`
             );
           } catch (err) {
             await sendTg(botToken, chatId, `❌ Ошибка: ${err.message}`);
           }
         }
+      } else if (cmd === '/preview' || cmd === '/cabinet') {
+        const targetCode = (parts[1] || 'MALIKA').toUpperCase();
+        const promos = await getPromos();
+        const promoData = promos[targetCode] || {
+          code: targetCode,
+          discount: 0.10,
+          partner: 'Тест',
+          uses: 0,
+          completed: 0,
+          singleCompleted: 0,
+          duoCompleted: 0,
+          earnings: 0,
+          active: true
+        };
+        await renderInfluencerDashboard(botToken, chatId, { code: targetCode, promo: promoData, partner: promoData.partner }, host);
       } else if (cmd === '/complete' || cmd === '/done') {
         if (parts.length < 2) {
           await sendTg(

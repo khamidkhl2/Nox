@@ -7,7 +7,7 @@
 export const COMMISSION_SINGLE = 20000; // 20,000 UZS per single pair
 export const COMMISSION_DUO = 30000;    // 30,000 UZS per set of 2
 
-const DEFAULT_PROMOS = {
+export const DEFAULT_PROMOS = {
   'NOX10':   { discount: 0.10, partner: 'Официальный', uses: 0, completed: 0, singleCompleted: 0, duoCompleted: 0, earnings: 0, telegramId: '', active: true },
   'SLEEP10': { discount: 0.10, partner: 'Циркадный клуб', uses: 0, completed: 0, singleCompleted: 0, duoCompleted: 0, earnings: 0, telegramId: '', active: true },
   'MALIKA':  { discount: 0.10, partner: 'Малика', uses: 0, completed: 0, singleCompleted: 0, duoCompleted: 0, earnings: 0, telegramId: '', active: true },
@@ -53,10 +53,46 @@ function normalizePromosMap(map) {
   return normalized;
 }
 
+// Guarantees all default promos and Vercel environment influencers exist in the returned dictionary
+function ensurePromosPopulated(promosMap) {
+  const result = { ...promosMap };
+
+  // 1. Ensure DEFAULT_PROMOS exist if not present
+  for (const [k, v] of Object.entries(DEFAULT_PROMOS)) {
+    if (!result[k]) {
+      result[k] = normalizePromo({ ...v, code: k });
+    }
+  }
+
+  // 2. Merge INFLUENCERS and PARTNERS env variables
+  const envInfluencers = parseInfluencersEnv(process.env.INFLUENCERS || process.env.PARTNERS || '');
+  for (const [id, item] of Object.entries(envInfluencers)) {
+    const code = item.code;
+    if (code) {
+      if (!result[code]) {
+        result[code] = normalizePromo({
+          code,
+          discount: 0.10,
+          partner: item.name || 'Партнер',
+          telegramId: id,
+          active: true
+        });
+      } else {
+        result[code].telegramId = id;
+        if (item.name && (!result[code].partner || result[code].partner === 'Партнер')) {
+          result[code].partner = item.name;
+        }
+      }
+    }
+  }
+
+  return result;
+}
+
 export async function getPromos() {
   const now = Date.now();
   if (memCachePromos && (now - cacheTime < CACHE_TTL_MS)) {
-    return memCachePromos;
+    return ensurePromosPopulated(memCachePromos);
   }
 
   // 1. Check Vercel KV
@@ -68,7 +104,7 @@ export async function getPromos() {
       const data = await res.json();
       if (data && data.result) {
         const parsed = typeof data.result === 'string' ? JSON.parse(data.result) : data.result;
-        memCachePromos = normalizePromosMap(parsed.promos || parsed);
+        memCachePromos = ensurePromosPopulated(normalizePromosMap(parsed.promos || parsed));
         memCacheOrders = parsed.completedOrders || {};
         cacheTime = now;
         return memCachePromos;
@@ -94,7 +130,7 @@ export async function getPromos() {
         if (match) {
           const parsed = JSON.parse(match[0]);
           if (parsed && (parsed.promos || parsed._nox)) {
-            memCachePromos = normalizePromosMap(parsed.promos || {});
+            memCachePromos = ensurePromosPopulated(normalizePromosMap(parsed.promos || {}));
             memCacheOrders = parsed.completedOrders || {};
             cacheTime = now;
             return memCachePromos;
@@ -126,7 +162,7 @@ export async function getPromos() {
           })
         });
       }
-      memCachePromos = normalizePromosMap(DEFAULT_PROMOS);
+      memCachePromos = ensurePromosPopulated(normalizePromosMap(DEFAULT_PROMOS));
       memCacheOrders = {};
       cacheTime = now;
       return memCachePromos;
@@ -135,7 +171,7 @@ export async function getPromos() {
     }
   }
 
-  memCachePromos = normalizePromosMap(DEFAULT_PROMOS);
+  memCachePromos = ensurePromosPopulated(normalizePromosMap(DEFAULT_PROMOS));
   memCacheOrders = {};
   cacheTime = now;
   return memCachePromos;
@@ -378,7 +414,7 @@ export async function recordManualCompleted(code, itemType = 'single') {
 
   const p = promos[cleanCode];
   p.completed = (Number(p.completed) || 0) + 1;
-  p.uses = Math.max(Number(p.uses || 0), p.completed); // Ensure uses >= completed
+  p.uses = Math.max(Number(p.uses || 0), p.completed);
   if (type === 'duo') {
     p.duoCompleted = (Number(p.duoCompleted) || 0) + 1;
   } else {
@@ -400,14 +436,30 @@ export async function recordManualCompleted(code, itemType = 'single') {
   };
 }
 
-export async function setPromoTelegramId(code, telegramId) {
+export async function setPromoTelegramId(code, telegramId, partner = '') {
   const cleanCode = String(code).trim().toUpperCase();
   const cleanId = String(telegramId).trim();
   const promos = await getPromos();
+
   if (!promos[cleanCode]) {
-    throw new Error(`Промокод ${cleanCode} не найден`);
+    promos[cleanCode] = normalizePromo({
+      code: cleanCode,
+      discount: 0.10,
+      partner: partner || 'Партнер',
+      uses: 0,
+      completed: 0,
+      singleCompleted: 0,
+      duoCompleted: 0,
+      earnings: 0,
+      telegramId: cleanId,
+      active: true,
+      created: new Date().toISOString()
+    });
+  } else {
+    promos[cleanCode].telegramId = cleanId;
+    if (partner) promos[cleanCode].partner = partner;
   }
-  promos[cleanCode].telegramId = cleanId;
+
   await savePromos(promos);
   return promos[cleanCode];
 }
@@ -446,13 +498,16 @@ export function parseInfluencersEnv(envStr = '') {
   for (const entry of entries) {
     const item = entry.trim();
     if (!item) continue;
-    // Format: ID:CODE or ID=CODE or ID:CODE:NAME
+    // Format: ID:CODE or ID=CODE or ID:CODE:NAME or just ID
     const parts = item.split(/[:=]/).map(s => s.trim());
     if (parts.length >= 2) {
       const id = parts[0];
       const code = parts[1].toUpperCase();
       const name = parts[2] || '';
       map[id] = { code, name };
+    } else if (parts.length === 1 && /^\d+$/.test(parts[0])) {
+      // Just a user ID without a code
+      map[parts[0]] = { code: 'PARTNER', name: 'Партнер' };
     }
   }
   return map;
@@ -478,6 +533,7 @@ export async function findInfluencerPromo(telegramId, envInfluencersMap = {}) {
       singleCompleted: 0,
       duoCompleted: 0,
       earnings: 0,
+      telegramId: idStr,
       active: true
     };
     return {
