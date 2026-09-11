@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NOX — О сне | Практичный гид по циркадным ритмам</title>
+  <meta name="description" content="Короткий практичный гид по глубокому сну и циркадным ритмам. Как защитить мелатонин, победить вечерний синий свет экранов и высыпаться за 7-8 часов.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌙</text></svg>">
+  <style>
+    :root {
+      --bg-color: #0A1118;
+      --card-bg: #121B24;
+      --card-border: #1E2B38;
+      --text-main: #F4F2EB;
+      --text-muted: #9BA5B0;
+      --text-sub: #D2CDC3;
+      --accent: #E26350;
+      --accent-hover: #F07563;
+      --gold: #D4AF37;
+      --cream: #FAF7EF;
+      --font-serif: Georgia, 'Times New Roman', serif;
+      --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      font-size: 16px;
+      line-height: 1.65;
+      padding-bottom: 90px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Top Sticky Nav */
+    .top-bar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(10, 17, 24, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--card-border);
+      padding: 12px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .top-bar-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .brand-logo {
+      font-family: var(--font-serif);
+      font-size: 20px;
+      letter-spacing: 3px;
+      font-weight: 700;
+      color: var(--text-main);
+      text-decoration: none;
+    }
+
+    .back-link {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      transition: color 0.2s;
+    }
+    .back-link:hover {
+      color: var(--text-main);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .pdf-btn {
+      background: rgba(226, 99, 80, 0.15);
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+    .pdf-btn:hover {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    /* Layout Container */
+    .container {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 30px 20px;
+    }
+
+    /* Hero */
+    .hero {
+      padding: 40px 0 30px;
+      text-align: center;
+    }
+
+    .moon-strip {
+      font-size: 20px;
+      letter-spacing: 6px;
+      margin-bottom: 18px;
+      opacity: 0.85;
+    }
+
+    .hero-tag {
+      display: inline-block;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--accent);
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    h1.hero-title {
+      font-family: var(--font-serif);
+      font-size: 44px;
+      line-height: 1.15;
+      font-weight: 400;
+      margin-bottom: 16px;
+      color: #fff;
+    }
+
+    .hero-desc {
+      font-size: 18px;
+      color: var(--text-sub);
+      max-width: 600px;
+      margin: 0 auto 24px;
+      line-height: 1.5;
+    }
+
+    .hero-lead-box {
+      background: var(--card-bg);
+      border-left: 3px solid var(--accent);
+      padding: 16px 20px;
+      border-radius: 0 8px 8px 0;
+      text-align: left;
+      font-size: 15px;
+      color: var(--text-sub);
+      margin-top: 20px;
+    }
+
+    /* Section Cards */
+    .section-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 26px 24px;
+      margin-bottom: 24px;
+    }
+
+    .chapter-tag {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--accent);
+      font-weight: 700;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    h2.section-title {
+      font-family: var(--font-serif);
+      font-size: 26px;
+      color: #fff;
+      margin-bottom: 16px;
+      font-weight: 400;
+    }
+
+    /* 7-Rules Quick Box */
+    .rules-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin-top: 14px;
+    }
+    @media (min-width: 600px) {
+      .rules-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .rule-item {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
+      padding: 12px 14px;
+      font-size: 14px;
+    }
+
+    .rule-num {
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 16px;
+      line-height: 1;
+      margin-top: 2px;
+    }
+
+    /* 4 Systems */
+    .systems-list {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin: 16px 0;
+    }
+    @media (min-width: 600px) {
+      .systems-list {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .system-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 8px;
+      padding: 14px 16px;
+    }
+    .system-card h3 {
+      font-size: 15px;
+      color: #fff;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .system-card p {
+      font-size: 13.5px;
+      color: var(--text-muted);
+      line-height: 1.45;
+    }
+
+    .callout-box {
+      background: rgba(226, 99, 80, 0.08);
+      border-left: 3px solid var(--accent);
+      padding: 12px 16px;
+      border-radius: 0 6px 6px 0;
+      font-size: 14px;
+      color: var(--text-sub);
+      margin: 14px 0;
+    }
+    .callout-box strong {
+      color: var(--accent);
+    }
+
+    /* Habits 1 to 5 */
+    .habit-item {
+      display: flex;
+      gap: 14px;
+      margin-bottom: 14px;
+      font-size: 15px;
+    }
+    .habit-badge {
+      background: var(--accent);
+      color: #fff;
+      font-weight: 700;
+      font-size: 12px;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .habit-text strong {
+      color: #fff;
+      display: block;
+      margin-bottom: 2px;
+    }
+    .habit-text {
+      color: var(--text-sub);
+      font-size: 14px;
+    }
+
+    /* Myths */
+    .myths-container {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin-top: 14px;
+    }
+    @media (min-width: 600px) {
+      .myths-container {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+    .myth-box {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 8px;
+      padding: 12px;
+      font-size: 13px;
+    }
+    .myth-title {
+      color: var(--accent);
+      font-weight: 700;
+      margin-bottom: 4px;
+      font-size: 13.5px;
+    }
+    .myth-desc {
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    /* Timeline */
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 14px;
+    }
+    .tl-row {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 14px;
+    }
+    .tl-tag {
+      background: #1B2631;
+      color: var(--text-sub);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 4px;
+      min-width: 75px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+    .tl-tag.active {
+      background: var(--accent);
+      color: #fff;
+    }
+    .tl-text {
+      color: var(--text-sub);
+      font-size: 13.5px;
+    }
+    .tl-text strong {
+      color: #fff;
+    }
+
+    /* Glasses Product Banner */
+    .glasses-banner {
+      background: linear-gradient(135deg, #16222E 0%, #0D1620 100%);
+      border: 1px solid rgba(226, 99, 80, 0.3);
+      border-radius: 12px;
+      padding: 24px;
+      margin: 30px 0;
+      text-align: center;
+    }
+    .glasses-banner h3 {
+      font-family: var(--font-serif);
+      font-size: 24px;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+    .glasses-banner h3 span {
+      color: var(--accent);
+    }
+    .glasses-banner p {
+      font-size: 14.5px;
+      color: var(--text-sub);
+      max-width: 550px;
+      margin: 0 auto 18px;
+      line-height: 1.5;
+    }
+    .order-cta-btn {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      font-weight: 600;
+      padding: 12px 28px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 15px;
+      transition: background 0.2s;
+    }
+    .order-cta-btn:hover {
+      background: var(--accent-hover);
+    }
+
+    /* Bottom Sticky Bar for Mobile */
+    .bottom-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 99;
+      background: rgba(10, 17, 24, 0.95);
+      backdrop-filter: blur(12px);
+      border-top: 1px solid var(--card-border);
+      padding: 12px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .bottom-info {
+      font-size: 13px;
+    }
+    .bottom-info .price {
+      font-weight: 700;
+      color: #fff;
+      font-size: 15px;
+    }
+    .bottom-btn {
+      background: var(--accent);
+      color: #fff;
+      padding: 8px 18px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 13.5px;
+      font-weight: 600;
+    }
+
+    /* Footer */
+    .guide-footer {
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-muted);
+      padding: 30px 20px;
+      border-top: 1px solid var(--card-border);
+      margin-top: 40px;
+    }
+    .guide-footer a {
+      color: var(--text-sub);
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <header class="top-bar">
+    <div class="top-bar-left">
+      <a href="/" class="brand-logo">NOX</a>
+      <a href="/" class="back-link">← На главную</a>
+    </div>
+    <div class="nav-actions">
+      <a href="/nox-sleep-guide-ru.pdf" target="_blank" class="pdf-btn">
+        <span>📥</span> Скачать PDF
+      </a>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Hero Header -->
+    <div class="hero">
+      <div class="moon-strip">🌑 🌒 🌓 🌔 🌕 🌖 🌗 🌘</div>
+      <div class="hero-tag">Циркадный протокол · Ташкент</div>
+      <h1 class="hero-title">О сне.</h1>
+      <p class="hero-desc">
+        Короткий практичный гид по биологии сна и циркадным ритмам. Читается за 5 минут — применимо уже сегодня вечером.
+      </p>
+      <div class="hero-lead-box">
+        Экраны стали ярче, спектр вечернего света сместился в сине-зелёную зону, а время отбоя не изменилось. Этот гид написан не для галочки: всё, что здесь описано, защищает главное — <strong>фазу глубокого восстановления</strong>.
+      </div>
+    </div>
+
+    <!-- Section 01 -->
+    <section class="section-card">
+      <div class="chapter-tag">01 · Новолуние 🌑</div>
+      <h2 class="section-title">Весь гид — в 7 строках</h2>
+      <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 12px;">
+        Если у вас нет времени читать весь текст, просто следуйте этим 7 привычкам:
+      </p>
+
+      <div class="rules-grid">
+        <div class="rule-item">
+          <span class="rule-num">1.</span>
+          <div><strong>Яркий свет</strong> в первые 30 минут после пробуждения (на улице или у окна, без солнцезащитных очков).</div>
+        </div>
+        <div class="rule-item">
+          <span class="rule-num">2.</span>
+          <div><strong>Один график:</strong> одинаковое время отбоя и подъёма каждый день, включая выходные.</div>
+        </div>
+        <div class="rule-item">
+          <span class="rule-num">3.</span>
+          <div><strong>Кофеин:</strong> последняя чашка строго до 14:00 (полувыведение стимулятора длится до 6–7 часов).</div>
+        </div>
+        <div class="rule-item">
+          <span class="rule-num">4.</span>
+          <div><strong>Ужин:</strong> последний плотный приём пищи за 3–4 часа до сна.</div>
+        </div>
+        <div class="rule-item">
+          <span class="rule-num">5.</span>
+          <div><strong>Очки Nox:</strong> надевайте за 3 часа до сна при работе с экранами и ярким домашним светом.</div>
+        </div>
+        <div class="rule-item">
+          <span class="rule-num">6.</span>
+          <div><strong>Температура 18 °C:</strong> телу необходимо охладиться, чтобы мозг вошёл в глубокий сон.</div>
+        </div>
+        <div class="rule-item" style="grid-column: 1 / -1;">
+          <span class="rule-num">7.</span>
+          <div><strong>Экраны в сторону:</strong> за 30 минут до отбоя уберите смартфон. Тёплый душ, книга или разговор.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 02 -->
+    <section class="section-card">
+      <div class="chapter-tag">02 · Растущий серп 🌒</div>
+      <h2 class="section-title">Почему сон ломается и как устроены ритмы</h2>
+
+      <div class="systems-list">
+        <div class="system-card">
+          <h3>🧠 Память и внимание</h3>
+          <p>Консолидация навыков, очистка от метаболического мусора и усвоение информации идут только ночью.</p>
+        </div>
+        <div class="system-card">
+          <h3>🔥 Метаболизм и вес</h3>
+          <p>При дефиците сна гормон голода (грелин) растёт, а лептин падает. Организм требует быстрых углеводов.</p>
+        </div>
+        <div class="system-card">
+          <h3>🛡 Иммунная защита</h3>
+          <p>Уровень системного воспаления возрастает, а сопротивляемость инфекциям падает на 40–70% за неделю недосыпа.</p>
+        </div>
+        <div class="system-card">
+          <h3>❤️ Сосуды и сердце</h3>
+          <p>Хронический недосып напрямую связан с повышенным артериальным давлением и утренней тахикардией.</p>
+        </div>
+      </div>
+
+      <div class="callout-box">
+        <strong>Как работают главные часы:</strong> Внутренние часы в мозге управляются одним входом — <strong>светом</strong>. Утром свет запускает всплеск кортизола для бодрости. Вечером темнота запускает выброс мелатонина. Время отбоя — ваше решение. Но циркадный ритм слепо следует за тем светом, который вы показали глазам.
+      </div>
+    </section>
+
+    <!-- Section 03 -->
+    <section class="section-card">
+      <div class="chapter-tag">03 · Первая четверть 🌓</div>
+      <h2 class="section-title">Синий свет ночью и архитектура сна</h2>
+      
+      <p style="font-size: 14.5px; color: var(--text-sub); margin-bottom: 12px;">
+        В сетчатке есть особые клетки (ipRGC), не участвующие в зрении. Их единственная функция — определять время суток по спектру света. Они максимально чувствительны к сине-голубому диапазону <strong>460–490 нм</strong>.
+      </p>
+      <p style="font-size: 14.5px; color: var(--text-sub); margin-bottom: 16px;">
+        Экраны смартфонов и холодные LED-лампы насыщены именно этим светом. Когда вы смотрите в экран в 22:00, мозг получает сигнал: <em>«Сейчас солнечный полдень!»</em> — и блокирует выработку мелатонина на 2–3 часа.
+      </p>
+
+      <div class="callout-box">
+        <strong>Глубокий сон vs REM:</strong> Сон состоит из 90-минутных циклов. Глубокий сон (NREM — физическое восстановление мышц и иммунитета) происходит в <strong>первой половине ночи</strong> (23:00–03:00). Фаза сновидений (REM — психика и память) концентрируется под утро. Поздно легли — потеряли глубокий сон. Рано встали — потеряли REM.
+      </div>
+    </section>
+
+    <!-- Section 04 -->
+    <section class="section-card">
+      <div class="chapter-tag">04 · Прибывающая луна 🌔</div>
+      <h2 class="section-title">5 сильных привычек и 3 главных мифа</h2>
+
+      <div class="habit-item">
+        <div class="habit-badge">1</div>
+        <div class="habit-text">
+          <strong>Свет в оба конца дня</strong>
+          Максимум солнечного света утром (на улице) и минимум синего света вечером (тёплые лампы, очки Nox).
+        </div>
+      </div>
+      <div class="habit-item">
+        <div class="habit-badge">2</div>
+        <div class="habit-text">
+          <strong>Один и тот же график</strong>
+          Плавающий режим отбоя вызывает социальный джетлаг — тело находится в постоянном шоке от смены поясов.
+        </div>
+      </div>
+      <div class="habit-item">
+        <div class="habit-badge">3</div>
+        <div class="habit-text">
+          <strong>Кофеин строго до 14:00</strong>
+          Период полувыведения кофеина составляет 5–7 часов. Двойной капучино в 16:00 оставляет четверть дозы к полуночи.
+        </div>
+      </div>
+      <div class="habit-item">
+        <div class="habit-badge">4</div>
+        <div class="habit-text">
+          <strong>Ужин за 3–4 часа до сна</strong>
+          Пищеварение разогревает тело, а для засыпания внутренняя температура должна упасть на 0.5–1 °C.
+        </div>
+      </div>
+      <div class="habit-item">
+        <div class="habit-badge">5</div>
+        <div class="habit-text">
+          <strong>Температура спальни около 18 °C</strong>
+          Проветрите комнату перед сном. В прохладной среде выработка мелатонина и фаза глубокого сна наступают быстрее.
+        </div>
+      </div>
+
+      <div class="myths-container">
+        <div class="myth-box">
+          <div class="myth-title">✕ «Мелатонин вырубает»</div>
+          <div class="myth-desc">Это гормон-регулятор времени, а не снотворное. Аптечные дозировки (5–10 мг) в 20 раз выше нормы.</div>
+        </div>
+        <div class="myth-box">
+          <div class="myth-title">✕ «Отосплюсь на выходных»</div>
+          <div class="myth-desc">Догоняющий сон в воскресенье сбивает часы понедельника и не компенсирует недельный урон сосудов.</div>
+        </div>
+        <div class="myth-box">
+          <div class="myth-title">✕ «Алкоголь помогает уснуть»</div>
+          <div class="myth-desc">Алкоголь даёт седацию (выключение), но полностью уничтожает быструю фазу сна (REM).</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 05 -->
+    <section class="section-card">
+      <div class="chapter-tag">05 · Полнолуние 🌕</div>
+      <h2 class="section-title">Ежедневный протокол подготовки ко сну</h2>
+
+      <div class="timeline">
+        <div class="tl-row">
+          <span class="tl-tag">07:00 – 08:00</span>
+          <span class="tl-text"><strong>Утренний запуск:</strong> 10 минут солнца, стакан воды, запуск кортизола.</span>
+        </div>
+        <div class="tl-row">
+          <span class="tl-tag">До 14:00</span>
+          <span class="tl-text"><strong>Кофейный рубеж:</strong> последняя чашка кофе. Дальше — вода или травяной чай.</span>
+        </div>
+        <div class="tl-row">
+          <span class="tl-tag active">Т – 3:30</span>
+          <span class="tl-text"><strong>Финальный ужин:</strong> белки, сложные углеводы, клетчатка. Без тяжелой жирной пищи.</span>
+        </div>
+        <div class="tl-row">
+          <span class="tl-tag active">Т – 3:00</span>
+          <span class="tl-text"><strong>Очки Nox на глаза:</strong> полная блокировка синего и зелёного света экранов. Запуск мелатонина.</span>
+        </div>
+        <div class="tl-row">
+          <span class="tl-tag">Т – 2:00</span>
+          <span class="tl-text"><strong>Приглушение света:</strong> выключите люстры, оставьте тёплый боковой свет.</span>
+        </div>
+        <div class="tl-row">
+          <span class="tl-tag">Т – 1:00</span>
+          <span class="tl-text"><strong>Стоп работе:</strong> закрыть рабочие чаты, таблицы, почту. Снять рабочий стресс.</span>
+        </div>
+        <div class="tl-row">
+          <span class="tl-tag">Т – 0:30</span>
+          <span class="tl-text"><strong>Экраны вниз:</strong> телефон на зарядку. Тёплый душ, книга или отдых.</span>
+        </div>
+        <div class="tl-row">
+          <span class="tl-tag">Т – 0:00</span>
+          <span class="tl-text"><strong>Полная темнота:</strong> шторы блэкаут, прохлада 18 °C. Быстрое засыпание.</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Glasses Conversion Card -->
+    <div class="glasses-banner">
+      <h3>Где здесь место очков <span>NOX</span>?</h3>
+      <p>
+        Очки Nox созданы со специальным светофильтром, блокирующим <strong>97.8% синего и зелёного спектра</strong> до 550 нм. Они создают для ваших глаз эффект естественных сумерек посреди освещенной комнаты или вечерней работы за ноутбуком.
+      </p>
+      <a href="/#product" class="order-cta-btn">
+        Заказать очки Nox The Diamond (300 000 сум) →
+      </a>
+    </div>
+  </main>
+
+  <!-- Sticky Bottom Bar for Mobile -->
+  <div class="bottom-bar">
+    <div class="bottom-info">
+      <div>Вечерние очки Nox</div>
+      <div class="price">300 000 сум</div>
+    </div>
+    <a href="/#product" class="bottom-btn">Заказать в Ташкенте</a>
+  </div>
+
+  <footer class="guide-footer">
+    <p>© 2026 NOX Eyewear. Ташкент, Узбекистан.</p>
+    <p style="margin-top: 4px;">Telegram: <a href="https://t.me/noxglasses">@noxglasses</a> · Instagram: <a href="https://instagram.com/nox_uz">@nox_uz</a></p>
+    <p style="margin-top: 8px; font-size: 11px; color: #6A737D;">
+      * Не является медицинским пособием. При хронической бессоннице обратитесь к врачу.
+    </p>
+  </footer>
+
+</body>
+</html>

@@ -16,6 +16,7 @@ Nox_*
 *.docx
 *.xlsx
 *.pdf
+!website/*.pdf
 video analitics/
 
 # Raw camera footage & heavy media

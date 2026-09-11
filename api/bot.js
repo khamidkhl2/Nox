@@ -51,7 +51,8 @@ export default async function handler(req, res) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           commands: [
-            { command: 'start', description: 'Главное меню / Панель партнера' },
+            { command: 'start', description: 'Главное меню / Панель' },
+            { command: 'sleep', description: 'Гид по сну и циркадным ритмам' },
             { command: 'stats', description: 'Статистика и заработок' },
             { command: 'link', description: 'Реферальная ссылка' },
             { command: 'list', description: 'Реестр промокодов (Админ)' },
@@ -101,16 +102,32 @@ export default async function handler(req, res) {
     const influencerInfo = await findInfluencerPromo(fromId, envInfluencers);
     const isInfluencer = Boolean(influencerInfo);
 
-    // Security check: only admin or registered influencers are authorized
+    // Public lead magnet: deliver Sleep Guide on /sleep, /guide, "сон", "гид", "uyqu"
+    const rawIncoming = (message?.text || '').trim().toLowerCase();
+    const isSleepRequest = rawIncoming === '/sleep' ||
+                          rawIncoming === '/guide' ||
+                          rawIncoming === 'сон' ||
+                          rawIncoming === 'uyqu' ||
+                          rawIncoming === 'гид' ||
+                          rawIncoming === 'sleep' ||
+                          rawIncoming.startsWith('сон') ||
+                          rawIncoming.startsWith('uyqu');
+
+    if (isSleepRequest) {
+      await sendSleepGuide(botToken, chatId, host);
+      return res.status(200).json({ ok: true });
+    }
+
+    // Security check: only admin or registered influencers are authorized for admin/dashboard actions
     if (!isAdmin && !isInfluencer) {
       await sendTg(
         botToken,
         chatId,
         `⛔ <b>Доступ ограничен</b>\n\n` +
         `Этот бот предназначен для владельца и партнеров бренда <b>Nox</b>.\n\n` +
-        `Если вы блогер или амбассадор проекта, передайте ваш Telegram ID менеджеру Nox для активации партнерского кабинета:\n\n` +
-        `🆔 <b>Ваш Telegram ID:</b> <code>${fromId}</code>\n\n` +
-        `<i>Нажмите на ID выше, чтобы скопировать его.</i>`
+        `• Чтобы получить бесплатный гид по сну, напишите: <code>сон</code>\n\n` +
+        `• Если вы блогер или партнер проекта, передайте ваш Telegram ID менеджеру Nox:\n` +
+        `🆔 <b>Ваш Telegram ID:</b> <code>${fromId}</code>`
       );
       return res.status(200).json({ ok: true });
     }
@@ -724,3 +741,36 @@ function escapeHtml(str) {
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;');
 }
+
+async function sendSleepGuide(botToken, chatId, host) {
+  const guideUrl = `https://${host}/sleep`;
+  const pdfUrl = `https://${host}/sleep.pdf`;
+  const shopUrl = `https://${host}`;
+
+  const text = `🌙 <b>Гид по сну и циркадным ритмам NOX</b>\n\n` +
+    `<i>«Экраны стали ярче, а время отбоя не изменилось. Короткий практичный гид — не учебник. Читается за 5 минут.»</i>\n\n` +
+    `⚡ <b>7 правил глубокого сна на каждый день:</b>\n` +
+    `1. ☀️ <b>Яркий свет</b> в первые 30 минут утра (без очков)\n` +
+    `2. ⏰ <b>Один график:</b> одинаковый подъём даже в выходные\n` +
+    `3. ☕ <b>Кофеин:</b> последняя чашка строго до 14:00\n` +
+    `4. 🍽 <b>Ужин:</b> за 3–4 часа до отбоя\n` +
+    `5. 👓 <b>Очки Nox:</b> за 3 часа до сна (фильтрация 97.8% синего света)\n` +
+    `6. ❄️ <b>Температура:</b> в спальне около 18–19 °C\n` +
+    `7. 📱 <b>Экраны в сторону:</b> за 30 минут до отбоя\n\n` +
+    `📖 Полная иллюстрированная версия со статьями о мелатонине, фазах сна и 3 мифах доступна на сайте и в PDF.`;
+
+  const keyboard = [
+    [
+      { text: '📖 Читать гид на сайте', url: guideUrl }
+    ],
+    [
+      { text: '📥 Скачать PDF-версию (A4)', url: pdfUrl }
+    ],
+    [
+      { text: '👓 Заказать очки Nox The Diamond', url: shopUrl }
+    ]
+  ];
+
+  await sendTgWithKeyboard(botToken, chatId, text, keyboard);
+}
+

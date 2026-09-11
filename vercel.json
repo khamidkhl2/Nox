@@ -1,6 +1,10 @@
 {
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/$1" },
+    { "source": "/sleep", "destination": "/website/sleep.html" },
+    { "source": "/guide", "destination": "/website/sleep.html" },
+    { "source": "/sleep.pdf", "destination": "/website/nox-sleep-guide-ru.pdf" },
+    { "source": "/guide.pdf", "destination": "/website/nox-sleep-guide-ru.pdf" },
     { "source": "/(.*)", "destination": "/website/$1" }
   ]
 }

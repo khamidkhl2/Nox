@@ -146,6 +146,9 @@ The partner can tap to copy and send it to you.
 - **Tashkent Wear-Tester Reviews (`#reviews`):** Authentic testimonials from local Tashkent professionals.
 - **Local Trust Bar:** Yandex Go delivery (1–2 hours), Click, Payme, Cash on delivery.
 - **Sticky Mobile Quick-Order Bar:** Stays docked at the bottom on mobile devices.
+- **Interactive Sleep Guide (`/sleep` & `/guide`):** Dedicated mobile-first web reader for circadian sleep hygiene.
+- **Downloadable Sleep Guide PDF (`/sleep.pdf` & `/nox-sleep-guide-ru.pdf`):** 4-page publication-grade PDF matching the brand's luxury aesthetic.
+- **Telegram Bot Lead Magnet:** Automatically delivers the 7-rule summary, web reader link, and PDF download when users type `сон`, `uyqu`, `гид`, or `/sleep`.
 
 ---
 
