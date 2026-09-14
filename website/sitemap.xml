@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>https://noxglasses.uz/</loc>
+    <lastmod>2026-09-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://noxglasses.uz/images/diamond-dark.jpg</image:loc>
+      <image:title>Компьютерные очки Nox Glasses The Diamond с защитой от синего света</image:title>
+      <image:caption>Очки Nox Glasses The Diamond в Ташкенте: фильтрация 97.8% синего и зелёного спектра экранов.</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://noxglasses.uz/images/nox-model-female.jpg</image:loc>
+      <image:title>Очки от синего света Nox Glasses на девушке в Ташкенте</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://noxglasses.uz/images/nox-model-male.jpg</image:loc>
+      <image:title>Очки от синего света Nox Glasses на мужчине в Ташкенте</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://noxglasses.uz/sleep</loc>
+    <lastmod>2026-09-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://noxglasses.uz/sleep.pdf</loc>
+    <lastmod>2026-09-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+</urlset>
