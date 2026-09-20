@@ -1,6 +1,6 @@
 # 🌙 NOX — Project Handoff & Operations Manual
 
-This document provides a complete overview of the **Nox** codebase, live features, deployment configuration, Telegram bot management system, and operational workflows as of **September 11, 2026**.
+This document provides a complete overview of the **Nox** codebase, live features, deployment configuration, Telegram bot management system, SEO infrastructure, and operational workflows as of **September 20, 2026**.
 
 ---
 
@@ -9,7 +9,11 @@ This document provides a complete overview of the **Nox** codebase, live feature
 - **Repository:** [`https://github.com/khamidkhl2/Nox.git`](https://github.com/khamidkhl2/Nox.git)
 - **Primary Branch:** `main`
 - **Hosting / CI/CD:** [Vercel](https://vercel.com) (connected to GitHub `main` branch, auto-deploys on push)
-- **Live Domain:** `https://noxglasses.uz`
+- **Live Domain:** `https://noxglasses.uz` (with automatic 308 redirect from `noxglasses.uz` to `www.noxglasses.uz`)
+- **Official Socials:**
+  - Instagram: [`@nox_uz`](https://instagram.com/nox_uz)
+  - Telegram Store / Support: [`@noxglasses`](https://t.me/noxglasses)
+  - Telegram Management Bot: [`@noxbusinessbot`](https://t.me/noxbusinessbot)
 - **Git Commit Author:** `khamidkhl2 <xxolmatov@aut-edu.uz>`
 
 ---
@@ -19,15 +23,20 @@ This document provides a complete overview of the **Nox** codebase, live feature
 ```
 Nox/
 ├── api/                             # Vercel Serverless Functions (Node.js ES Modules)
-│   ├── bot.js                       # Telegram Bot Webhook & Promo Code Control Panel
-│   ├── order.js                     # Order dispatch API (dispatches order cards to Telegram)
+│   ├── bot.js                       # Telegram Bot Webhook & Influencer/Admin Control Panel
+│   ├── order.js                     # Order dispatch API (sends formatted cards to Telegram)
 │   ├── promo.js                     # Real-time promo code validation endpoint
 │   └── lib/
 │       └── storage.js               # Zero-config storage engine (Telegram Pinned Msg + KV fallback)
 ├── website/
-│   ├── index.html                   # Single-page website (HTML5, Vanilla CSS3 & JS)
+│   ├── index.html                   # Single-page landing site (HTML5, Vanilla CSS3 & JS, Schema.org)
+│   ├── sleep.html                   # Interactive web reader for Nox Sleep Protocol
+│   ├── nox-sleep-guide-ru.pdf       # Publication-grade 4-page Sleep Guide PDF (300 DPI)
+│   ├── print-guide-ru.html          # HTML print template for rendering the sleep guide PDF
+│   ├── robots.txt                   # Standard search crawler directives & sitemap pointer
+│   ├── sitemap.xml                  # XML sitemap with image metadata for Google & Yandex
 │   └── images/                      # Curated product, lens, unboxing & lifestyle photography
-├── vercel.json                      # Vercel routing rules (rewrites for /api and /website)
+├── vercel.json                      # Vercel routing rules (rewrites for API, SEO, PDF, and pages)
 ├── HANDOFF.md                       # Complete project handoff and operations manual
 └── README.md
 ```
@@ -37,6 +46,12 @@ Nox/
 {
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/$1" },
+    { "source": "/robots.txt", "destination": "/website/robots.txt" },
+    { "source": "/sitemap.xml", "destination": "/website/sitemap.xml" },
+    { "source": "/sleep", "destination": "/website/sleep.html" },
+    { "source": "/guide", "destination": "/website/sleep.html" },
+    { "source": "/sleep.pdf", "destination": "/website/nox-sleep-guide-ru.pdf" },
+    { "source": "/guide.pdf", "destination": "/website/nox-sleep-guide-ru.pdf" },
     { "source": "/(.*)", "destination": "/website/$1" }
   ]
 }
@@ -50,14 +65,14 @@ Set these in **Vercel Dashboard** → **Project Settings** → **Environment Var
 
 | Variable Name | Required? | Description | Example |
 | :--- | :--- | :--- | :--- |
-| `TELEGRAM_BOT_TOKEN` | **Yes** | HTTP API Bot token from [@BotFather](https://t.me/BotFather) | `7981234567:AAH...` |
-| `TELEGRAM_CHAT_ID` | **Yes** | Numeric Chat ID of the store owner or admin group | `567812345` or `-100...` |
+| `TELEGRAM_BOT_TOKEN` | **Yes** | HTTP API Bot token from [@BotFather](https://t.me/BotFather) for `@noxbusinessbot` | `7981234567:AAH...` |
+| `TELEGRAM_CHAT_ID` | **Yes** | Numeric Chat ID of the store owner or admin group receiving orders | `567812345` or `-100...` |
 | `INFLUENCERS` | **Recommended** | Influencer Telegram IDs mapped to promo codes | `123456789:MALIKA, 987654321:FITNESS` |
 | `KV_REST_API_URL` | *Optional* | Vercel KV Redis REST URL (if using Upstash/KV) | `https://...upstash.io` |
 | `KV_REST_API_TOKEN`| *Optional* | Vercel KV Redis REST Bearer Token | `AX12...` |
 
 > [!TIP]
-> **How to add Influencer Telegram IDs in Vercel:**
+> **How to configure Influencer Telegram IDs in Vercel:**
 > - Set `INFLUENCERS` = `USER_ID:PROMOCODE` (e.g. `123456789:MALIKA`).
 > - For multiple influencers, separate by comma: `123456789:MALIKA, 987654321:FITNESS`.
 > - Alternatively, paste JSON: `{"123456789": "MALIKA"}`.
@@ -115,19 +130,70 @@ The partner can tap to copy and send it to you.
 
 ---
 
-## 🌐 5. Website Features & Sections (`website/index.html`)
+## 🔍 5. Search Engine Optimization (SEO) & Indexing Infrastructure
+
+Comprehensive on-page and technical SEO has been implemented across the website:
+
+### 5.1 Robots.txt & Sitemap.xml
+- **`website/robots.txt`** (Accessible at `https://noxglasses.uz/robots.txt`):
+  ```
+  User-agent: *
+  Allow: /
+  Disallow: /api/
+
+  Sitemap: https://noxglasses.uz/sitemap.xml
+  ```
+  *(Note: Search engines ignore keywords in `robots.txt`; it serves strictly as a crawler rule file and sitemap indicator).*
+- **`website/sitemap.xml`** (Accessible at `https://noxglasses.uz/sitemap.xml`):
+  Lists `/`, `/sleep`, and `/sleep.pdf` with change frequency, priority, and Google image extensions (`diamond-dark.jpg`, `nox-model-female.jpg`, `nox-model-male.jpg`).
+
+### 5.2 Schema.org JSON-LD Structured Data
+Embedded inside the `<head>` of `index.html`:
+- **`WebSite`**: `https://noxglasses.uz/`, declared name `Nox Glasses`, alternate names `Очки Nox`, `Nox Glasses Uzbekistan`.
+- **`Organization`**: Brand entity with `sameAs` linking to `https://www.instagram.com/nox_uz` and `https://t.me/noxglasses`.
+- **`Store` / `LocalBusiness`**: Declares a Tashkent store accepting Cash, Click, Payme, with geo coordinates (`41.311081, 69.240562`).
+- **`Product`**: `NOX-DIAMOND` with `price: 300000 UZS` and `availability: InStock`.
+- **`FAQPage`**: 4 structured Q&As allowing Google to render rich snippet accordion dropdowns in search results.
+
+### 5.3 Keyword Targeting & Local SEO
+Target queries integrated into semantic HTML (`<title>`, `<h1>`, `<h2>`, `<p class="eyebrow">`, image `alt` attributes):
+- **`Nox Glasses`** (54 occurrences across copy, schema, and meta)
+- **`очки от синего света`** (18 occurrences)
+- **`компьютерные очки`** (21 occurrences)
+- **`Ташкент`** (44 occurrences)
+- **`The Diamond`** (59 occurrences)
+- Canonical tags: `<link rel="canonical" href="https://noxglasses.uz/" />` and `<link rel="canonical" href="https://noxglasses.uz/sleep" />`.
+- Geo tags: `<meta name="geo.region" content="UZ-TK" />` and `<meta name="geo.placename" content="Tashkent" />`.
+- Client-side `I18N` switcher preserves localized SEO `<title>` and descriptions dynamically across RU, UZ, and EN.
+
+### 5.4 Search Engine Verification & Submission
+1. **Google Search Console ([search.google.com/search-console](https://search.google.com/search-console))**:
+   - Property: `https://noxglasses.uz`
+   - Verification: Add HTML meta tag or DNS TXT record.
+   - Sitemap: Submit `sitemap.xml`.
+   - Inspection: Paste `https://noxglasses.uz/` $\rightarrow$ click **"Request Indexing"**.
+2. **Yandex Webmaster ([webmaster.yandex.ru](https://webmaster.yandex.ru))**:
+   - Property: `https://noxglasses.uz`
+   - Verification: HTML meta tag.
+   - Sitemap: Submit `https://noxglasses.uz/sitemap.xml`.
+3. **Google Business Profile**:
+   - Create profile for **Nox Glasses — Очки от синего света в Ташкенте** to appear in Google Maps and the desktop knowledge panel.
+
+---
+
+## 🌐 6. Website Features & Sections (`website/index.html`)
 
 ### A. First-Time Visitor Language Selection Modal
 - Appears only on the visitor's very first visit.
 - Allows choice between **Русский**, **O'zbekcha**, and **English**.
-- Selection is saved to `localStorage.getItem('nox_lang_selected')`. Future visits remember the preference.
+- Selection is saved to `localStorage.getItem('nox-lang')`. Future visits remember the preference.
 
 ### B. Product & Pricing Section (`#product`)
 - **1 пара — The Diamond:** `300 000 сум` (standard single pack).
 - **Сет из 2 пар (Для двоих):** `550 000 сум` (with `ВЫГОДА 50 000 СУМ` floating badge).
 - Package cards have balanced, identical heights.
-- Removed outdated text ("хит продаж", "примерка перед оплатой", "мужчина, девушка") and replaced with subtle return policy reassurance ("есть возможность возврата" / "qaytarish imkoniyati bor").
-- Image crops adjusted to keep frames and faces centered without awkward head cropping.
+- Subtle return policy reassurance ("есть возможность возврата" / "qaytarish imkoniyati bor").
+- Image crops adjusted to keep frames and faces centered without awkward cropping.
 
 ### C. Checkout Methods (Dual Action)
 1. **Direct Web Order Modal (`#order-modal`):**
@@ -152,7 +218,7 @@ The partner can tap to copy and send it to you.
 
 ---
 
-## 📡 6. API Reference
+## 📡 7. API Reference
 
 ### 1. `POST /api/order`
 Processes incoming web checkout orders and sends a Telegram notification.
@@ -181,7 +247,7 @@ Validates promo codes live against the persistent storage.
   {
     "valid": true,
     "code": "MALIKA",
-    "discount": 0.15,
+    "discount": 0.10,
     "partner": "Малика Блогер"
   }
   ```
@@ -199,7 +265,7 @@ Validates promo codes live against the persistent storage.
 
 ---
 
-## 🧪 7. Local Testing & Verification
+## 🧪 8. Local Testing & Verification
 
 Run these verification tests anytime in your terminal:
 
@@ -228,11 +294,16 @@ import('./api/lib/storage.js').then(async ({ getPromos, addPromo, incrementPromo
 
 ---
 
-## 🚀 8. Quick Launch Checklist
+## 🚀 9. Launch & Growth Checklist
 
-1. [x] Push code to GitHub `main` branch.
+1. [x] Push code to GitHub `main` branch (auto-deployed to Vercel).
 2. [x] Add `TELEGRAM_BOT_TOKEN` and `TELEGRAM_CHAT_ID` in Vercel Environment Variables.
-3. [ ] Open `https://noxglasses.uz/api/bot?setup=1` in your browser once to activate the bot.
-4. [ ] Open your bot in Telegram, type `/start`, and verify the command buttons appear.
-5. [ ] Create your first influencer promo code via `/addpromo CODE 15 PartnerName`.
-6. [ ] Share the generated link `https://noxglasses.uz/?promo=CODE` with your partner.
+3. [x] Activate bot webhook via `https://noxglasses.uz/api/bot?setup=1`.
+4. [x] Verify `/robots.txt` and `/sitemap.xml` return 200 OK.
+5. [x] Deploy Sleep Guide reader (`/sleep`) and PDF download (`/sleep.pdf`).
+6. [x] Optimize on-page keywords and Schema.org JSON-LD structured data.
+7. [ ] Verify ownership on **Google Search Console** and submit `sitemap.xml`.
+8. [ ] Verify ownership on **Yandex Webmaster** and submit `sitemap.xml`.
+9. [ ] Create **Google Business Profile** for *Nox Glasses Tashkent*.
+10. [ ] Add `noxglasses.uz/sleep` to Instagram bio (`@nox_uz`).
+11. [ ] Onboard first wave of micro-influencers via `/addpromo CODE 10 Name TelegramID`.
