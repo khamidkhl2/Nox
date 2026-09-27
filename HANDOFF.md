@@ -1,6 +1,6 @@
 # 🌙 NOX — Project Handoff & Operations Manual
 
-This document provides a complete overview of the **Nox** codebase, live features, deployment configuration, Telegram bot management system, SEO infrastructure, and operational workflows as of **September 20, 2026**.
+This document provides a complete overview of the **Nox** codebase, live features, deployment configuration, Telegram bot management system, SEO infrastructure, and operational workflows as of **September 27, 2026**.
 
 ---
 
@@ -30,8 +30,8 @@ Nox/
 │       └── storage.js               # Zero-config storage engine (Telegram Pinned Msg + KV fallback)
 ├── website/
 │   ├── index.html                   # Single-page landing site (HTML5, Vanilla CSS3 & JS, Schema.org)
-│   ├── sleep.html                   # Interactive web reader for Nox Sleep Protocol
-│   ├── nox-sleep-guide-ru.pdf       # Publication-grade 4-page Sleep Guide PDF (300 DPI)
+│   ├── sleep.html                   # Interactive web reader for Nox Sleep Protocol (order fulfillment asset)
+│   ├── nox-sleep-guide-ru.pdf       # Publication-grade 4-page Sleep Guide PDF (300 DPI, post-purchase delivery)
 │   ├── print-guide-ru.html          # HTML print template for rendering the sleep guide PDF
 │   ├── robots.txt                   # Standard search crawler directives & sitemap pointer
 │   ├── sitemap.xml                  # XML sitemap with image metadata for Google & Yandex
@@ -208,13 +208,15 @@ Target queries integrated into semantic HTML (`<title>`, `<h1>`, `<h2>`, `<p cla
 
 ### D. Conversion & Trust Sections
 - **"Что в комплекте" / Unboxing (`#unboxing`):** 4-card breakdown (sunglasses, matte case, microfibre cloth, Sleep Protocol PDF).
+- **Sleep Protocol Section (`#protocol`):** Dedicated landing page card educating visitors on the 4 core habits of evening light hygiene (Rule of 2–3 hours, Ambient home lighting, 18–20°C temperature optimum, Digital sunset). Highlighted as an exclusive gift ("Бесплатный подарок к заказу") included with every pair of glasses.
+  > [!NOTE]
+  > **Public Access Disabled:** The online web reader button (`/sleep`) and direct PDF download button (`/nox-sleep-guide-ru.pdf`) were intentionally removed from the homepage `#protocol` card. The full guide is preserved as an exclusive bonus for purchasing customers rather than a freely accessible public download right off the site.
 - **Circadian Spectrum Simulator (`#simulator`):** Interactive day vs night blue-light spectrum filter demo.
 - **Tashkent Wear-Tester Reviews (`#reviews`):** Authentic testimonials from local Tashkent professionals.
 - **Local Trust Bar:** Yandex Go delivery (1–2 hours), Click, Payme, Cash on delivery.
 - **Sticky Mobile Quick-Order Bar:** Stays docked at the bottom on mobile devices.
-- **Interactive Sleep Guide (`/sleep` & `/guide`):** Dedicated mobile-first web reader for circadian sleep hygiene.
-- **Downloadable Sleep Guide PDF (`/sleep.pdf` & `/nox-sleep-guide-ru.pdf`):** 4-page publication-grade PDF matching the brand's luxury aesthetic.
-- **Telegram Bot Lead Magnet:** Automatically delivers the 7-rule summary, web reader link, and PDF download when users type `сон`, `uyqu`, `гид`, or `/sleep`.
+- **Sleep Guide Fulfillment Assets (`/sleep` & `/nox-sleep-guide-ru.pdf`):** Hosted standalone assets utilized for post-order fulfillment (delivered to customers upon order confirmation) and private campaign funnels.
+- **Telegram Bot Integration:** Bot supports order dispatch alerts, influencer partner commissions, and customer assistance.
 
 ---
 
@@ -300,10 +302,10 @@ import('./api/lib/storage.js').then(async ({ getPromos, addPromo, incrementPromo
 2. [x] Add `TELEGRAM_BOT_TOKEN` and `TELEGRAM_CHAT_ID` in Vercel Environment Variables.
 3. [x] Activate bot webhook via `https://noxglasses.uz/api/bot?setup=1`.
 4. [x] Verify `/robots.txt` and `/sitemap.xml` return 200 OK.
-5. [x] Deploy Sleep Guide reader (`/sleep`) and PDF download (`/sleep.pdf`).
+5. [x] Deploy Sleep Guide reader (`/sleep`) and PDF download (`/sleep.pdf`) as order fulfillment assets (homepage free download/reader buttons disabled to preserve exclusivity as a customer gift).
 6. [x] Optimize on-page keywords and Schema.org JSON-LD structured data.
 7. [ ] Verify ownership on **Google Search Console** and submit `sitemap.xml`.
 8. [ ] Verify ownership on **Yandex Webmaster** and submit `sitemap.xml`.
 9. [ ] Create **Google Business Profile** for *Nox Glasses Tashkent*.
-10. [ ] Add `noxglasses.uz/sleep` to Instagram bio (`@nox_uz`).
+10. [ ] Target bio link to direct checkout / Telegram store (`@noxglasses`) and keep Sleep Protocol as an exclusive customer gift.
 11. [ ] Onboard first wave of micro-influencers via `/addpromo CODE 10 Name TelegramID`.
