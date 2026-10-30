@@ -57,7 +57,7 @@
       "url": "https://noxglasses.uz/",
       "logo": "https://noxglasses.uz/images/diamond-dark.jpg",
       "sameAs": [
-        "https://www.instagram.com/nox_uz",
+        "https://www.instagram.com/noxglasses.uz",
         "https://t.me/noxglasses"
       ]
     },
@@ -1087,12 +1087,12 @@ a{ color:inherit; text-decoration:none; }
         <div class="value" data-reveal>
           <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M8 20h8M12 16v4"/></svg>
           <h3 data-i18n="val.b.t">Снятие глазного спазма</h3>
-          <p data-i18n="val.b.d">Убирают сухость, резь и зрительное напряжение после долгого рабочего дня за монитором и телефоном.</p>
+          <p data-i18n="val.b.d">Помогают снять сухость, резь и зрительное напряжение после долгого рабочего дня за монитором и телефоном.</p>
         </div>
         <div class="value" data-reveal>
           <svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><polyline points="12 6 12 12 16 14"/></svg>
           <h3 data-i18n="val.c.t">Глубокие фазы сна</h3>
-          <p data-i18n="val.c.d">Увеличивают долю восстановительного медленного и REM-сна. Утреннее пробуждение становится лёгким.</p>
+          <p data-i18n="val.c.d">Помогают увеличить долю восстановительного медленного и REM-сна — многие отмечают более лёгкое пробуждение.</p>
         </div>
       </div>
     </div>
@@ -1303,7 +1303,7 @@ a{ color:inherit; text-decoration:none; }
       <div class="simulator-head" data-reveal>
         <p class="eyebrow" data-i18n="sim.eyebrow">Интерактивный опыт</p>
         <h2 class="display" id="simulator-title" data-i18n="sim.title">Смотрите сквозь линзы Nox.</h2>
-        <p data-i18n="sim.desc">Сравните жесткий холодный свет экрана с мягким вечерним спектром, в котором глаза мгновенно расслабляются.</p>
+        <p data-i18n="sim.desc">Сравните жесткий холодный свет экрана с мягким вечерним спектром, в котором глаза быстрее расслабляются.</p>
       </div>
 
       <div class="simulator-box" id="lens-sim-box" data-mode="nox" data-reveal>
@@ -1518,9 +1518,9 @@ a{ color:inherit; text-decoration:none; }
           <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.8 4.3 2.9 11.6c-1.1.4-1.1 1.6-.1 1.9l4.7 1.5 1.8 5.6c.2.6.6.7 1.1.3l2.6-2.1 4.9 3.6c.7.4 1.3.2 1.5-.7l3.2-15c.2-1-.4-1.5-1.3-1.1z"/></svg>
           <span>@noxglasses</span>
         </a>
-        <a class="social-link" href="https://instagram.com/nox_uz" target="_blank" rel="noopener">
+        <a class="social-link" href="https://instagram.com/noxglasses.uz" target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r="1" fill="currentColor" stroke="none"/></svg>
-          <span>@nox_uz</span>
+          <span>@noxglasses.uz</span>
         </a>
       </div>
     </div>
@@ -2224,6 +2224,7 @@ var NoxStore = (function(){
       }
 
       var btnText = submitBtn.querySelector('.btn-text');
+      var btnLabel = btnText ? btnText.textContent : '';
       if(btnText) btnText.textContent = 'Отправка заказа...';
       submitBtn.disabled = true;
 
@@ -2254,9 +2255,14 @@ var NoxStore = (function(){
           body: JSON.stringify(payload)
         });
         var data = await res.json();
-        if(data && data.orderId) orderNum = data.orderId;
+        if(!res.ok || !data || !data.telegramDelivered) throw new Error('not delivered');
+        if(data.orderId) orderNum = data.orderId;
       } catch (err) {
-        console.warn('Order dispatch network error, handled gracefully:', err);
+        console.warn('Order dispatch failed:', err);
+        if(errorMsg) errorMsg.innerHTML = 'Не удалось отправить заказ. Попробуйте ещё раз или напишите нам в <a href="https://t.me/noxglasses" target="_blank" rel="noopener">Telegram</a>.';
+        if(btnText) btnText.textContent = btnLabel;
+        submitBtn.disabled = false;
+        return;
       }
 
       if(formView) formView.style.display = 'none';
@@ -2302,9 +2308,9 @@ var NoxStore = (function(){
       'val.a.t':"Естественный мелатонин",
       'val.a.d':"Красный фильтр отсекает частоты до 550 нм, давая мозгу биологический сигнал о наступлении ночи.",
       'val.b.t':"Снятие глазного спазма",
-      'val.b.d':"Убирают сухость, резь и зрительное напряжение после долгого рабочего дня за монитором и телефоном.",
+      'val.b.d':"Помогают снять сухость, резь и зрительное напряжение после долгого рабочего дня за монитором и телефоном.",
       'val.c.t':"Глубокие фазы сна",
-      'val.c.d':"Увеличивают долю восстановительного медленного и REM-сна. Утреннее пробуждение становится лёгким.",
+      'val.c.d':"Помогают увеличить долю восстановительного медленного и REM-сна — многие отмечают более лёгкое пробуждение.",
       'lifestyle.caption':"Созданы для спокойных вечеров в ритме города · Ташкент",
       'prod.eyebrow':"Оправа Nox Glasses",
       'prod.title':"The Diamond — компьютерные очки от синего света",
@@ -2347,7 +2353,7 @@ var NoxStore = (function(){
       'guide.p4.d':"Простые вечерние ритуалы за 30 минут до сна без стресса от уведомлений.",
       'sim.eyebrow':"Интерактивный опыт",
       'sim.title':"Смотрите сквозь линзы Nox.",
-      'sim.desc':"Сравните жесткий холодный свет экрана с мягким вечерним спектром, в котором глаза мгновенно расслабляются.",
+      'sim.desc':"Сравните жесткий холодный свет экрана с мягким вечерним спектром, в котором глаза быстрее расслабляются.",
       'sim.badge.day':"Обычный режим: Холодный синий",
       'sim.badge.nox':"Режим Nox: Спектр сна",
       'sim.btn.day':"Без очков (холодный синий)",

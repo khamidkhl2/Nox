@@ -11,7 +11,7 @@ This document provides a complete overview of the **Nox** codebase, live feature
 - **Hosting / CI/CD:** [Vercel](https://vercel.com) (connected to GitHub `main` branch, auto-deploys on push)
 - **Live Domain:** `https://noxglasses.uz` (with automatic 308 redirect from `noxglasses.uz` to `www.noxglasses.uz`)
 - **Official Socials:**
-  - Instagram: [`@nox_uz`](https://instagram.com/nox_uz)
+  - Instagram: [`@noxglasses.uz`](https://instagram.com/noxglasses.uz)
   - Telegram Store / Support: [`@noxglasses`](https://t.me/noxglasses)
   - Telegram Management Bot: [`@noxbusinessbot`](https://t.me/noxbusinessbot)
 - **Git Commit Author:** `khamidkhl2 <xxolmatov@aut-edu.uz>`
@@ -150,7 +150,7 @@ Comprehensive on-page and technical SEO has been implemented across the website:
 ### 5.2 Schema.org JSON-LD Structured Data
 Embedded inside the `<head>` of `index.html`:
 - **`WebSite`**: `https://noxglasses.uz/`, declared name `Nox Glasses`, alternate names `Очки Nox`, `Nox Glasses Uzbekistan`.
-- **`Organization`**: Brand entity with `sameAs` linking to `https://www.instagram.com/nox_uz` and `https://t.me/noxglasses`.
+- **`Organization`**: Brand entity with `sameAs` linking to `https://www.instagram.com/noxglasses.uz` and `https://t.me/noxglasses`.
 - **`Store` / `LocalBusiness`**: Declares a Tashkent store accepting Cash, Click, Payme, with geo coordinates (`41.311081, 69.240562`).
 - **`Product`**: `NOX-DIAMOND` with `price: 300000 UZS` and `availability: InStock`.
 - **`FAQPage`**: 4 structured Q&As allowing Google to render rich snippet accordion dropdowns in search results.

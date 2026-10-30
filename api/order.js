@@ -103,26 +103,36 @@ export default async function handler(req, res) {
 
     let telegramSent = false;
     if (botToken && chatId) {
-      const tgRes = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          chat_id: chatId,
-          text: text,
-          parse_mode: 'HTML',
-          disable_web_page_preview: true,
-          reply_markup: {
-            inline_keyboard: inlineKeyboard
-          }
-        })
-      });
-      const tgData = await tgRes.json();
-      telegramSent = Boolean(tgData.ok);
-      if (!tgData.ok) {
-        console.error('Telegram API error:', tgData);
+      try {
+        const tgRes = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            chat_id: chatId,
+            text: text,
+            parse_mode: 'HTML',
+            disable_web_page_preview: true,
+            reply_markup: {
+              inline_keyboard: inlineKeyboard
+            }
+          })
+        });
+        const tgData = await tgRes.json();
+        telegramSent = Boolean(tgData.ok);
+        if (!tgData.ok) {
+          console.error('Telegram API error:', tgData);
+        }
+      } catch (e) {
+        console.error('Telegram request failed:', e);
       }
     } else {
-      console.log('Order received (Telegram env not configured):', { orderId, name, phone, price });
+      console.error('Telegram env not configured');
+    }
+
+    if (!telegramSent) {
+      // Never report success for an undelivered order; keep it in Vercel logs for recovery.
+      console.error('ORDER NOT DELIVERED:', JSON.stringify({ orderId, packageName, price, promoCode: cleanPromo, name, phone, address, paymentMethod, comment }));
+      return res.status(502).json({ success: false, error: 'Order could not be delivered', orderId, telegramDelivered: false });
     }
 
     if (cleanPromo) {
