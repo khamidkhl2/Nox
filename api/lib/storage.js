@@ -9,6 +9,7 @@ export const COMMISSION_DUO = 30000;    // 30,000 UZS per set of 2
 
 export const DEFAULT_PROMOS = {
   'NOX10':   { discount: 0.10, partner: 'Официальный', uses: 0, completed: 0, singleCompleted: 0, duoCompleted: 0, earnings: 0, telegramId: '', active: true },
+  'SECRET10': { discount: 0.10, partner: 'Instagram', uses: 0, completed: 0, singleCompleted: 0, duoCompleted: 0, earnings: 0, telegramId: '', active: true },
   'SLEEP10': { discount: 0.10, partner: 'Циркадный клуб', uses: 0, completed: 0, singleCompleted: 0, duoCompleted: 0, earnings: 0, telegramId: '', active: true },
   'MALIKA':  { discount: 0.10, partner: 'Малика', uses: 0, completed: 0, singleCompleted: 0, duoCompleted: 0, earnings: 0, telegramId: '', active: true },
   'JASUR':   { discount: 0.10, partner: 'Жасур (Фитнес)', uses: 0, completed: 0, singleCompleted: 0, duoCompleted: 0, earnings: 0, telegramId: '', active: true },
