@@ -312,3 +312,6 @@ import('./api/lib/storage.js').then(async ({ getPromos, addPromo, incrementPromo
 
 ## Promo codes (31 Oct 2026)
 Only three codes are built in: `NOX10`, `SECRET10`, `JOXA10` (all 10%). Everything else was removed from the bot, the API and the website. New partners are added with `/addpromo`. The old stored registry is cleaned once on first load (`DB_VERSION = 3` in `api/lib/storage.js`); stats of the three kept codes are preserved.
+
+## Bot access (31 Oct 2026)
+The bot answers only the owner (`TELEGRAM_CHAT_ID`) and partners registered with `/setinfluencer` or `INFLUENCERS`. Everyone else gets no reply (no "access denied", no public `/sleep` guide). Webhook calls must carry Telegram's secret header (SHA-256 of the bot token); fake POSTs get 404. `GET /api/bot` re-registers the webhook silently (use after a domain change). Webhook URL is fixed: `https://www.noxglasses.uz/api/bot`.

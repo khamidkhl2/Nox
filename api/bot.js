@@ -1,6 +1,7 @@
 // Vercel Serverless Function: /api/bot
 // Telegram Webhook for Nox Store: Promo Code Management & Partner/Influencer Portal
 
+import { createHash } from 'node:crypto';
 import {
   getPromos,
   addPromo,
@@ -19,40 +20,29 @@ export default async function handler(req, res) {
   const adminChatId = process.env.TELEGRAM_CHAT_ID ? String(process.env.TELEGRAM_CHAT_ID).trim() : null;
   const envInfluencers = parseInfluencersEnv(process.env.INFLUENCERS || process.env.PARTNERS || '');
 
-  const sendHtml = (status, html) => {
-    res.setHeader('Content-Type', 'text/html; charset=utf-8');
-    res.status(status);
-    if (typeof res.send === 'function') return res.send(html);
-    return res.end(html);
-  };
+  // Telegram signs every webhook call with this secret, so fake POSTs are rejected.
+  const webhookSecret = botToken ? createHash('sha256').update(botToken).digest('hex') : '';
 
-  // 1. One-click Webhook Setup via GET /api/bot?setup=1
+  // Webhook setup: GET /api/bot. Idempotent, fixed URL, no page content for visitors.
   if (req.method === 'GET') {
-    const host = req.headers['x-forwarded-host'] || req.headers.host || 'noxglasses.uz';
-    const webhookUrl = `https://${host}/api/bot`;
-
-    if (!botToken) {
-      return sendHtml(400, `
-        <html><body style="font-family:sans-serif;padding:2rem;">
-        <h2>❌ TELEGRAM_BOT_TOKEN не задан в Vercel</h2>
-        <p>Добавьте TELEGRAM_BOT_TOKEN и TELEGRAM_CHAT_ID в Settings -> Environment Variables и сделайте Redeploy.</p>
-        </body></html>
-      `);
-    }
-
+    if (!botToken) return res.status(404).end();
     try {
-      // Set Webhook
-      const setHookRes = await fetch(`https://api.telegram.org/bot${botToken}/setWebhook?url=${encodeURIComponent(webhookUrl)}`);
-      const hookData = await setHookRes.json();
-
-      // Set Bot Commands Menu
+      const hook = await fetch(`https://api.telegram.org/bot${botToken}/setWebhook`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          url: 'https://www.noxglasses.uz/api/bot',
+          secret_token: webhookSecret,
+          allowed_updates: ['message', 'callback_query']
+        })
+      });
+      const hookData = await hook.json();
       await fetch(`https://api.telegram.org/bot${botToken}/setMyCommands`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           commands: [
             { command: 'start', description: 'Главное меню / Панель' },
-            { command: 'sleep', description: 'Гид по сну и циркадным ритмам' },
             { command: 'stats', description: 'Статистика и заработок' },
             { command: 'link', description: 'Реферальная ссылка' },
             { command: 'list', description: 'Реестр промокодов (Админ)' },
@@ -63,23 +53,21 @@ export default async function handler(req, res) {
           ]
         })
       });
-
-      return sendHtml(200, `
-        <html><body style="font-family:sans-serif;padding:2rem;line-height:1.6;background:#FAF7EF;color:#232320;">
-        <h2>✅ Telegram Webhook успешно настроен!</h2>
-        <p><b>URL Webhook:</b> <code>${webhookUrl}</code></p>
-        <p><b>Ответ Telegram:</b> ${hookData.description || 'OK'}</p>
-        <hr style="border:0;border-top:1px solid #ccc;margin:1.5rem 0;" />
-        <p>Теперь откройте Telegram и напишите боту команду <b>/start</b>.</p>
-        </body></html>
-      `);
+      res.setHeader('Content-Type', 'text/plain');
+      return res.status(200).send(hookData.ok ? 'ok' : 'error');
     } catch (err) {
-      return sendHtml(500, `Ошибка настройки webhook: ${err.message}`);
+      console.error('Webhook setup failed:', err);
+      return res.status(500).send('error');
     }
   }
 
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed. Use POST.' });
+  }
+
+  // Only genuine Telegram calls get through
+  if (!botToken || req.headers['x-telegram-bot-api-secret-token'] !== webhookSecret) {
+    return res.status(404).end();
   }
 
   // 2. Handle Incoming Telegram Updates
@@ -108,33 +96,8 @@ export default async function handler(req, res) {
     const influencerInfo = await findInfluencerPromo(fromId, envInfluencers);
     const isInfluencer = Boolean(influencerInfo);
 
-    // Public lead magnet: deliver Sleep Guide on /sleep, /guide, "сон", "гид", "uyqu"
-    const rawIncoming = (message?.text || '').trim().toLowerCase();
-    const isSleepRequest = rawIncoming === '/sleep' ||
-                          rawIncoming === '/guide' ||
-                          rawIncoming === 'сон' ||
-                          rawIncoming === 'uyqu' ||
-                          rawIncoming === 'гид' ||
-                          rawIncoming === 'sleep' ||
-                          rawIncoming.startsWith('сон') ||
-                          rawIncoming.startsWith('uyqu');
-
-    if (isSleepRequest) {
-      await sendSleepGuide(botToken, chatId, host);
-      return res.status(200).json({ ok: true });
-    }
-
-    // Security check: only admin or registered influencers are authorized for admin/dashboard actions
+    // The bot is for the owner and the partners the owner registered. Everyone else gets no reply at all.
     if (!isAdmin && !isInfluencer) {
-      await sendTg(
-        botToken,
-        chatId,
-        `⛔ <b>Доступ ограничен</b>\n\n` +
-        `Этот бот предназначен для владельца и партнеров бренда <b>Nox</b>.\n\n` +
-        `• Чтобы получить бесплатный гид по сну, напишите: <code>сон</code>\n\n` +
-        `• Если вы блогер или партнер проекта, передайте ваш Telegram ID менеджеру Nox:\n` +
-        `🆔 <b>Ваш Telegram ID:</b> <code>${fromId}</code>`
-      );
       return res.status(200).json({ ok: true });
     }
 
@@ -747,36 +710,3 @@ function escapeHtml(str) {
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;');
 }
-
-async function sendSleepGuide(botToken, chatId, host) {
-  const guideUrl = `https://${host}/sleep`;
-  const pdfUrl = `https://${host}/sleep.pdf`;
-  const shopUrl = `https://${host}`;
-
-  const text = `🌙 <b>Гид по сну и циркадным ритмам NOX</b>\n\n` +
-    `<i>«Экраны стали ярче, а время отбоя не изменилось. Короткий практичный гид — не учебник. Читается за 5 минут.»</i>\n\n` +
-    `⚡ <b>7 правил глубокого сна на каждый день:</b>\n` +
-    `1. ☀️ <b>Яркий свет</b> в первые 30 минут утра (без очков)\n` +
-    `2. ⏰ <b>Один график:</b> одинаковый подъём даже в выходные\n` +
-    `3. ☕ <b>Кофеин:</b> последняя чашка строго до 14:00\n` +
-    `4. 🍽 <b>Ужин:</b> за 3–4 часа до отбоя\n` +
-    `5. 👓 <b>Очки Nox:</b> за 3 часа до сна (фильтрация 97.8% синего света)\n` +
-    `6. ❄️ <b>Температура:</b> в спальне около 18–19 °C\n` +
-    `7. 📱 <b>Экраны в сторону:</b> за 30 минут до отбоя\n\n` +
-    `📖 Полная иллюстрированная версия со статьями о мелатонине, фазах сна и 3 мифах доступна на сайте и в PDF.`;
-
-  const keyboard = [
-    [
-      { text: '📖 Читать гид на сайте', url: guideUrl }
-    ],
-    [
-      { text: '📥 Скачать PDF-версию (A4)', url: pdfUrl }
-    ],
-    [
-      { text: '👓 Заказать очки Nox The Diamond', url: shopUrl }
-    ]
-  ];
-
-  await sendTgWithKeyboard(botToken, chatId, text, keyboard);
-}
-
