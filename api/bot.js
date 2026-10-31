@@ -98,6 +98,12 @@ export default async function handler(req, res) {
     const host = req.headers['x-forwarded-host'] || req.headers.host || 'noxglasses.uz';
     const isAdmin = Boolean(adminChatId && fromId === adminChatId);
 
+    // Drop env-mapped influencers whose promo code was removed
+    const livePromos = await getPromos();
+    for (const [id, item] of Object.entries(envInfluencers)) {
+      if (!livePromos[item.code]) delete envInfluencers[id];
+    }
+
     // Resolve influencer identity
     const influencerInfo = await findInfluencerPromo(fromId, envInfluencers);
     const isInfluencer = Boolean(influencerInfo);
@@ -244,8 +250,8 @@ export default async function handler(req, res) {
             `Отправьте команду в формате:\n` +
             `<code>/addpromo КОД СКИДКА ИМЯ [TELEGRAM_ID]</code>\n\n` +
             `<b>Примеры:</b>\n` +
-            `• <code>/addpromo MALIKA 10 Малика</code>\n` +
-            `• <code>/addpromo FITNESS 15 Азиз 987654321</code> (с привязкой Telegram)`
+            `• <code>/addpromo ALI10 10 Али</code>\n` +
+            `• <code>/addpromo AZIZ10 10 Азиз 987654321</code> (с привязкой Telegram)`
           );
         } else if (data === 'cb_del_help') {
           await sendTg(
@@ -253,7 +259,7 @@ export default async function handler(req, res) {
             chatId,
             `🗑 <b>Как удалить промокод:</b>\n\n` +
             `Отправьте:\n<code>/delpromo КОД</code>\n\n` +
-            `<b>Пример:</b>\n<code>/delpromo MALIKA</code>`
+            `<b>Пример:</b>\n<code>/delpromo ALI10</code>`
           );
         }
         return res.status(200).json({ ok: true });
@@ -323,7 +329,7 @@ export default async function handler(req, res) {
             ]
           ]
         );
-      } else if (cmd === '/list' || cmd === '/promos') {
+      } else if (cmd === '/list' || cmd === '/promos' || cmd === '/stats') {
         await handleListCommand(botToken, chatId, host);
       } else if (cmd === '/influencers' || cmd === '/partners') {
         await handleInfluencersCommand(botToken, chatId, envInfluencers);
@@ -334,7 +340,7 @@ export default async function handler(req, res) {
             chatId,
             `⚠️ <b>Неверный формат команды</b>\n\n` +
             `Используйте:\n<code>/addpromo КОД СКИДКА ИМЯ [TELEGRAM_ID]</code>\n\n` +
-            `<b>Пример:</b>\n<code>/addpromo MALIKA 10 Малика 123456789</code>`
+            `<b>Пример:</b>\n<code>/addpromo ALI10 10 Али 123456789</code>`
           );
         } else {
           const code = parts[1];
@@ -376,15 +382,15 @@ export default async function handler(req, res) {
             botToken,
             chatId,
             `⚠️ <b>Укажите промокод и Telegram ID</b>\n\n` +
-            `Пример:\n<code>/setinfluencer MALIKA 123456789</code>\n` +
-            `Или с именем:\n<code>/setinfluencer MALIKA 123456789 Малика</code>`
+            `Пример:\n<code>/setinfluencer ALI10 123456789</code>\n` +
+            `Или с именем:\n<code>/setinfluencer ALI10 123456789 Али</code>`
           );
         } else {
           let code = parts[1].toUpperCase();
           let targetId = parts[2].trim();
           let partnerName = parts.slice(3).join(' ') || '';
 
-          // Auto-swap if user entered ID first, then code: e.g. /setinfluencer 123456789 MALIKA
+          // Auto-swap if user entered ID first, then code: e.g. /setinfluencer 123456789 ALI10
           if (/^\d{5,15}$/.test(code) && !/^\d+$/.test(targetId)) {
             const temp = code;
             code = targetId.toUpperCase();
@@ -407,7 +413,7 @@ export default async function handler(req, res) {
           }
         }
       } else if (cmd === '/preview' || cmd === '/cabinet') {
-        const targetCode = (parts[1] || 'MALIKA').toUpperCase();
+        const targetCode = (parts[1] || 'JOXA10').toUpperCase();
         const promos = await getPromos();
         const promoData = promos[targetCode] || {
           code: targetCode,
@@ -453,8 +459,8 @@ export default async function handler(req, res) {
             chatId,
             `⚠️ <b>Формат:</b> <code>/addcompleted ПРОМОКОД [single|duo]</code>\n\n` +
             `Примеры:\n` +
-            `• <code>/addcompleted MALIKA single</code> (+20 000 сум)\n` +
-            `• <code>/addcompleted MALIKA duo</code> (+30 000 сум)`
+            `• <code>/addcompleted JOXA10 single</code> (+20 000 сум)\n` +
+            `• <code>/addcompleted JOXA10 duo</code> (+30 000 сум)`
           );
         } else {
           const promoCode = parts[1];
@@ -477,7 +483,7 @@ export default async function handler(req, res) {
         }
       } else if (cmd === '/delpromo' || cmd === '/del') {
         if (parts.length < 2) {
-          await sendTg(botToken, chatId, '⚠️ Укажите код для удаления: <code>/delpromo MALIKA</code>');
+          await sendTg(botToken, chatId, '⚠️ Укажите код для удаления: <code>/delpromo ALI10</code>');
         } else {
           const code = parts[1];
           const ok = await delPromo(code);
@@ -489,7 +495,7 @@ export default async function handler(req, res) {
         }
       } else if (cmd === '/link') {
         if (parts.length < 2) {
-          await sendTg(botToken, chatId, '⚠️ Укажите промокод: <code>/link MALIKA</code>');
+          await sendTg(botToken, chatId, '⚠️ Укажите промокод: <code>/link JOXA10</code>');
         } else {
           const code = parts[1].toUpperCase();
           const link = `https://${host}/?promo=${code}`;
@@ -609,7 +615,7 @@ async function handleInfluencersCommand(botToken, chatId, envInfluencers) {
       `Чтобы добавить первого блогера:\n` +
       `1. В Vercel Environment Variables добавьте <code>INFLUENCERS=ID:КОД</code>\n` +
       `2. Или прямо здесь командой:\n` +
-      `<code>/setinfluencer MALIKA 123456789</code>`
+      `<code>/setinfluencer ALI10 123456789</code>`
     );
     return;
   }
@@ -641,7 +647,7 @@ async function handleListCommand(botToken, chatId, host) {
   const keys = Object.keys(promos);
 
   if (keys.length === 0) {
-    await sendTg(botToken, chatId, '📋 В базе пока нет активных промокодов.\nДобавьте первый: <code>/addpromo MALIKA 10 Малика</code>');
+    await sendTg(botToken, chatId, '📋 В базе пока нет активных промокодов.\nДобавьте первый: <code>/addpromo ALI10 10 Али</code>');
     return;
   }
 

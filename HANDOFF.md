@@ -67,16 +67,16 @@ Set these in **Vercel Dashboard** → **Project Settings** → **Environment Var
 | :--- | :--- | :--- | :--- |
 | `TELEGRAM_BOT_TOKEN` | **Yes** | HTTP API Bot token from [@BotFather](https://t.me/BotFather) for `@noxbusinessbot` | `7981234567:AAH...` |
 | `TELEGRAM_CHAT_ID` | **Yes** | Numeric Chat ID of the store owner or admin group receiving orders | `567812345` or `-100...` |
-| `INFLUENCERS` | **Recommended** | Influencer Telegram IDs mapped to promo codes | `123456789:MALIKA, 987654321:FITNESS` |
+| `INFLUENCERS` | **Recommended** | Influencer Telegram IDs mapped to promo codes | `123456789:ALI10, 987654321:AZIZ10` |
 | `KV_REST_API_URL` | *Optional* | Vercel KV Redis REST URL (if using Upstash/KV) | `https://...upstash.io` |
 | `KV_REST_API_TOKEN`| *Optional* | Vercel KV Redis REST Bearer Token | `AX12...` |
 
 > [!TIP]
 > **How to configure Influencer Telegram IDs in Vercel:**
-> - Set `INFLUENCERS` = `USER_ID:PROMOCODE` (e.g. `123456789:MALIKA`).
-> - For multiple influencers, separate by comma: `123456789:MALIKA, 987654321:FITNESS`.
-> - Alternatively, paste JSON: `{"123456789": "MALIKA"}`.
-> - Or link on the fly via the Telegram bot command: `/setinfluencer MALIKA 123456789`.
+> - Set `INFLUENCERS` = `USER_ID:PROMOCODE` (e.g. `123456789:ALI10`).
+> - For multiple influencers, separate by comma: `123456789:ALI10, 987654321:AZIZ10`.
+> - Alternatively, paste JSON: `{"123456789": "ALI10"}`.
+> - Or link on the fly via the Telegram bot command: `/setinfluencer ALI10 123456789`.
 
 ---
 
@@ -91,7 +91,7 @@ This registers the webhook with Telegram (`setWebhook`) and installs the command
 ### ✨ Influencer Experience (Personalized Dashboard)
 When a registered influencer opens `@noxbusinessbot` and presses `/start`:
 1. **Personalized Greeting:** Recognizes them by their Telegram user ID.
-2. **Attribution & Referral Link:** Shows their unique promo code (e.g. `MALIKA` - 10% off) and clickable referral link (`https://noxglasses.uz/?promo=MALIKA`).
+2. **Attribution & Referral Link:** Shows their unique promo code (e.g. `ALI10` - 10% off) and clickable referral link (`https://noxglasses.uz/?promo=ALI10`).
 3. **Usage vs Completed Orders:**
    - **Применили промокод:** Total people who applied their code and placed an order.
    - **Завершённых заказов:** Completed / delivered orders confirmed by the store.
@@ -111,12 +111,12 @@ The store owner (`TELEGRAM_CHAT_ID`) has full management tools:
 | **`/start`** or **`/menu`** | Admin control panel with quick action buttons | `/start` |
 | **`/influencers`** | Overview of all registered partners, their orders, and payout balances | `/influencers` |
 | **`/list`** | Lists all promo codes, discounts, usage, and completions | `/list` |
-| **`/addpromo`** | Creates or updates a promo code (optionally with Telegram ID) | `/addpromo MALIKA 10 Малика 123456789` |
-| **`/setinfluencer`**| Links an influencer's Telegram ID to an existing promo code | `/setinfluencer MALIKA 123456789` |
-| **`/complete`** | Manually marks an order as completed | `/complete NOX-4912 MALIKA single` |
-| **`/addcompleted`**| Credits an offline or Instagram DM order to an influencer | `/addcompleted MALIKA duo` |
-| **`/delpromo`** | Deactivates or removes a promo code | `/delpromo MALIKA` |
-| **`/link`** | Generates shareable referral link for a promo code | `/link MALIKA` |
+| **`/addpromo`** | Creates or updates a promo code (optionally with Telegram ID) | `/addpromo ALI10 10 Али 123456789` |
+| **`/setinfluencer`**| Links an influencer's Telegram ID to an existing promo code | `/setinfluencer ALI10 123456789` |
+| **`/complete`** | Manually marks an order as completed | `/complete NOX-4912 ALI10 single` |
+| **`/addcompleted`**| Credits an offline or Instagram DM order to an influencer | `/addcompleted ALI10 duo` |
+| **`/delpromo`** | Deactivates or removes a promo code | `/delpromo ALI10` |
+| **`/link`** | Generates shareable referral link for a promo code | `/link ALI10` |
 
 #### One-Click Order Completion:
 When a new order notification arrives in your Telegram chat:
@@ -230,7 +230,7 @@ Processes incoming web checkout orders and sends a Telegram notification.
     "orderId": "NOX-4912",
     "packageName": "Сет из 2 пар (Для двоих)",
     "price": "550 000 сум",
-    "promoCode": "MALIKA",
+    "promoCode": "ALI10",
     "name": "Азиз Каримов",
     "phone": "+998 90 123 45 67",
     "address": "Ташкент, Мирзо-Улугбекский р-н, ул. Мустакиллик 12",
@@ -248,9 +248,9 @@ Validates promo codes live against the persistent storage.
   ```json
   {
     "valid": true,
-    "code": "MALIKA",
+    "code": "ALI10",
     "discount": 0.10,
-    "partner": "Малика Блогер"
+    "partner": "Али Блогер"
   }
   ```
 - **Error Response (404):**
@@ -309,3 +309,6 @@ import('./api/lib/storage.js').then(async ({ getPromos, addPromo, incrementPromo
 9. [ ] Create **Google Business Profile** for *Nox Glasses Tashkent*.
 10. [ ] Target bio link to direct checkout / Telegram store (`@noxglasses`) and keep Sleep Protocol as an exclusive customer gift.
 11. [ ] Onboard first wave of micro-influencers via `/addpromo CODE 10 Name TelegramID`.
+
+## Promo codes (31 Oct 2026)
+Only three codes are built in: `NOX10`, `SECRET10`, `JOXA10` (all 10%). Everything else was removed from the bot, the API and the website. New partners are added with `/addpromo`. The old stored registry is cleaned once on first load (`DB_VERSION = 3` in `api/lib/storage.js`); stats of the three kept codes are preserved.

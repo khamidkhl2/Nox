@@ -7,15 +7,14 @@
 export const COMMISSION_SINGLE = 20000; // 20,000 UZS per single pair
 export const COMMISSION_DUO = 30000;    // 30,000 UZS per set of 2
 
+// The only built-in codes. Others can be added with /addpromo.
 export const DEFAULT_PROMOS = {
-  'NOX10':   { discount: 0.10, partner: 'Официальный', uses: 0, completed: 0, singleCompleted: 0, duoCompleted: 0, earnings: 0, telegramId: '', active: true },
+  'NOX10':    { discount: 0.10, partner: 'Официальный', uses: 0, completed: 0, singleCompleted: 0, duoCompleted: 0, earnings: 0, telegramId: '', active: true },
   'SECRET10': { discount: 0.10, partner: 'Instagram', uses: 0, completed: 0, singleCompleted: 0, duoCompleted: 0, earnings: 0, telegramId: '', active: true },
-  'SLEEP10': { discount: 0.10, partner: 'Циркадный клуб', uses: 0, completed: 0, singleCompleted: 0, duoCompleted: 0, earnings: 0, telegramId: '', active: true },
-  'MALIKA':  { discount: 0.10, partner: 'Малика', uses: 0, completed: 0, singleCompleted: 0, duoCompleted: 0, earnings: 0, telegramId: '', active: true },
-  'JASUR':   { discount: 0.10, partner: 'Жасур (Фитнес)', uses: 0, completed: 0, singleCompleted: 0, duoCompleted: 0, earnings: 0, telegramId: '', active: true },
-  'TIKTOK':  { discount: 0.10, partner: 'TikTok Promo', uses: 0, completed: 0, singleCompleted: 0, duoCompleted: 0, earnings: 0, telegramId: '', active: true },
-  'SPECIAL': { discount: 0.15, partner: 'VIP', uses: 0, completed: 0, singleCompleted: 0, duoCompleted: 0, earnings: 0, telegramId: '', active: true }
+  'JOXA10':   { discount: 0.10, partner: 'Joxa', uses: 0, completed: 0, singleCompleted: 0, duoCompleted: 0, earnings: 0, telegramId: '', active: true }
 };
+
+const DB_VERSION = 3; // 3 = retired codes (SLEEP10, MALIKA, JASUR, TIKTOK, SPECIAL...) removed
 
 let memCachePromos = null;
 let memCacheOrders = {};
@@ -65,29 +64,58 @@ function ensurePromosPopulated(promosMap) {
     }
   }
 
-  // 2. Merge INFLUENCERS and PARTNERS env variables
+  // 2. Link INFLUENCERS / PARTNERS env Telegram IDs to codes that exist (never creates codes)
   const envInfluencers = parseInfluencersEnv(process.env.INFLUENCERS || process.env.PARTNERS || '');
   for (const [id, item] of Object.entries(envInfluencers)) {
-    const code = item.code;
-    if (code) {
-      if (!result[code]) {
-        result[code] = normalizePromo({
-          code,
-          discount: 0.10,
-          partner: item.name || 'Партнер',
-          telegramId: id,
-          active: true
-        });
-      } else {
-        result[code].telegramId = id;
-        if (item.name && (!result[code].partner || result[code].partner === 'Партнер')) {
-          result[code].partner = item.name;
-        }
-      }
-    }
+    const p = result[item.code];
+    if (!p) continue;
+    p.telegramId = id;
+    if (item.name && (!p.partner || p.partner === 'Партнер')) p.partner = item.name;
   }
 
   return result;
+}
+
+async function readKv() {
+  if (!(process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN)) return null;
+  try {
+    const res = await fetch(`${process.env.KV_REST_API_URL}/get/nox_promos`, {
+      headers: { Authorization: `Bearer ${process.env.KV_REST_API_TOKEN}` }
+    });
+    const data = await res.json();
+    if (data && data.result) {
+      const parsed = typeof data.result === 'string' ? JSON.parse(data.result) : data.result;
+      return { _nox: parsed._nox || 0, promos: parsed.promos || parsed, completedOrders: parsed.completedOrders || {} };
+    }
+  } catch (e) {
+    console.warn('KV read failed:', e.message);
+  }
+  return null;
+}
+
+// Returns the stored DB, or null if there is none yet. `failed` = true when Telegram could not be read
+// (then we must not overwrite the stored DB with defaults).
+async function readPin(botToken, chatId) {
+  try {
+    const tgRes = await fetch(`https://api.telegram.org/bot${botToken}/getChat?chat_id=${chatId}`);
+    const tgData = await tgRes.json();
+    if (!tgData.ok) return { failed: true };
+    const pin = tgData.result && tgData.result.pinned_message;
+    if (pin) {
+      cachedPinnedMsgId = pin.message_id;
+      const match = (pin.text || '').match(/\{[\s\S]*\}/);
+      if (match) {
+        const parsed = JSON.parse(match[0]);
+        if (parsed && (parsed.promos || parsed._nox)) {
+          return { _nox: parsed._nox || 0, promos: parsed.promos || {}, completedOrders: parsed.completedOrders || {} };
+        }
+      }
+    }
+  } catch (e) {
+    console.warn('Telegram pinned message read failed:', e.message);
+    return { failed: true };
+  }
+  return null;
 }
 
 export async function getPromos() {
@@ -96,79 +124,39 @@ export async function getPromos() {
     return ensurePromosPopulated(memCachePromos);
   }
 
-  // 1. Check Vercel KV
-  if (process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN) {
-    try {
-      const res = await fetch(`${process.env.KV_REST_API_URL}/get/nox_promos`, {
-        headers: { Authorization: `Bearer ${process.env.KV_REST_API_TOKEN}` }
-      });
-      const data = await res.json();
-      if (data && data.result) {
-        const parsed = typeof data.result === 'string' ? JSON.parse(data.result) : data.result;
-        memCachePromos = ensurePromosPopulated(normalizePromosMap(parsed.promos || parsed));
-        memCacheOrders = parsed.completedOrders || {};
-        cacheTime = now;
-        return memCachePromos;
-      }
-    } catch (e) {
-      console.warn('KV read failed:', e.message);
-    }
-  }
-
-  // 2. Check Telegram Pinned Message
   const botToken = process.env.TELEGRAM_BOT_TOKEN;
   const chatId = process.env.TELEGRAM_CHAT_ID;
 
-  if (botToken && chatId) {
-    try {
-      const tgRes = await fetch(`https://api.telegram.org/bot${botToken}/getChat?chat_id=${chatId}`);
-      const tgData = await tgRes.json();
-      if (tgData.ok && tgData.result && tgData.result.pinned_message) {
-        const pin = tgData.result.pinned_message;
-        cachedPinnedMsgId = pin.message_id;
-        const text = pin.text || '';
-        const match = text.match(/\{[\s\S]*\}/);
-        if (match) {
-          const parsed = JSON.parse(match[0]);
-          if (parsed && (parsed.promos || parsed._nox)) {
-            memCachePromos = ensurePromosPopulated(normalizePromosMap(parsed.promos || {}));
-            memCacheOrders = parsed.completedOrders || {};
-            cacheTime = now;
-            return memCachePromos;
-          }
-        }
-      }
+  let stored = await readKv();
+  let tgFailed = false;
+  if (!stored && botToken && chatId) {
+    const pin = await readPin(botToken, chatId);
+    if (pin && pin.failed) tgFailed = true;
+    else stored = pin;
+  }
 
-      // If no pinned message yet, initialize it
-      const initialData = { _nox: 2, promos: DEFAULT_PROMOS, completedOrders: {} };
-      const sendRes = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          chat_id: chatId,
-          text: `🌙 <b>[NOX DB] Реестр промокодов</b>\n<i>Этот пост синхронизирует промокоды для сайта. Не удаляйте его.</i>\n\n<pre>${JSON.stringify(initialData, null, 2)}</pre>`,
-          parse_mode: 'HTML'
-        })
-      });
-      const sendData = await sendRes.json();
-      if (sendData.ok && sendData.result) {
-        cachedPinnedMsgId = sendData.result.message_id;
-        await fetch(`https://api.telegram.org/bot${botToken}/pinChatMessage`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            chat_id: chatId,
-            message_id: cachedPinnedMsgId,
-            disable_notification: true
-          })
-        });
-      }
-      memCachePromos = ensurePromosPopulated(normalizePromosMap(DEFAULT_PROMOS));
-      memCacheOrders = {};
+  if (stored) {
+    let map = normalizePromosMap(stored.promos);
+    memCacheOrders = stored.completedOrders;
+    if (stored._nox < DB_VERSION) {
+      // One-time cleanup: drop retired codes, keep stats of the three kept ones
+      map = Object.fromEntries(Object.entries(map).filter(([k]) => k in DEFAULT_PROMOS));
+      memCachePromos = ensurePromosPopulated(map);
       cacheTime = now;
+      await savePromos(memCachePromos);
       return memCachePromos;
+    }
+    memCachePromos = ensurePromosPopulated(map);
+    cacheTime = now;
+    return memCachePromos;
+  }
+
+  // No DB anywhere yet: create the pinned Telegram DB with the defaults
+  if (!tgFailed && !process.env.KV_REST_API_URL && botToken && chatId) {
+    try {
+      await savePromos(DEFAULT_PROMOS, {});
     } catch (e) {
-      console.warn('Telegram pinned message read failed:', e.message);
+      console.warn('Could not create Telegram DB:', e.message);
     }
   }
 
@@ -191,7 +179,7 @@ export async function savePromos(promos, completedOrders = null) {
   cacheTime = Date.now();
 
   const payload = {
-    _nox: 2,
+    _nox: DB_VERSION,
     updated: new Date().toISOString(),
     promos: memCachePromos,
     completedOrders: memCacheOrders
